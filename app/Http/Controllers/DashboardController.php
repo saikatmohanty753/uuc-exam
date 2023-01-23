@@ -20,8 +20,12 @@ class DashboardController extends Controller
             Auth::logout();
             return redirect('/login')->with('error', 'The username and password you entered did not match our records');
         }
-        if (Str::lower(Auth::user()->role->name) == 'exam-head') {
-            return $this->academicSection();
+        if (Str::lower(Auth::user()->role->name) == 'exam-section') {
+            return $this->adminDashboard();
+        } elseif (Str::lower(Auth::user()->role->name) == 'uuc-exam-section') {
+            return $this->collegeExamSection();
+        } elseif (Str::lower(Auth::user()->role->name) == 'college-exam-section') {
+            return $this->collegeExamSection();
         } else {
             Auth::logout();
             return redirect('/login')->with('error', 'The username and password you entered did not match our records');
@@ -38,22 +42,8 @@ class DashboardController extends Controller
     {
         return view('dashboard.admin.index');
     }
-    public function academicSection()
-    {
-        return view('dashboard.academic.index');
-    }
-    public function examSection()
-    {
-        return view('dashboard.examination.index');
-    }
-    public function studentDashboard()
-    {
-        return view('dashboard.student.index');
-    }
-    public function collegeAcademicSection()
-    {
-        return view('dashboard.college-academic.index');
-    }
+
+
     public function collegeExamSection()
     {
         return view('dashboard.college-examination.index');
