@@ -28,7 +28,7 @@
     </style>
 </head>
 
-<body>
+<body style="background-color: #abdbdf5e;">
     @yield('content')
     </div>
     {{-- @endsection --}}

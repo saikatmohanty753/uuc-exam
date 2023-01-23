@@ -27,7 +27,7 @@
 
 </head>
 
-<body class="mod-bg-1 ">
+<body class="mod-bg-1">
 
     <!-- BEGIN Page Wrapper -->
     <div class="page-wrapper">

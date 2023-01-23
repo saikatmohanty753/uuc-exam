@@ -89,6 +89,9 @@ class CourseController extends Controller
         $course = Course::find($id);
         $course->name = $request->course;
         $course->save();
+
+
+
         return redirect('/course');
     }
 
