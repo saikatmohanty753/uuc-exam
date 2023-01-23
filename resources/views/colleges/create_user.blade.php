@@ -140,9 +140,11 @@
 
                                             <a class="btn btn-primary waves-effect waves-themed" href="{{ route('college-users.edit',$clg->id) }}"><i class="fa fa-edit"></i></a>
 
-                                            <a class="btn btn-primary waves-effect waves-themed" href="{{ route('college-users.delete',$clg->id) }}"><i class="fa fa-trash"></i></a>
-                                           
-                                            
+                                            @can('user-delete')
+                                            <a class="btn btn-danger waves-effect waves-themed" href="{{ route('college-users.delete',$clg->id) }}"><i class="fa fa-trash"></i></a>
+                                            @endcan
+
+
                                         </td>
 
                                     </tr>

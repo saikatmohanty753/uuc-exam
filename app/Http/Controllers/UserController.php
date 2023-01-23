@@ -23,7 +23,8 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $data = User::orderBy('id', 'ASC')->whereIn('role_id', [9, 10, 11, 12])->get();
+        // role exam-Section: 12, College-Exam-Section: 13, UUC-Exam-Section: 17
+        $data = User::orderBy('id', 'ASC')->whereIn('role_id', [12, 13, 17])->get();
         return view('users.index', compact('data'));
         // ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -264,7 +265,7 @@ class UserController extends Controller
     }
     public function updateClgUser(Request $request)
     {
-        
+
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $request->hid,
@@ -292,8 +293,8 @@ class UserController extends Controller
 
     public function deleteClgUser($id)
     {
-        
-        
+
+
         $user = User::find($id);
         $clgId = $user->clg_user_id;
         $user->delete();
