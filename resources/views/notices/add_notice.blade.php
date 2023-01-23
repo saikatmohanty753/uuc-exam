@@ -20,16 +20,18 @@
                                         <select class="form-select form-control notice-type select2"
                                             aria-label="Default select example" name="notice_type">
                                             <option value="" selected>Select Notice Type</option>
-                                            <option value="1" class="addmission">Addmission Notice</option>
-                                            <option value="2" class="exam">Exam Notice</option>
-                                            <option value="3" class="other">Other Notice</option>
+                                            @foreach ($examnotice as $value)
+                                            <option value="{{$value->id}}" class="addmission">{{$value->notice_name}}</option>
+
+                                                
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row ">
                                 <div class="col-md-12">
-                                    <div class="form-group department d-none">
+                                    <div class="form-group department">
                                         <label class="form-label">Department<span class="text-danger">*</span></label>
                                         <select class="form-select form-control select2" aria-label="Default select example"
                                             name="department" id="department">
@@ -41,9 +43,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            {{-- <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <div class="form-group course d-none">
+                                    <div class="form-group course">
                                         <label class="form-label">Course<span class="text-danger">*</span></label>
                                         <select class="form-select form-control select2" aria-label="Default select example"
                                             name="course[]" id="course_name" multiple>
@@ -55,23 +57,21 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <div class="form-group semester d-none">
+                                    <div class="form-group semester">
                                         <label class="form-label">Semester<span class="text-danger">*</span></label>
-                                        <select class="form-select form-control" aria-label="Default select example" name="semester">
-                                            <option value="" selected>Select Department</option>
-                                            @foreach ($dept as $item)
-                                                <option value="{{ $item->id }}">{{ $item->semester }}</option>
-                                            @endforeach
+                                        <select class="form-select form-control select2" aria-label="Default select example" name="semester[]" id="semester" multiple>
+                                            <option value="" selected>Select Semester</option>
+                                           
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <div class="form-group start_date d-none">
+                                    <div class="form-group start_date">
                                         <label class="form-label">Start date<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control datepicker-1"
                                             placeholder="Enter Department" name="start_date">
@@ -80,7 +80,7 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <div class="form-group end_date d-none">
+                                    <div class="form-group end_date">
                                         <label class="form-label">Expiry date<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control datepicker-1"
                                             placeholder="Enter Department" name="exp_date">
@@ -96,8 +96,7 @@
 
                             <div class="row mb-2">
                                 <div class="col-md-12 text-center mb-4">
-                                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal"
-                                        style="margin-right: 8px;">Cancel</button>
+                                    <a class="btn btn-danger"  href="{{url('/notices')}}">Cancel</a>
                                     <button type="submit"  class="btn btn-info pull-right">Submit</button>
                                 </div>
 
@@ -111,35 +110,15 @@
 @endsection
 @section('js')
     <script>
-        $('.notice-type').on('change', function() {
-            console.log(this.value);
-            if (this.value == 2) {
-                $('.department').removeClass('d-none');
-                $('.course').removeClass('d-none');
-                $('.semester').removeClass('d-none');
-                $('.start_date').removeClass('d-none');
-                $('.end_date').removeClass('d-none');
-            } else if (this.value == 1) {
-                $('.department').removeClass('d-none');
-                $('.start_date').removeClass('d-none');
-                $('.end_date').removeClass('d-none');
-
-            } else {
-                $('.department').addClass('d-none');
-                $('.course').addClass('d-none');
-                $('.semester').addClass('d-none');
-                $('.start_date').addClass('d-none');
-                $('.end_date').addClass('d-none');
-            }
-        });
+       
 
 
         $('#department').on('change', function() {
 
-            $("#course_name").empty();
+            $("#semester").empty();
             var postData = new FormData();
             postData.append('dep_id', this.value);
-            var url = "/get-course";
+            var url = "/get-semester";
 
             $.ajaxSetup({
                 headers: {
@@ -154,12 +133,17 @@
                 data: postData,
                 processData: false,
                 success: function(response) {
-                    $("#course_name").append('<option value="">Select Course</option>');
-                    $.each(response, function(key, value) {
-                        $("#course_name").append('<option value=' + value.id + '>' + value
-                            .name +
+                    $("#semester").append('<option value="">Select Course</option>');
+                    for(var i = 1; response>=i; i++){
+                        $("#semester").append('<option value=' + i + '>' + i +
                             '</option>');
-                    });
+                     
+                    }
+                    // $.each(response, function(key, value) {
+                    //     $("#course_name").append('<option value=' + value.id + '>' + value
+                    //         .name +
+                    //         '</option>');
+                    // });
                 }
             });
         });

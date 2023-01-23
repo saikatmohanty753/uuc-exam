@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Notice;
 use App\Models\User;
+use App\Models\CourseFor;
 use App\Notifications\UucNotice;
 
 class AjaxController extends Controller
@@ -68,5 +69,11 @@ class AjaxController extends Controller
         ); */
         // return response()->json($result);
         return response()->json('success');
+    }
+
+    public function getSemester(Request $request)
+    {
+        $semester = CourseFor::where('id', $request->dep_id)->first(['semester']);
+        return response()->json($semester->semester);
     }
 }
