@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NoticesController;
 use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\NoticeTypeController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Livewire\Notification;
 use App\Providers\RouteServiceProvider;
@@ -62,6 +63,7 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
 
     Route::resource('department', DepartmentController::class);
     Route::resource('course', CourseController::class);
+    Route::resource('notice-type', NoticeTypeController::class);
     Route::get('semester/{id}/{parameter}', [SemesterController::class, 'semesterList'])->name('semester.list');
     Route::resource('semester',SemesterController::class);
     Route::get('uuc-syllabus/{id}/{department}/{sem}', [SyllabusController::class, 'syllabus'])->name('uuc.syllabus');
@@ -75,6 +77,7 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
 
     Route::post('get-course', [AjaxController::class, 'getCourse']);
     Route::post('publish-notice', [AjaxController::class, 'publishNotice']);
+    Route::post('get-semester', [AjaxController::class, 'getSemester']);
 
     Route::get('uuc-admission/{id}/{dep}/{depId}', [AdmissionController::class, 'index']);
     Route::post('student-admission', [AdmissionController::class, 'store']);

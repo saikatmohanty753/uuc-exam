@@ -68,30 +68,35 @@
         <li>
             <a href="#" title="Theme Settings" data-filter-tags="theme settings">
                 <i class="fal fa-cog"></i>
-                <span class="nav-link-text" data-i18n="nav.theme_settings">Masters</span>
+                <span class="nav-link-text">Masters</span>
             </a>
             <ul>
                 <li>
                     <a href="{{ url('/department') }}" title="How it works"
                         data-filter-tags="theme settings how it works">
-                        <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Department Master</span>
+                        <span class="nav-link-text">Department Master</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('course.index') }}" title="course" data-filter-tags="theme settings how it works">
 
-                        <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Course Master</span>
+                        <span class="nav-link-text">Course Master</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('semester.index') }}" title="How it works"
                         data-filter-tags="theme settings how it works">
-                        <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Semester</span>
+                        <span class="nav-link-text">Semester</span>
                     </a>
                 </li>
                 <li>
                     <a href="" title="paper" data-filter-tags="theme settings how it works">
-                        <span class="nav-link-text" data-i18n="nav.theme_settings_how_it_works">Paper Master</span>
+                        <span class="nav-link-text">Paper Master</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('notice-type.index') }}" title="exam_notice" >
+                        <span class="nav-link-text">Exam Notice Type</span>
                     </a>
                 </li>
 

@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\CourseFor;
 use App\Models\Notice;
 use Carbon\Carbon;
+use App\Models\ExamNoticeType;
 use Illuminate\Support\Facades\DB;
 class NoticesController extends Controller
 {
@@ -33,7 +34,8 @@ class NoticesController extends Controller
     {
         $course = Course::all();
         $dept = CourseFor::all();
-        return view('notices.add_notice', compact('course', 'dept'));
+        $examnotice = ExamNoticeType::all();
+        return view('notices.add_notice', compact('course', 'dept','examnotice'));
     }
 
     public function store(Request $request)
