@@ -49,10 +49,10 @@ class NoticesController extends Controller
         $expDate->minute = 59;
         $expDate->second = 59;
         $notice = new Notice();
-        $notice->notice_type = $request->notice_type;
+        $notice->notice_type = 2;
         $notice->department_id = $request->department;
-        $notice->course_id = $request->course != '' ? implode(',', $request->course) : '';
-        $notice->semester = $request->semester;
+        // $notice->course_id = $request->course != '' ? implode(',', $request->course) : '';
+        $notice->semester = $request->semester != '' ? implode(',', $request->semester) : '';
         $notice->start_date = $startDate;
         $notice->exp_date = $expDate;
         $notice->details = $request->details;

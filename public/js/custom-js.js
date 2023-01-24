@@ -83,7 +83,10 @@ $('.yearPicker').datepicker({
 
 });
 $('.select2').select2();
-
+$(".sem-multiple").select2({
+    placeholder: "Select Semester",
+    maximumSelectionLength: 4,
+});
 function view_reason(remark) {
     $("#remark_div").html(remark);
     $('#view_reason').modal('show');

@@ -15,89 +15,87 @@
                             @csrf
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <div class="form-group">
+                                    <div class="form-group input-cont">
                                         <label class="form-label">Notice Type<span class="text-danger">*</span></label>
-                                        <select class="form-select form-control notice-type select2"
+                                        <select class="form-select form-control notice-type select2 chk_blank"
                                             aria-label="Default select example" name="notice_type">
                                             <option value="" selected>Select Notice Type</option>
                                             @foreach ($examnotice as $value)
-                                            <option value="{{$value->id}}" class="addmission">{{$value->notice_name}}</option>
-
-                                                
+                                                <option value="{{ $value->id }}" class="addmission">
+                                                    {{ $value->notice_name }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error-msg"></span>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="row ">
                                 <div class="col-md-12">
-                                    <div class="form-group department">
+                                    <div class="form-group department input-cont">
                                         <label class="form-label">Department<span class="text-danger">*</span></label>
-                                        <select class="form-select form-control select2" aria-label="Default select example"
-                                            name="department" id="department">
+                                        <select class="form-select form-control select2 chk_blank"
+                                            aria-label="Default select example" name="department" id="department">
                                             <option value="" selected>Select Department</option>
                                             @foreach ($dept as $item)
                                                 <option value="{{ $item->id }}">{{ $item->course_for }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="error-msg"></span>
+
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="row mb-2">
-                                <div class="col-md-12">
-                                    <div class="form-group course">
-                                        <label class="form-label">Course<span class="text-danger">*</span></label>
-                                        <select class="form-select form-control select2" aria-label="Default select example"
-                                            name="course[]" id="course_name" multiple>
-                                            <option value="">Select Course</option>
-                                            @foreach ($course as $key => $value)
-                                                <option value="{{ $value->id }}">{{ $value->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div> --}}
+
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <div class="form-group semester">
+                                    <div class="form-group semester input-cont">
                                         <label class="form-label">Semester<span class="text-danger">*</span></label>
-                                        <select class="form-select form-control select2" aria-label="Default select example" name="semester[]" id="semester" multiple>
-                                            <option value="" selected>Select Semester</option>
-                                           
+                                        <select class="form-select form-control sem-multiple chk_blank"
+                                            aria-label="Default select example" name="semester[]" id="semester" multiple>
+
+
                                         </select>
+                                        <span class="error-msg"></span>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <div class="form-group start_date">
+                                    <div class="form-group start_date input-cont">
                                         <label class="form-label">Start date<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control datepicker-1"
+                                        <input type="text" class="form-control datepicker-1 chk_blank"
                                             placeholder="Enter Department" name="start_date">
+                                        <span class="error-msg"></span>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <div class="form-group end_date">
+                                    <div class="form-group end_date input-cont">
                                         <label class="form-label">Expiry date<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control datepicker-1"
+                                        <input type="text" class="form-control datepicker-1 chk_blank"
                                             placeholder="Enter Department" name="exp_date">
+                                        <span class="error-msg"></span>
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-2 d-flex align-items-center justify-content-center">
+                            <div class="row mb-2 d-flex align-items-center justify-content-center input-cont">
                                 <div class="col-md-12">
-                                    <label class="form-label ">Details<span class="text-danger">*</span></label>
-                                    <textarea name="details" id="" class="form-control"></textarea>
+                                    <label class="form-label">Details<span class="text-danger">*</span></label>
+                                    <textarea name="details" id="" class="form-control chk_blank"></textarea>
+                                    <span class="error-msg"></span>
+
                                 </div>
                             </div>
 
                             <div class="row mb-2">
                                 <div class="col-md-12 text-center mb-4">
-                                    <a class="btn btn-danger"  href="{{url('/notices')}}">Cancel</a>
-                                    <button type="submit"  class="btn btn-info pull-right">Submit</button>
+                                    <a class="btn btn-danger" href="{{ url('/notices') }}">Cancel</a>
+                                    <button type="submit" class="btn btn-info pull-right">Submit</button>
                                 </div>
 
                             </div>
@@ -110,9 +108,6 @@
 @endsection
 @section('js')
     <script>
-       
-
-
         $('#department').on('change', function() {
 
             $("#semester").empty();
@@ -133,19 +128,29 @@
                 data: postData,
                 processData: false,
                 success: function(response) {
-                    $("#semester").append('<option value="">Select Course</option>');
-                    for(var i = 1; response>=i; i++){
+                    for (var i = 1; response >= i; i++) {
                         $("#semester").append('<option value=' + i + '>' + i +
                             '</option>');
-                     
+
                     }
-                    // $.each(response, function(key, value) {
-                    //     $("#course_name").append('<option value=' + value.id + '>' + value
-                    //         .name +
-                    //         '</option>');
-                    // });
                 }
             });
+        });
+
+        $("#myForm").on('submit', function(e) {
+
+            e.preventDefault();
+            var validation = [];
+            validation = $('#myForm').scvalidateform({
+                formId: 'myForm'
+            });
+            console.log($('.department').val());
+            console.log(validation);
+            if ($.inArray('false', validation) >= '0') {
+                return false;
+            } else {
+                $(this)[0].submit();
+            }
         });
     </script>
 @endsection
