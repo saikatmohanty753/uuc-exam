@@ -29,7 +29,7 @@
                                                 <tr>
                                                     <td>
                                                         Notice Type <strong>:
-                                                            {{ $data->notice_type == 1 ? 'Admission Notice' : 'Exam Notice' }}
+                                                            {{ $data->notice_sub_type != '' ? $data->noticeType->notice_name : '' }}
                                                         </strong>
                                                     </td>
                                                     <td>

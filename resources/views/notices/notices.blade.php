@@ -67,9 +67,9 @@
                                             </div>
                                         </td>
 
-                                        <td><a href="{{url('notice/view/'.$item->id)}}"
-                                            class="btn  waves-effect waves-themed btn-outline-primary">
-                                            <i class="fa-solid fa-eye"></i></a></td>
+                                        <td><a href="{{ url('notice/view/' . $item->id) }}"
+                                                class="btn  waves-effect waves-themed btn-outline-primary">
+                                                <i class="fa-solid fa-eye"></i></a></td>
 
                                     </tr>
                                 @endforeach
@@ -105,20 +105,12 @@
                     data: postData,
                     processData: false,
                     success: function(response) {
-                        console.log(response);
-                        publish.prop( "checked" )
+                        publish.prop("checked");
+                        publish.prop("disabled");
                         $('.publish').html('Published');
-                        /* $("#course_name").append('<option value="">Select Course</option>');
-                        $.each(response, function(key, value) {
-                            $("#course_name").append('<option value=' + value.id + '>' + value
-                                .name +
-                                '</option>');
-                        }); */
                     }
                 });
             }
-
-
         });
     </script>
 @endsection

@@ -17,4 +17,8 @@ class Notice extends Model
     {
         return $this->belongsTo(CourseFor::class, 'department_id', 'id');
     }
+
+    public function noticeType(){
+        return $this->belongsTo(ExamNoticeType::class, 'notice_sub_type', 'id');
+    }
 }

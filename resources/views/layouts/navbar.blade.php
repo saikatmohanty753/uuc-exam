@@ -111,6 +111,14 @@
             </a>
         </li>
         @endcan
+        @can('exam-notice-module')
+        <li>
+            <a href="{{ url('/notices') }}" title="Notices" data-filter-tags="Notice">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span class="nav-link-text" data-i18n="nav.application_notice">Notice</span>
+            </a>
+        </li>
+        @endcan
     </ul>
     <div class="filter-message js-filter-message bg-success-600"></div>
 </nav>
