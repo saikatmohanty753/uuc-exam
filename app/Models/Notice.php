@@ -16,5 +16,5 @@ class Notice extends Model
     public function department()
     {
         return $this->belongsTo(CourseFor::class, 'department_id', 'id');
-    }
+    }  
 }
