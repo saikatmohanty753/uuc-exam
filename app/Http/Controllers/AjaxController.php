@@ -7,7 +7,7 @@ use App\Models\Course;
 use App\Models\Notice;
 use App\Models\User;
 use App\Models\CourseFor;
-use App\Notifications\UucNotice;
+use App\Notifications\ExamNotice;
 
 class AjaxController extends Controller
 {
@@ -19,11 +19,9 @@ class AjaxController extends Controller
 
     public function publishNotice(Request $request)
     {
-        //College-Exam-Section = 13
-        //College-Academic-Section = 14
-        //Academic-Section = 10
-        //Exam-Section = 12
-        //Student = 3
+        //uuc-Exam-Section = 13
+        //College-exam-Section = 17
+        //student = 3
 
         $check = Notice::where([['id', $request->id], ['status', 0]])->count();
         if ($check == 1) {
@@ -32,42 +30,17 @@ class AjaxController extends Controller
                 ->update(['status' => 1]);
             $notice = Notice::find($request->id);
             $status = "Published";
-            if ($notice->notice_type == 1) {
-                //academic
-                $users = User::whereIn('role_id', [10, 14])->get();
+            if ($notice->notice_type == 2) {
+                $users = User::whereIn('role_id', [13, 17, 3])->get();
                 foreach ($users as $key => $user) {
                     $user->notice_id = $request->id;
-                    $user->notify(new UucNotice());
+                    $user->notify(new ExamNotice());
                 }
-            } elseif ($notice->notice_type == 2) {
-                //exam
-
-                $users = User::whereIn('role_id', [12, 13])->get();
-                foreach ($users as $key => $user) {
-                    $user->notice_id = $request->id;
-                    $user->notify(new UucNotice());
-                }
-            } elseif ($notice->notice_type == 3) {
-                #others
-
             }
 
             // $user->notify(new Notice());
         }
-        /* else {
-            Notice::where('status', 1)
-                ->where('id', $request->id)
-                ->update(['status' => 0]);
-            $notice = Notice::find($request->id);
-            $status = "Not-Published";
-        }
 
-        $result = array(
-            'code' => 200,
-            'status' => $status,
-            'data' => $notice
-        ); */
-        // return response()->json($result);
         return response()->json('success');
     }
 

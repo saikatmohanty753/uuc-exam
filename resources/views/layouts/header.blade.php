@@ -62,13 +62,11 @@
                 <i class="fal fa-cog"></i>
             </a>
         </div>
-        @if (Auth::user()->role_id == 3 ||
-            Auth::user()->role_id == 10 ||
-            Auth::user()->role_id == 12 ||
-            Auth::user()->role_id == 13 ||
-            Auth::user()->role_id == 14)
+        @can('notification-module')
+
+
             <div>
-                <a href="#" class="header-icon" data-toggle="dropdown" title="You got 11 notifications">
+                <a href="javascript:void(0);" class="header-icon" data-toggle="dropdown" title="You got {{ Auth::user()->unreadNotifications->count() }} notifications">
                     <i class="fal fa-bell"></i>
                     <span class="badge badge-icon">{{ Auth::user()->unreadNotifications->count() }}</span>
                 </a>
@@ -76,7 +74,6 @@
                     <div
                         class="dropdown-header bg-trans-gradient d-flex justify-content-center align-items-center rounded-top mb-2">
                         <h4 class="m-0 text-center color-white">
-
                             <small class="mb-0">{{ Auth::user()->unreadNotifications->count() }} New
                                 Notifications</small>
                         </h4>
@@ -88,10 +85,8 @@
                                 <li class="unread">
                                     <div class="d-flex align-items-center show-child-on-hover">
                                         @php
-                                            if ($notification['data']['notice_type'] == 'Admission Notice') {
+                                            if ($notification['data']['notice_type'] == 'Exam Notice') {
                                                 $url = url('uuc-admission/'.$notification['data']['notice_id'].'/'. str_slug($notification['data']['department']) .'/'.$notification['data']['department_id']);
-                                            }elseif ($notification['data']['notice_type'] == 'Exam Notice') {
-                                                $url = url('uuc-examination');
                                             }else{
                                                 $url = '';
 
@@ -122,7 +117,7 @@
                 </div> --}}
                 </div>
             </div>
-        @endif
+        @endcan
 
         <!-- app user menu -->
         <div>

@@ -122,6 +122,18 @@ class PermissionTableSeeder extends Seeder
             'admission-edit',
             'admission-delete',
 
+            'notification-module',
+            'notification-list',
+            'notification-create',
+            'notification-edit',
+            'notification-delete',
+
+            'exam-notice-module',
+            'exam-notice-list',
+            'exam-notice-create',
+            'exam-notice-edit',
+            'exam-notice-delete',
+
 
 
         ];

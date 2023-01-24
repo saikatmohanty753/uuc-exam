@@ -16,17 +16,17 @@ class NoticesController extends Controller
 
     {
 
-        $this->middleware('permission:notice-list|notice-create|notice-edit|notice-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:exam-notice-list|exam-notice-create|exam-notice-edit|exam-notice-delete', ['only' => ['index', 'store']]);
 
-        $this->middleware('permission:notice-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:exam-notice-create', ['only' => ['create', 'store']]);
 
-        $this->middleware('permission:notice-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:exam-notice-edit', ['only' => ['edit', 'update']]);
 
-        $this->middleware('permission:notice-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:exam-notice-delete', ['only' => ['destroy']]);
     }
     public function index()
     {
-        $notice = Notice::all();
+        $notice = Notice::where('notice_type', '2')->get();
         return view('notices.notices', compact('notice'));
     }
 
@@ -50,6 +50,7 @@ class NoticesController extends Controller
         $expDate->second = 59;
         $notice = new Notice();
         $notice->notice_type = 2;
+        $notice->notice_sub_type = $request->notice_type;
         $notice->department_id = $request->department;
         // $notice->course_id = $request->course != '' ? implode(',', $request->course) : '';
         $notice->semester = $request->semester != '' ? implode(',', $request->semester) : '';
@@ -68,8 +69,7 @@ class NoticesController extends Controller
      */
     public function show($id)
     {
-        $data = DB::table('notices')
-        ->select('notices.*','course_fors.course_for as course','courses.name as couse_name')
+        $data = Notice::select('notices.*','course_fors.course_for as course','courses.name as couse_name')
         ->leftJoin('course_fors','notices.department_id', "=" ,'course_fors.id')
         ->leftJoin('courses','notices.course_id', "=", 'courses.id')
         ->where('notices.id',$id)
