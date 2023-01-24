@@ -129,7 +129,7 @@
                         </div>
                      </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                        <a class="btn btn-danger"  href="{{url('/notice-type')}}">Cancel</a>
                         <button type="submit" class="btn btn-info pull-right">Submit</button>
                     </div>
                 </form>
