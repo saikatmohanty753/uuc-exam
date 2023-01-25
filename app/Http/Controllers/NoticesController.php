@@ -16,13 +16,13 @@ class NoticesController extends Controller
 
     {
 
-        $this->middleware('permission:exam-notice-list|exam-notice-create|exam-notice-edit|exam-notice-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:notice-list|notice-create|notice-edit|notice-delete', ['only' => ['index', 'store']]);
 
-        $this->middleware('permission:exam-notice-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:notice-create', ['only' => ['create', 'store']]);
 
-        $this->middleware('permission:exam-notice-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:notice-edit', ['only' => ['edit', 'update']]);
 
-        $this->middleware('permission:exam-notice-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:notice-delete', ['only' => ['destroy']]);
     }
     public function index()
     {
