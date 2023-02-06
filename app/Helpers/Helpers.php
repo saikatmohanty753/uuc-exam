@@ -10,7 +10,7 @@ class Helpers
 {
     public static function number($number)
     {
-        $array = ["First", "Second", "Third", "Fourth", "Fifth", 'Sixth', 'Seventh', 'Eighth'];
+        $array = ["First", "Second", "Third", "Four", "Fifth", 'Six', 'Seven', 'Eight'];
         return $array[$number - 1];
     }
 

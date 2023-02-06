@@ -26,7 +26,8 @@
                                         <td>{{ ++$key }}</td>
                                         <td>{{ $item->course_for }}</td>
                                         <td>{{ $item->semester }}</td>
-                                        <td><a href="{{ route('semester.list',['id' => $item->id, 'parameter' => $item->course_for]) }}" class="btn btn-outline-info">View Semester</a></td>
+                                        <td><a href="{{ route('semester.list', ['id' => $item->id, 'parameter' => $item->course_for]) }}"
+                                                class="btn btn-outline-info">View Semester</a></td>
                                     </tr>
                                 @endforeach
 
@@ -37,6 +38,8 @@
             </div>
         </div>
     </div>
+
 @endsection
 @section('js')
+
 @endsection

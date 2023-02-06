@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::resource('students', StudentController::class);
 
     Route::resource('department', DepartmentController::class);
+    Route::get('course-structure', [CourseController::class, 'courseStructure'])->name('course.structure');
     Route::resource('course', CourseController::class);
     Route::resource('notice-type', NoticeTypeController::class);
     Route::get('semester/{id}/{parameter}', [SemesterController::class, 'semesterList'])->name('semester.list');

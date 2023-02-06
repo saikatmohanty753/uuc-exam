@@ -24,38 +24,38 @@
         <img src="{{ asset('backend/img/card-backgrounds/cover-2-lg.png') }}" class="cover" alt="cover">
     </div>
     <ul id="js-nav-menu" class="nav-menu">
-        <li class="active open">
+        <li class="{{ request()->is('dashboard*') ? 'active' : '' }}">
             <a href="{{ url('/dashboard') }}" title="Dash Board" data-filter-tags="Dash Board">
                 <i class="fal fa-home"></i>
                 <span class="nav-link-text" data-i18n="nav.application_intel">Dashboard</span>
             </a>
         </li>
         @can('user-module')
-            <li>
+            <li class="{{ request()->is('roles*') || request()->is('users*') || request()->is('colleges*') || request()->is('students*') ? 'active open' : '' }}">
                 <a href="#" title="Theme Settings" data-filter-tags="theme settings">
                     <i class="fal fa-cog"></i>
                     <span class="nav-link-text" data-i18n="nav.user_management">User Management</span>
                 </a>
                 <ul>
                     @can('role-module')
-                        <li>
-                            <a href="{{ route('roles.index') }}" title="How it works"
+                        <li class="{{ request()->is('roles*') ? 'active' : '' }}">
+                            <a href="{{ route('roles.index') }}"
                                 data-filter-tags="theme settings how it works">
                                 <span class="nav-link-text" data-i18n="nav.user_management_role">Role</span>
                             </a>
                         </li>
                     @endcan
-                    <li>
+                    <li class="{{ request()->is('users*') ? 'active' : '' }}">
                         <a href="{{ route('users.index') }}" title="Users" data-filter-tags="users">
                             <span class="nav-link-text" data-i18n="nav.user_management_user">Users</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="{{ request()->is('colleges*') ? 'active' : '' }}">
                         <a href="{{ route('colleges.index') }}" title="Colleges" data-filter-tags="theme settings Colleges">
                             <span class="nav-link-text" data-i18n="nav.user_management_college">Colleges</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="{{ request()->is('students*') ? 'active' : '' }}">
                         <a href="{{ route('students.index') }}" title="students" data-filter-tags="theme settings students">
                             <span class="nav-link-text" data-i18n="nav.user_management_students">Students</span>
                         </a>
@@ -72,7 +72,7 @@
                 </a>
                 <ul>
                     <li>
-                        <a href="{{ url('/department') }}" title="How it works"
+                        <a href="{{ url('/department') }}"
                             data-filter-tags="theme settings how it works">
                             <span class="nav-link-text">Department Master</span>
                         </a>
@@ -84,7 +84,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('semester.index') }}" title="How it works"
+                        <a href="{{ route('course.structure') }}" title="Course Structure"
+                            data-filter-tags="Course Structure">
+                            <span class="nav-link-text">Course Structure</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('semester.index') }}"
                             data-filter-tags="theme settings how it works">
                             <span class="nav-link-text">Semester</span>
                         </a>

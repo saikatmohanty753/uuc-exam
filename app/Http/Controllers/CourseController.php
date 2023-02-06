@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\CourseFor;
+
 class CourseController extends Controller
 {
     function __construct()
@@ -107,4 +109,14 @@ class CourseController extends Controller
         $course->delete();
         return redirect('/course');
     }
+
+    public function courseStructure()
+    {
+        $data = CourseFor::all();
+        // return $comments = CourseFor::find(1)->courseList;
+        return view('course_master.course_structure', compact('data'));
+
+    }
+
+
 }

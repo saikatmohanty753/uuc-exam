@@ -27,4 +27,9 @@ class CourseFor extends Model
 
         return $code;
     }
+
+    public function courseList()
+    {
+        return $this->hasMany(Course::class, 'course_for', 'id');
+    }
 }
