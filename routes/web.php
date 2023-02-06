@@ -101,6 +101,12 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::get('exam-notices', [ClgNoticeController::class, 'index']);
     Route::get('view-notice/{id}/{notification_id}', [ClgNoticeController::class, 'show']);
 
+    //prasant mid sem exam
+    Route::get('mid-sem-exam', [CollegeController::class, 'midSemExam']);
+    Route::POST('get-course-by-section', [CollegeController::class, 'midSemExamcourse']);
+    Route::POST('get-semester-by-section', [CollegeController::class, 'midSemExamsemester']);
+
+
 
 
 

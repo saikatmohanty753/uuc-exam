@@ -126,6 +126,14 @@
                         class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">{{ Auth::user()->unreadNotifications->count() > 0 ? Auth::user()->unreadNotifications->count() : '' }}</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ url('/mid-sem-exam') }}" title="Notices" data-filter-tags="Notice">
+                    <i class="fa-solid fa-book-open-reader"></i>
+                    <span class="nav-link-text" data-i18n="nav.application_notice">Mid Sem Exam </span>
+                    {{-- <span
+                        class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">{{ Auth::user()->unreadNotifications->count() > 0 ? Auth::user()->unreadNotifications->count() : '' }}</span> --}}
+                </a>
+            </li>
         @endcan
 
     </ul>

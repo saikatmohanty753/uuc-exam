@@ -43,6 +43,7 @@ class ClgNoticeController extends Controller
 
         return view('publish-notices.index', compact('notice', 'OtherNotice'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
