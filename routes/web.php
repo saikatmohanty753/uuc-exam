@@ -16,6 +16,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\NoticeTypeController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ClgNoticeController;
+use App\Http\Controllers\SemesterFillUpController;
 use App\Http\Livewire\Notification;
 use App\Providers\RouteServiceProvider;
 
@@ -105,6 +106,11 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::get('mid-sem-exam', [CollegeController::class, 'midSemExam']);
     Route::POST('get-course-by-section', [CollegeController::class, 'midSemExamcourse']);
     Route::POST('get-semester-by-section', [CollegeController::class, 'midSemExamsemester']);
+
+    Route::get('semester-form-fill-up/{id}/{dep}/{depId}', [SemesterFillUpController::class, 'index']);
+
+    Route::get('uuc-exam-section/{id}', [NoticesController::class, 'redirectToNotice']);
+
 
 
 

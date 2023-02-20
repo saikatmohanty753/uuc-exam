@@ -134,6 +134,14 @@
                         class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">{{ Auth::user()->unreadNotifications->count() > 0 ? Auth::user()->unreadNotifications->count() : '' }}</span> --}}
                 </a>
             </li>
+            <li class="{{ request()->is('semester-form-fill-up*') ? 'active' : '' }}">
+                <a href="{{ url('/semester-form-fill-up') }}" title="Notices" data-filter-tags="Notice">
+                    <i class="fa-solid fa-book-open-reader"></i>
+                    <span class="nav-link-text" data-i18n="nav.application_notice">Semester Registration </span>
+                    {{-- <span
+                        class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">{{ Auth::user()->unreadNotifications->count() > 0 ? Auth::user()->unreadNotifications->count() : '' }}</span> --}}
+                </a>
+            </li>
         @endcan
 
     </ul>

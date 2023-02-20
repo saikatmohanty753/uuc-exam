@@ -10,6 +10,7 @@ use App\Models\Notice;
 use Carbon\Carbon;
 use App\Models\ExamNoticeType;
 use Illuminate\Support\Facades\DB;
+
 class NoticesController extends Controller
 {
     function __construct()
@@ -35,7 +36,7 @@ class NoticesController extends Controller
         $course = Course::all();
         $dept = CourseFor::all();
         $examnotice = ExamNoticeType::all();
-        return view('notices.add_notice', compact('course', 'dept','examnotice'));
+        return view('notices.add_notice', compact('course', 'dept', 'examnotice'));
     }
 
     public function store(Request $request)
@@ -69,11 +70,11 @@ class NoticesController extends Controller
      */
     public function show($id)
     {
-        $data = Notice::select('notices.*','course_fors.course_for as course','courses.name as couse_name')
-        ->leftJoin('course_fors','notices.department_id', "=" ,'course_fors.id')
-        ->leftJoin('courses','notices.course_id', "=", 'courses.id')
-        ->where('notices.id',$id)
-        ->first( );
+        $data = Notice::select('notices.*', 'course_fors.course_for as course', 'courses.name as couse_name')
+            ->leftJoin('course_fors', 'notices.department_id', "=", 'course_fors.id')
+            ->leftJoin('courses', 'notices.course_id', "=", 'courses.id')
+            ->where('notices.id', $id)
+            ->first();
 
 
         //  $notice = Notice::where('id', $id)->first();
@@ -112,5 +113,33 @@ class NoticesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function redirectToNotice(Request $request, $id)
+    {
+        // return $id;
+        /*
+            Mid Sem Mark Entry
+            Exam Notice
+            Result Publish
+            Semester Form Fill up
+            Other
+         */
+
+         $notice = Notice::find($id);
+         $dep = $notice->department_id;
+         if($notice->notice_type == 2 && $notice->notice_type == 1){
+
+         } elseif($notice->notice_type == 2 && $notice->notice_type == 2){
+
+         } elseif($notice->notice_type == 2 && $notice->notice_type == 3){
+
+         } elseif($notice->notice_type == 2 && $notice->notice_type == 4){
+
+         } elseif($notice->notice_type == 2 && $notice->notice_type == 5){
+
+         }else{
+
+         }
     }
 }
