@@ -8,6 +8,7 @@ use App\Models\Notice;
 use App\Models\User;
 use App\Models\CourseFor;
 use App\Notifications\ExamNotice;
+use Carbon\Carbon;
 
 class AjaxController extends Controller
 {
@@ -27,7 +28,7 @@ class AjaxController extends Controller
         if ($check == 1) {
             Notice::where('status', 0)
                 ->where('id', $request->id)
-                ->update(['status' => 1]);
+                ->update(['status' => 1, 'published_date' => Carbon::now()]);
             $notice = Notice::find($request->id);
             $status = "Published";
             if ($notice->notice_type == 2) {

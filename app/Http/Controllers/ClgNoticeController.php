@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Livewire\Notification as LivewireNotification;
 use App\Models\Notice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,14 +27,14 @@ class ClgNoticeController extends Controller
         }
         $notice = [];
         foreach ($noticeIds as $value) {
-            $data = Notice::where('id', $value['notice_id'])->where('notice_type', '2')->first();
+            $data = Notice::where('id', $value['notice_id'])->where([['notice_type', '2']])->first();
             if ($data) {
                 $data['notification_id'] = $value['notification_id'];
                 $notice[] = $data;
             }
         }
         $OtherNotice = [];
-       /*  foreach ($noticeIds as $item) {
+        /*  foreach ($noticeIds as $item) {
             $data = Notice::where('id', $item['notice_id'])->where('notice_type', '3')->first();
             if ($data) {
                 $data['notification_id'] = $item['notification_id'];
@@ -43,7 +44,7 @@ class ClgNoticeController extends Controller
 
         return view('publish-notices.index', compact('notice', 'OtherNotice'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -80,7 +81,41 @@ class ClgNoticeController extends Controller
             ->leftJoin('course_fors', 'notices.department_id', "=", 'course_fors.id')
             ->where('notices.id', $id)
             ->first();
-        return view('publish-notices.view', compact('data'));
+
+        /*
+            Mid Sem Mark Entry
+            Exam Notice
+            Result Publish
+            Semester Form Fill up
+            Other
+         */
+
+        $dep = $data->department_id;
+        if ($data->notice_type == 2 && $data->notice_sub_type == 1) {
+            // $url = url('mid-sem-exam');
+            $url = url('#');
+        } elseif ($data->notice_type == 2 && $data->notice_sub_type == 2) {
+            // $url = "2";
+            $url = url('#');
+
+
+        } elseif ($data->notice_type == 2 && $data->notice_sub_type == 3) {
+            // $url = url('result-publish');
+            $url = url('#');
+
+        } elseif ($data->notice_type == 2 && $data->notice_sub_type == 4) {
+            $url = url('semester-form-fill-up/'.$data->id.'/'. $data->course.'/'.$data->department_id);
+
+        } elseif ($data->notice_type == 2 && $data->notice_sub_type == 5) {
+            // $url = "5";
+            $url = url('#');
+
+
+        } else {
+            $url = url("javascript:void(0);");
+
+        }
+        return view('publish-notices.view', compact('data', 'url'));
     }
 
     /**

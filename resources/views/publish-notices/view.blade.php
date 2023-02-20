@@ -17,9 +17,7 @@
                                 <strong>{{ Carbon\Carbon::parse($data->start_date)->format('d-m-Y') }}</strong> to
                                 <strong>{{ Carbon\Carbon::parse($data->exp_date)->format('d-m-Y') }}</strong></span>
 
-                            @php
-                                $url = url('uuc-admission/' . $data->id . '/' . str_slug($data->course) . '/' . $data->department_id);
-                            @endphp
+
                             <h6 class="mt-2">{{ $data->details }}</h6> <a href="{{ $url }}" target="_blank">Click here</a>
                         </div>
                     </div>

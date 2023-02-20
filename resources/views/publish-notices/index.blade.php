@@ -18,30 +18,23 @@
                                     <th style="width: 10%;">Sl. No</th>
                                     <th>Notice Type</th>
                                     <th>Department</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
                                     <th>Details</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @if (!empty($notice))
                                     @foreach ($notice as $key => $item)
-                                        @php
-                                            if ($item->notice_type == 1) {
-                                                $notice_type = 'Admission Notice';
-                                                $color = 'badge-primary';
-                                            } elseif ($item->notice_type == 2) {
-                                                $notice_type = 'Exam Notice';
-                                                $color = 'badge-success';
-                                            } else {
-                                                $notice_type = 'Other Notice';
-                                                $color = 'badge-info';
-                                            }
-                                        @endphp
+
                                         <tr>
                                             <td>{{ ++$key }}</td>
-                                            <td><span class="badge {{ $color }}">{{ $notice_type }}</span>
+                                            <td><span class="badge  {{ $item->noticeColor() }}">{{ App\Helpers\Helpers::examNoticeType($item->notice_sub_type) }}</span>
                                             </td>
                                             <td>{{ $item->department_id != '' ? $item->department->course_for : '' }}
                                             </td>
+                                            <td>{{ Carbon\Carbon::parse($item->start_date)->format('d-m-Y') }}</td>
+                                            <td>{{ Carbon\Carbon::parse($item->exp_date)->format('d-m-Y') }}</td>
                                             <td><a href="{{ url('view-notice/' . $item->id . '/' . $item->notification_id) }}"
                                                     class="btn  waves-effect waves-themed btn-outline-primary">
                                                     <i class="fa-solid fa-eye"></i></a>

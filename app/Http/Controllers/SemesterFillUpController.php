@@ -2,42 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\College;
 use App\Models\CourseFor;
-use App\Models\Course;
-class CollegeController extends Controller
+use App\Models\Notice;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class SemesterFillUpController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($noticeId, $dep, $depId)
     {
-        $college = College::all();
-        return view('colleges.index',compact('college'));
+        $notice = Notice::find($noticeId);
+        $dep = CourseFor::find($notice->department_id);
+        $sem = explode(',', $notice->semester);
+        $college = College::where('id', Auth::user()->clg_user_id)->first(['name']);
+        return view('semester.registration.index', compact('dep', 'sem', 'college'));
     }
-
-
-
-    public function midSemExam(){
-        $section=CourseFor::all();
-        return view('mid-sem-exam.index',compact('section'));
-    }
-    public function midSemExamcourse(Request $request){
-        // return $request;
-       $data['course'] = Course::where("course_for",$request->id)
-        ->get(["name","id"]);
-        return response()->json($data);
-    }
-    public function midSemExamsemester(Request $request){
-        // return $request;
-       $data = CourseFor::where("id",$request->id)
-        ->first(["semester","id"]);
-        return response()->json($data);
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -46,7 +31,7 @@ class CollegeController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -104,5 +89,4 @@ class CollegeController extends Controller
     {
         //
     }
-    
 }

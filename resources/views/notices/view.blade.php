@@ -27,33 +27,33 @@
                                         <table class="table table-clean table-sm align-self-end">
                                             <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td style="width:30%;">
                                                         Notice Type <strong>:
                                                             {{ $data->notice_sub_type != '' ? $data->noticeType->notice_name : '' }}
                                                         </strong>
                                                     </td>
-                                                    <td>
+                                                    <td style="width:40%;">
                                                         Department <strong>: {{ $data->course }}</strong>
                                                     </td>
                                                     {{-- <td>
                                                         Course<strong> : {{$data->couse_name}} </strong>
                                                     </td> --}}
-                                                    <td>
+                                                    <td style="width:30%;">
                                                         Start date<strong> :
                                                             {{ Carbon\Carbon::parse($data->start_date)->format('d-m-Y') }}</strong>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     {{-- <td>Semester <strong>: {{$data->semester}}</strong></td> --}}
-                                                    <td>
+                                                    <td style="width:30%;">
                                                         End date<strong> :
                                                             {{ Carbon\Carbon::parse($data->exp_date)->format('d-m-Y') }}</strong>
                                                     </td>
-                                                    <td>
+                                                    <td style="width:40%;">
                                                         Details <strong>: {{ $data->details }}</strong>
                                                     </td>
                                                     @if ($data->notice_type == 2)
-                                                        <td>
+                                                        <td style="width:30%;">
                                                             For semesters <strong>: {{ $data->semester }}</strong>
                                                         </td>
                                                     @endif

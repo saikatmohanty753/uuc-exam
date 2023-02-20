@@ -21,4 +21,22 @@ class Notice extends Model
     public function noticeType(){
         return $this->belongsTo(ExamNoticeType::class, 'notice_sub_type', 'id');
     }
+
+
+    public function noticeColor(){
+        $chk = $this->notice_sub_type;
+        if ($chk == 1) {
+            return 'badge-info';
+        } elseif ($chk == 2) {
+            return 'badge-primary';
+
+        } elseif ($chk == 3) {
+            return 'badge-success';
+
+        } elseif ($chk == 4) {
+            return 'badge-danger';
+        } else {
+            return  "warning";
+        }
+    }
 }
