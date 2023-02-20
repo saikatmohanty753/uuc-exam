@@ -23,8 +23,7 @@ class SemesterFillUpController extends Controller
         $college = College::where('id', Auth::user()->clg_user_id)->first(['name']);
         return view('semester.registration.index', compact('dep', 'sem', 'college'));
     }
-
-    /**
+        /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
