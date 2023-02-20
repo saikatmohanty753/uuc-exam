@@ -43,6 +43,9 @@ Route::get('/', function () {
 Route::get('/student', function () {
     return view('studentportal.index');
 });
+Route::get('/form', function () {
+    return view('form.index');
+});
 
 
 Auth::routes();
