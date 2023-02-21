@@ -47,6 +47,9 @@ Route::get('/student', function () {
 Route::get('/form', function () {
     return view('form.index');
 });
+Route::get('/formpage', function () {
+    return view('form.indexpage');
+});
 
 
 
@@ -112,6 +115,7 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::POST('get-semester-by-section', [CollegeController::class, 'midSemExamsemester']);
 
     Route::get('semester-form-fill-up/{id}/{dep}/{depId}', [SemesterFillUpController::class, 'index']);
+    
 
     Route::get('uuc-exam-section/{id}', [NoticesController::class, 'redirectToNotice']);
 
