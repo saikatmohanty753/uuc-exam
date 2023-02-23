@@ -17,6 +17,7 @@ class SemesterFillUpController extends Controller
      */
     public function index($noticeId, $dep, $depId)
     {
+        
         $notice = Notice::find($noticeId);
         $dep = CourseFor::find($notice->department_id);
         $sem = explode(',', $notice->semester);
@@ -24,7 +25,8 @@ class SemesterFillUpController extends Controller
         return view('semester.registration.index', compact('dep', 'sem', 'college'));
     }
 
-    /**
+    
+        /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
