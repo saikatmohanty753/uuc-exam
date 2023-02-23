@@ -7,8 +7,10 @@ use App\Models\Course;
 use App\Models\Notice;
 use App\Models\User;
 use App\Models\CourseFor;
+use App\Models\StudentDetails;
 use App\Notifications\ExamNotice;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AjaxController extends Controller
 {
@@ -49,5 +51,28 @@ class AjaxController extends Controller
     {
         $semester = CourseFor::where('id', $request->dep_id)->first(['semester']);
         return response()->json($semester->semester);
+    }
+
+    public function findByRollNo(Request $request)
+    {
+
+        $clgId = Auth::user()->clg_user_id;
+        $clg_id = intval(substr($request->roll_no, 0, 3));
+        if ($clgId == $clg_id) {
+            $data = StudentDetails::where('roll_no', $request->roll_no)->first();
+            $data = [
+                'type' => 'success',
+                'msg' => 'Student Details',
+                'data' => $data,
+            ];
+            return response()->json($data);
+        } else {
+            $data = [
+                'type' => 'error',
+                'msg' => 'Student details not found.',
+                'data' => '',
+            ];
+            return response()->json($data);
+        }
     }
 }

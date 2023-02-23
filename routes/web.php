@@ -78,6 +78,8 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::get('notice/view/{id}', [NoticesController::class, 'show']);
 
 
+    Route::post('find-student-by-rollno', [AjaxController::class, 'findByRollNo']);
+
     Route::post('get-course', [AjaxController::class, 'getCourse']);
     Route::post('publish-notice', [AjaxController::class, 'publishNotice']);
     Route::post('get-semester', [AjaxController::class, 'getSemester']);
