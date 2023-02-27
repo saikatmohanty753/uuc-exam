@@ -32,7 +32,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">Department</label>
-                                    <select class="custom-select" id="usertype" aria-label="usertype">
+                                    <select class="custom-select" id="department_id" aria-label="usertype">
                                         <option value="{{ $dep->id }}">{{ $dep->course_for }}</option>
                                     </select>
                                 </div>
@@ -40,7 +40,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Semester</label>
-                                    <select class="custom-select select2" id="usertype" aria-label="usertype">
+                                    <select class="custom-select select2" id="semester" aria-label="usertype">
                                         <option selected="">Select Semester</option>
                                         @foreach ($sem as $key => $item)
                                             <option value="{{ $item }}">{{ App\Helpers\Helpers::number($item) }}
@@ -52,13 +52,14 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Roll No.</label>
-                                    <input type="text" placeholder="Enter Roll Number" class="form-control">
+                                    <input type="text" placeholder="Enter Roll Number" id="roll_no"
+                                        class="form-control">
 
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group mt-4">
-                                    <button type="submit" class="btn btn-primary"><i
+                                    <button type="submit" class="btn btn-primary" id="search-student"><i
                                             class="fa-solid fa-magnifying-glass"></i> Search</button>
 
                                 </div>
@@ -71,6 +72,44 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+
+        <div class="col-xl-12">
+
+        </div>
+
+    </div>
 @endsection
 @section('js')
+    <script>
+        $("#search-student").click(function(e) {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            e.preventDefault();
+            var formData = {
+                department_id: $('#department_id').val(),
+                semester: $('#semester').val(),
+                roll_no: $('#roll_no').val(),
+            };
+            var type = "POST";
+            var ajaxurl = '/find-student-by-rollno';
+            $.ajax({
+                type: type,
+                url: ajaxurl,
+                data: formData,
+                dataType: 'json',
+                success: function(data) {
+
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+    </script>
 @endsection
