@@ -16,6 +16,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\NoticeTypeController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ClgNoticeController;
+use App\Http\Controllers\ExamController;
 use App\Http\Controllers\SemesterFillUpController;
 use App\Http\Livewire\Notification;
 use App\Providers\RouteServiceProvider;
@@ -50,6 +51,15 @@ Route::get('/form', function () {
 Route::get('/formpage', function () {
     return view('form.indexpage');
 });
+Route::get('/apply_app', function () {
+    return view('form.apply_app_new');
+});
+Route::get('/apply_app2', function () {
+    return view('form.apply_app');
+});
+// Route::get('/apply_regular_exam', function () {
+//     return view('form.regular_exam');
+// });
 
 
 
@@ -121,7 +131,10 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
 
     Route::get('uuc-exam-section/{id}', [NoticesController::class, 'redirectToNotice']);
 
+    Route::get('regular-exam-notice', [ExamController::class, 'regular_exam_notice'])->name('regular_exam_notice');
+    Route::get('ex-regular-exam-notice', [ExamController::class, 'ex_regular_exam_notice'])->name('ex_regular_exam_notice');
 
+    Route::get('/apply_regular_exam',[ExamController::class, 'apply_regular_exam'])->name('apply_regular_exam');
 
 
 

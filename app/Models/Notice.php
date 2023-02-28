@@ -9,6 +9,11 @@ class Notice extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'start_date' => 'date:d-m-Y',
+        'exp_date' => 'date:d-m-Y'
+    ];
+
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');
