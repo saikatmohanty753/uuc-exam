@@ -41,6 +41,39 @@ class NoticesController extends Controller
 
     public function store(Request $request)
     {
+        //return $request;
+        $semester = CourseFor::where('id', $request->department)->first(['semester']);
+        if($request->semester == 'odd')
+        {
+            for($i = 1; $i <= $semester->semester; $i++)
+            {
+                if($i%2 != 0){
+                    //print $i ;
+                    $semester2[] = $i;
+                }
+                
+            }
+            
+        }else{
+            if($semester->semester == 1){
+                $semester2[] = 1;
+            }else{
+                for($i = 1; $i <= $semester->semester; $i++)
+                {
+                    if($i%2 == 0){
+                        //print $i ;
+                        $semester2[] = $i;
+                    }
+                    
+                }
+            }
+            
+        }
+        // return $semester2;
+        // return $request->semester;
+
+    //    return $semester2 != '' ? implode(',', $semester2) : '';
+    //    return $request->semester;
         $startDate = Carbon::parse($request->start_date);
         $startDate->hour   = 00;
         $startDate->minute = 00;
@@ -54,7 +87,8 @@ class NoticesController extends Controller
         $notice->notice_sub_type = $request->notice_type;
         $notice->department_id = $request->department;
         // $notice->course_id = $request->course != '' ? implode(',', $request->course) : '';
-        $notice->semester = $request->semester != '' ? implode(',', $request->semester) : '';
+        //$notice->semester = $request->semester != '' ? implode(',', $request->semester) : '';
+        $notice->semester = $semester2 != '' ? implode(',', $semester2) : '';
         $notice->start_date = $startDate;
         $notice->exp_date = $expDate;
         $notice->details = $request->details;
