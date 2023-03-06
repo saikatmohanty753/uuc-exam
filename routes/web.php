@@ -17,6 +17,7 @@ use App\Http\Controllers\NoticeTypeController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ClgNoticeController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\FeesController;
 use App\Http\Controllers\SemesterFillUpController;
 use App\Http\Livewire\Notification;
 use App\Providers\RouteServiceProvider;
@@ -132,11 +133,24 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::get('uuc-exam-section/{id}', [NoticesController::class, 'redirectToNotice']);
 
     Route::get('regular-exam-notice', [ExamController::class, 'regular_exam_notice'])->name('regular_exam_notice');
+    Route::get('student-list', [ExamController::class, 'student_list'])->name('student_list');
     Route::get('ex-regular-exam-notice', [ExamController::class, 'ex_regular_exam_notice'])->name('ex_regular_exam_notice');
 
-    Route::get('/apply_regular_exam',[ExamController::class, 'apply_regular_exam'])->name('apply_regular_exam');
+    Route::get('apply_regular_exam/{id}',[ExamController::class, 'apply_regular_exam'])->name('apply_regular_exam');
+    Route::post('regular-exam-store/{id}',[ExamController::class, 'regular_exam_store'])->name('regular_exam_store');
+    Route::get('regular_exam_draft/{id}',[ExamController::class, 'regular_exam_draft'])->name('regular_exam_draft');
+    Route::post('regular_exam_draft_store/{id}',[ExamController::class, 'regular_exam_draft_store'])->name('regular_exam_draft_store');
+    Route::get('regular_exam_preview/{id}',[ExamController::class, 'regular_exam_preview'])->name('regular_exam_preview');
+
+    Route::post('regular_exam_final/{id}',[ExamController::class, 'regular_exam_final'])->name('regular_exam_final');
 
 
+    //Route::post('bse_exams_delete/{id}',[ExamController::class, 'regular_exam_draft_store'])->name('regular_exam_draft_store');
+
+
+
+    Route::resource('fees',FeesController::class);
+    //Route::resource('course', CourseController::class);
 
 
 

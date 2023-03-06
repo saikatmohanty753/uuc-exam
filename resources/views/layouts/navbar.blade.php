@@ -101,6 +101,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{route('fees.index')}}" title="paper" data-filter-tags="theme settings how it works">
+                            <span class="nav-link-text">Fee Master</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('notice-type.index') }}" title="exam_notice">
                             <span class="nav-link-text">Exam Notice Type</span>
                         </a>

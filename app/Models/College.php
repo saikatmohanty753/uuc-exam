@@ -40,6 +40,10 @@ class College extends Model
     {
         return $this->belongsTo(AffiliationType::class, 'affiliation_type_id', 'id');
     }
+    public function collegeName()
+    {
+        return $this->belongsTo(StudentDetails::class, 'clg_id', 'id');
+    }
 
     public static function totalCollege(){
         return College::count();

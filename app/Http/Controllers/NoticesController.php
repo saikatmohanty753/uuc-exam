@@ -27,6 +27,7 @@ class NoticesController extends Controller
     }
     public function index()
     {
+        
         $notice = Notice::where('notice_type', '2')->get();
         return view('notices.notices', compact('notice'));
     }

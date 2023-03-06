@@ -286,7 +286,7 @@
                             </div>
                         </div>
                         
-                       <form action="{{route('regular_exam_store',[$id])}}" id="form_dd" method="post">
+                       <form action="{{route('regular_exam_draft_store',[$id])}}" id="form_dd" method="post">
                         @csrf
                         <div class="border rounded p-2 mb-4">
                             <h4>Examination Form Fill up</h4>
@@ -298,7 +298,7 @@
                                   <label class="form-label" for="same">Whether he/she has been sent up for admission to the examination:</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="checkbox" name="addmission_exam" id="addmission_exam" class="" required>
+                                    <input type="checkbox" name="addmission_exam" {{$student_details->payment_status == 1 ? 'checked' : ''}}   id="addmission_exam" class="" required>
                                 </div>
                             </div>
                             <div class="row ">
@@ -398,6 +398,18 @@
                                             </tr>
                                         </thead>
                                         <tbody id="addBDE"></tbody>
+                                        <tbody>
+                                            @foreach ($bse_exams as $item)
+                                            <tr>
+                                                <td>{{$item->year}}</td>
+                                                <td>{{$item->name_of_exam}}</td>
+                                                <td>{{$item->roll_no}}</td>
+                                                <td>{{$item->regd_no}}</td>
+                                                <td><button type="button" class="btn btn-outline-warning waves-effect waves-themed btn-sm remove_field" id="">Remove</button></td>
+                                            </tr> 
+                                            @endforeach
+                                            
+                                        </tbody>
                                     </table>
                                 </div>
                                 
@@ -417,11 +429,11 @@
                                             <select class="custom-select form-control select2" id="bde_course"
                                                 name="bde_course">
                                                 <option value="">select course</option>
-                                                <option value="Pre-Degree">Pre-Degree</option>
-                                                <option value="1st">1st</option>
-                                                <option value="2nd">2nd</option>
-                                                <option value="3rd">3rd</option>
-                                                <option value="Final Degree">Final Degree</option>
+                                                <option value="GEN">Pre-Degree</option>
+                                                <option value="ST">1st</option>
+                                                <option value="SC">2nd</option>
+                                                <option value="OBC">3rd</option>
+                                                <option value="OBC">Final Degree</option>
                                             </select>
                                         </div>
                                     </div>
@@ -468,6 +480,17 @@
                                             </tr>
                                         </thead>
                                         <tbody id="addExamined"></tbody>
+                                        <tbody>
+                                            @foreach ($bse_examines as $item)
+                                            <tr>
+                                                <td>{{$item->course}}</td>
+                                                <td>{{$item->theory_practical}}</td>
+                                                <td>{{$item->description}}</td>                                                
+                                                <td><button type="button" class="btn btn-outline-warning waves-effect waves-themed btn-sm remove_field" id="">Remove</button></td>
+                                            </tr> 
+                                            @endforeach
+                                            
+                                        </tbody>
                                     </table>
                                 </div>
                                 
@@ -475,12 +498,14 @@
 
                             <hr>
 
+                            {{-- description --}}
+
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                   <label class="form-label" for="fee_paid">Fees are Paid:</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="checkbox" name="fee_paid" id="fee_paid" class="" required="">
+                                    <input type="checkbox" name="fee_paid"  {{$student_details->payment_status == 1 ? 'checked' : ''}}  id="fee_paid" class="" required="">
                                 </div>
                             </div>
 
@@ -558,7 +583,9 @@
                             </div>
 
                             <div class="col-md-12 text-center mt-4">
-                                <button type="submit" class="btn btn-success me-1 waves-effect waves-float waves-light">Save As Draft</button>
+                                
+                                <button type="submit" class="btn btn-success me-1 waves-effect waves-float waves-light">Save As Drfat</button>
+                                <a href="{{route('regular_exam_preview',[$id])}}"   class="btn btn-success me-1 waves-effect waves-float waves-light">Preview</a>
                             </div>
 
                         </form>

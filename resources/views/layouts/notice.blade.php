@@ -14,7 +14,7 @@
         <div class="custom-scroll h-100">
             <ul class="notification">
 
-                @foreach (Auth::user()->unreadNotifications as $notification)
+                {{-- @foreach (Auth::user()->unreadNotifications as $notification)
                     <li class="unread">
                         <div class="d-flex align-items-center show-child-on-hover">
                             @php
@@ -34,8 +34,8 @@
 
                         </div>
                     </li>
-                @endforeach
-                @foreach (Auth::user()->readNotifications as $notification)
+                @endforeach --}}
+                {{-- @foreach (Auth::user()->readNotifications as $notification)
                     <li>
                         <div class="d-flex align-items-center show-child-on-hover">
                             @php
@@ -55,7 +55,7 @@
 
                         </div>
                     </li>
-                @endforeach
+                @endforeach --}}
 
 
             </ul>

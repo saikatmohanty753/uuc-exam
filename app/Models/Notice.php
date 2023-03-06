@@ -41,7 +41,7 @@ class Notice extends Model
         } elseif ($chk == 4) {
             return 'badge-danger';
         } else {
-            return  "warning";
+            return  "badge-warning";
         }
     }
 }
