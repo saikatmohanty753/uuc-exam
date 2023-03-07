@@ -17,6 +17,7 @@ class StudentDetails extends Model
     {
         return $this->belongsTo(CourseFor::class, 'department_id', 'id');
     }
+    
 
     public function applicationStatus()
     {
@@ -52,6 +53,7 @@ class StudentDetails extends Model
     }
 
     public function collegeName(){
+        
         if ($this->clg_id == '000') {
             return 'Utkal University of Culture';
         } else {

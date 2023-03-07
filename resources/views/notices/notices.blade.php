@@ -55,7 +55,7 @@
                                         {{-- <td>{{ $item->semester != '' ? $item->semester : 'N/A' }}</td> --}}
                                         <td>{{ Carbon\Carbon::parse($item->start_date)->format('d-m-Y') }}</td>
                                         <td>{{ Carbon\Carbon::parse($item->exp_date)->format('d-m-Y') }}</td>
-                                        <td>{{ $item->details }}</td>
+                                        <td>{{Str::limit($item->details, 150, $end='.......')}}</td>
                                         <td>
                                             <div class="custom-control custom-switch">
                                                 <input type="checkbox" class="custom-control-input publish"
