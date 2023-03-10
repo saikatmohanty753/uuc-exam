@@ -26,6 +26,10 @@
                             </thead>
                             <tbody>
                                 @foreach ($student_details2 as $key => $item)
+                                {{-- @php
+                                print($item);
+                                    dd($student_details2);
+                                @endphp --}}
                                 <tr>
                                     <td>{{$loop->iteration}} </td>
                                     <td>{{$item->name}} </td>
@@ -33,7 +37,7 @@
                                     <td>{{$item->department->course_for}}</td>
                                     <td>{{$item->course->name}}</td>
                                     <td>{{$item->semister_name[0]}} semester</td>
-                                    <td><a class="btn btn-sm btn-success waves-effect waves-themed" href="{{route('apply_regular_exam',[$item->student_id])}}"> Apply </a></td>
+                                    <td><a class="btn btn-sm btn-success waves-effect waves-themed" href="{{route('apply_regular_exam',[$item->student_id,$item->semister_name[0]])}}"> Apply </a></td>
                                 </tr>
                                 @endforeach
                             </tbody>

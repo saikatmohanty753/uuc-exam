@@ -286,7 +286,7 @@
                             </div>
                         </div>
                         
-                       <form action="{{route('regular_exam_store',[$id])}}" id="form_dd" method="post">
+                       <form action="{{route('regular_exam_store',[$id,$sem_no])}}" id="form_dd" method="post">
                         @csrf
                         <div class="border rounded p-2 mb-4">
                             <h4>Examination Form Fill up</h4>
@@ -617,7 +617,7 @@
         var counterOtherDocRow = 0;
         
             $('#button_examine').click(function(e) {
-                alert('hi');
+               // alert('hi');
                 e.preventDefault();
                 var bde_course = $('#bde_course').val();
                 var bde_theo_prac = $('#bde_theo_prac').val();
@@ -661,7 +661,7 @@
             var counterBDERow = 0;
         
             $('#button_BDE').click(function(e) {
-                alert('hi');
+               // alert('hi');
                 e.preventDefault();
                 var bde_year = $('#bde_year').val();
                 var bde_exam = $('#bde_exam').val();

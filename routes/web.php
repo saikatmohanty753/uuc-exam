@@ -136,11 +136,13 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::get('student-list', [ExamController::class, 'student_list'])->name('student_list');
     Route::get('ex-regular-exam-notice', [ExamController::class, 'ex_regular_exam_notice'])->name('ex_regular_exam_notice');
 
-    Route::get('apply_regular_exam/{id}',[ExamController::class, 'apply_regular_exam'])->name('apply_regular_exam');
-    Route::post('regular-exam-store/{id}',[ExamController::class, 'regular_exam_store'])->name('regular_exam_store');
-    Route::get('regular_exam_draft/{id}',[ExamController::class, 'regular_exam_draft'])->name('regular_exam_draft');
-    Route::post('regular_exam_draft_store/{id}',[ExamController::class, 'regular_exam_draft_store'])->name('regular_exam_draft_store');
+    Route::get('apply_regular_exam/{id}/{sem_no}',[ExamController::class, 'apply_regular_exam'])->name('apply_regular_exam');
+    Route::post('regular-exam-store/{id}/{sem_no}',[ExamController::class, 'regular_exam_store'])->name('regular_exam_store');
+    Route::get('regular_exam_draft/{id}/{sem_no}',[ExamController::class, 'regular_exam_draft'])->name('regular_exam_draft');
+    Route::post('regular_exam_draft_store/{id}/{sem_no}',[ExamController::class, 'regular_exam_draft_store'])->name('regular_exam_draft_store');
     Route::get('regular_exam_preview/{id}',[ExamController::class, 'regular_exam_preview'])->name('regular_exam_preview');
+    Route::post('delete-student-examine',[ExamController::class, 'delete_student_examine'])->name('delete_student_examine');
+    Route::post('delete-student-exam',[ExamController::class, 'delete_student_exam'])->name('delete_student_exam');
 
     Route::post('regular_exam_final/{id}',[ExamController::class, 'regular_exam_final'])->name('regular_exam_final');
 
