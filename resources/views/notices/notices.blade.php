@@ -8,10 +8,12 @@
                 <div class="card-header">
                     <h5 class="card-title mb-0">Notice List</h5>
                     <div class="card-actions float-right">
+                        @if (Auth::user()->role_id != 12)
                         @can('notice-create')
                             <a class="btn btn-primary btn-sm" href="{{ url('/add-notices') }}">
                                 <i class="fa-solid fa-plus"></i> Create Notice</a>
                         @endcan
+                        @endif
                     </div>
                 </div>
 

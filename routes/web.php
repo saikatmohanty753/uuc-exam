@@ -91,6 +91,9 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     // Route::resource('uuc-syllabus',SyllabusController::class);
 
     Route::get('notices', [NoticesController::class, 'index']);
+    Route::get('notices-eidt/{id}', [NoticesController::class, 'edit'])->name('notices.edit');
+    Route::get('notices-destroy/{id}', [NoticesController::class, 'notice_destroy'])->name('notices.destroy');
+    Route::post('notices-verify/{id}', [NoticesController::class, 'notices_verify'])->name('notices.verify');
     Route::get('add-notices', [NoticesController::class, 'create']);
     Route::post('uuc-create-notice', [NoticesController::class, 'store']);
     Route::get('notice/view/{id}', [NoticesController::class, 'show']);
