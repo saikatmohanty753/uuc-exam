@@ -102,6 +102,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{route('fees.index')}}" title="paper" data-filter-tags="theme settings how it works">
+                            <span class="nav-link-text">Fee Master</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('notice-type.index') }}" title="exam_notice">
                             <span class="nav-link-text">Exam Notice Type</span>
                         </a>
@@ -142,6 +147,24 @@
                     {{-- <span
                         class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">{{ Auth::user()->unreadNotifications->count() > 0 ? Auth::user()->unreadNotifications->count() : '' }}</span> --}}
                 </a>
+            </li>
+            <li>
+                <a href="#" title="Theme Settings" data-filter-tags="theme settings">
+                    <i class="fal fa-cog"></i>
+                    <span class="nav-link-text">Exam Section</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{{route('regular_exam_notice')}}" data-filter-tags="theme settings how it works">
+                            <span class="nav-link-text">Regular Exam Notice</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('ex_regular_exam_notice')}}" data-filter-tags="theme settings how it works">
+                            <span class="nav-link-text">Ex-Regular Exam Notice</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
         @endcan
 

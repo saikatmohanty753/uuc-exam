@@ -8,10 +8,12 @@
                 <div class="card-header">
                     <h5 class="card-title mb-0">Notice List</h5>
                     <div class="card-actions float-right">
+                        @if (Auth::user()->role_id != 12)
                         @can('notice-create')
                             <a class="btn btn-primary btn-sm" href="{{ url('/add-notices') }}">
                                 <i class="fa-solid fa-plus"></i> Create Notice</a>
                         @endcan
+                        @endif
                     </div>
                 </div>
 
@@ -29,7 +31,9 @@
                                     <th>Start date</th>
                                     <th>End date</th>
                                     <th>Details</th>
-                                    <th>Status</th>
+                                    <td>is Verified</td>
+                                    <td>is Published</td>
+                                    {{-- <th>Status</th> --}}
                                     <th>Details</th>
                                 </tr>
                             </thead>
@@ -55,8 +59,40 @@
                                         {{-- <td>{{ $item->semester != '' ? $item->semester : 'N/A' }}</td> --}}
                                         <td>{{ Carbon\Carbon::parse($item->start_date)->format('d-m-Y') }}</td>
                                         <td>{{ Carbon\Carbon::parse($item->exp_date)->format('d-m-Y') }}</td>
-                                        <td>{{ $item->details }}</td>
+                                        <td>{{Str::limit($item->details, 150, $end='.......')}}</td>
                                         <td>
+                                            {!! $item->is_verified == 0
+                                                ? '<span class="badge badge-warning">Not Verified</span>'
+                                                : '<span class="badge badge-success">Verified</span>' !!}
+                                        </td>
+                                        <td class="ispublish">
+                                            {{-- {{ $item->status == 1 ? 'Published' : 'Not Published' }} --}}
+                                            @can('notice-edit')
+                                                @if ($item->is_verified == 1)
+                                                    @if ($item->status == 0)
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox"
+                                                                class="custom-control-input publish"
+                                                                id="customSwitch{{ $key }}"
+                                                                {{ $item->status == 1 ? 'checked disabled' : '' }}
+                                                                data-id="{{ $item->id }}">
+                                                            <label class="custom-control-label publish"
+                                                                for="customSwitch{{ $key }}"></label>
+                                                        </div>
+                                                    @else
+                                                        {!! $item->noticeStatus() !!}
+                                                    @endif
+                                                @else
+                                                    {!! $item->noticeStatus() !!}
+                                                @endif
+                                            @else
+                                                {!! $item->noticeStatus() !!}
+                                            @endcan
+
+
+
+                                        </td>
+                                        {{-- <td>
                                             <div class="custom-control custom-switch">
                                                 <input type="checkbox" class="custom-control-input publish"
                                                     id="customSwitch{{ $key }}"
@@ -65,11 +101,67 @@
                                                 <label class="custom-control-label publish"
                                                     for="customSwitch{{ $key }}">{{ $item->status == 1 ? 'Published' : 'Not Publish' }}</label>
                                             </div>
-                                        </td>
+                                        </td> --}}
 
-                                        <td><a href="{{ url('notice/view/' . $item->id) }}"
+                                        
+
+                                            
+
+                                            {{-- <td><a href="{{ url('notice/view/' . $item->id) }}"
+                                                class="btn  waves-effect waves-themed btn-outline-success">
+                                                <i class="fa-solid fa-eye"></i></a>
+                                                <a href="#"
+                                                    class="btn  waves-effect waves-themed btn-outline-primary">
+                                                    <i class="fa-solid fa-pen-to-square"></i></a>
+                                                    <button type="submit" class="btn btn-outline-danger waves-effect waves-themed" id="deleteThis"><i class="fa fa-trash"></i></button>
+                                            </td> --}}
+
+                                            <td><a href="{{ url('notice/view/' . $item->id) }}"
                                                 class="btn  waves-effect waves-themed btn-outline-primary">
-                                                <i class="fa-solid fa-eye"></i></a></td>
+                                                <i class="fa-solid fa-eye"></i></a>
+
+                                            @if (Auth::user()->role_id == 11)
+                                                @if ($item->is_verified == 0)
+                                                    <a class="btn btn-outline-primary verified-status"
+                                                        href="javascript:void(0);"
+                                                        data-id="{{ $item->id }}"><i
+                                                            class="fas fa-check-circle"></i></a>
+                                                @endif
+                                            @endif
+                                            @if (Auth::user()->role_id != 12)
+                                            @can('notice-edit')
+                                                @if ($item->is_verified == 0)
+                                                    <a class="btn btn-outline-primary"
+                                                        href="{{ route('notices.edit', $item->id) }}"><i
+                                                            class="fa-solid fa-pen-to-square"></i></a>
+                                                @endif
+                                            @endcan
+                                            @endif
+
+
+
+
+                                            @if (Auth::user()->role_id != 12)
+                                            @if ($item->status == 0)
+                                                @if ($item->is_verified == 0)
+                                                    @can('notice-delete')
+                                                        {!! Form::open([
+                                                            'method' => 'DELETE',
+                                                            'route' => ['notices.destroy', $item->id],
+                                                            'style' => 'display:inline',
+                                                            'id' => 'deleteForm',
+                                                        ]) !!}
+                                                        {!! Form::button('<i class="fa fa-trash"></i>', [
+                                                            'type' => 'submit',
+                                                            'class' => 'btn btn-outline-danger delNotice',
+                                                            'id' => 'deleteThis',
+                                                        ]) !!} {!! Form::close() !!}
+                                                    @endcan
+                                                @endif
+                                            @endif
+                                            @endif
+
+                                        </td>
 
                                     </tr>
                                 @endforeach

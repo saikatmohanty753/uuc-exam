@@ -9,6 +9,11 @@ class Notice extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'start_date' => 'date:d-m-Y',
+        'exp_date' => 'date:d-m-Y'
+    ];
+
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');
@@ -36,7 +41,16 @@ class Notice extends Model
         } elseif ($chk == 4) {
             return 'badge-danger';
         } else {
-            return  "warning";
+            return  "badge-warning";
+        }
+    }
+
+    public function noticeStatus(){
+        $chk = $this->status;
+        if ($chk == 1) {
+            return '<span class="badge badge-success">Published</span>';
+        } else {
+            return '<span class="badge badge-danger">Not Publish</span>';
         }
     }
 }

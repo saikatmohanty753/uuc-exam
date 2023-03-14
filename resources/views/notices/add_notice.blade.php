@@ -51,6 +51,20 @@
                                 <div class="col-md-12">
                                     <div class="form-group semester input-cont">
                                         <label class="form-label">Semester<span class="text-danger">*</span></label>
+                                        <select class="form-select form-control select2" name="semester">
+                                            <option value="">select semester</option>
+                                            <option value="odd">Odd Semester</option>
+                                            <option value="even">Even Semester</option>
+                                        </select>
+                                        <span class="error-msg"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <div class="form-group semester input-cont">
+                                        <label class="form-label">Semester<span class="text-danger">*</span></label>
                                         <select class="form-select form-control sem-multiple chk_blank"
                                             aria-label="Default select example" name="semester[]" id="semester" multiple>
 
@@ -60,7 +74,7 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row mb-2">
                                 <div class="col-md-12">
                                     <div class="form-group start_date input-cont">
