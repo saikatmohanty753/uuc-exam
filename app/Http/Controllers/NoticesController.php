@@ -142,4 +142,9 @@ class NoticesController extends Controller
 
          }
     }
+
+    public function form()
+    {
+        return view('form.index');
+    }
 }

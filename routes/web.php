@@ -121,6 +121,8 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
 
     Route::get('uuc-exam-section/{id}', [NoticesController::class, 'redirectToNotice']);
 
+    Route::get('/form', [NoticesController::class, 'form']);
+
 
 
 
