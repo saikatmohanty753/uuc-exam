@@ -12,7 +12,7 @@
                 <div class="panel-container show">
                     <div class="panel-content">
                         
-                        <table class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline">
+                        <table class="table table-bordered table-hover table-striped w-100 dataTable dtr-inline dt-table">
                             <thead>
                                 <tr>
                                     <th>Sl.No</th>
@@ -154,5 +154,12 @@
 
         
     });
+</script>
+
+<script>
+    // dataTable
+    // $(document).ready(function(){
+
+    // });
 </script>
 @endsection
