@@ -15,6 +15,7 @@ use App\Models\StudentEducationDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use DataTables;
 
 use function Ramsey\Uuid\v1;
 
@@ -45,17 +46,18 @@ class ExamController extends Controller
         return view('exam.regular_exam',compact('student_details','student_address','edu_hsc','edu_intermediate','id','fee','sem_no'));
     }
 
-    public function student_list()
+    public function student_list(Request $request)
     {
+       // dd(auth()->user()->clg_user_id);
         $year = now()->year;
         $month = now()->month;
         $ug_totsem = 8;
-        $student = StudentDetails::where('department_id','1')->where('batch_year','!=','null')->get(['batch_year','id']);
+        $student = StudentDetails::where('department_id','1')->where('batch_year','!=','null')->where('clg_id',auth()->user()->clg_user_id)->get(['batch_year','id']);
         $collection = collect($student);
 
 
         
-        //$all_batch_year = $collection->unique('batch_year');
+        $all_batch_year = $collection->unique('batch_year');
 
         // $filtered = $unique->filter(function ($value, $key) {
         //     return $only_year = $value->batch_year != '' ;
@@ -66,6 +68,7 @@ class ExamController extends Controller
          //foreach ($all_batch_year as $key => $value) {
          foreach ($student as $key => $value) {
            //print($value);
+          // dd($value);
            //$value->batch_year;
            $explode = explode('-',$value->batch_year);
            //print($explode[0]);
@@ -116,29 +119,59 @@ class ExamController extends Controller
         //return $student_list;
 
         //$student_details = StudentDetails::
-
+        $student_details2 = [];
         foreach ($student_list as $key => $value) {
-
+// return $value;
+            //dd($value);
             $student_id = $value->id;
-            $student_details = StudentDetails::where('id',$student_id)->get(['clg_id','department_id','course_id','name']);
-
             
 
-            foreach ($student_details as $key2 => $item) {
-                $item->stu_completed = $value->stu_completed;
-                $item->semister_left = $value->semister_left;
-                $item->semister_name = $value->semister_name;
-                $item->student_id = $value->id;
+            if ($request->ajax()) {
+               // return 'ajax';
+                $student_details = StudentDetails::where('id',$student_id)->where('batch_year',$request->status)->get(['clg_id','department_id','course_id','name','batch_year']);
+            }else{
+               // return 'normal';
+                $student_details = StudentDetails::where('id',$student_id)->get(['clg_id','department_id','course_id','name','batch_year']);
             }
+
+        //         $student_details->stu_completed = $value->stu_completed;
+        //     //return $student_details;
+
+        //         $student_details->semister_left = $value->semister_left;
+        //         $student_details->semister_name = $value->semister_name;
+        //         $student_details->batch_year = $value->batch_year;
+        //         $student_details->student_id = $value->id;
+        //    // return $student_details;
+       // $student_details2 = [];
+        foreach ($student_details as $key2 => $item) {
+            $item->stu_completed = $value->stu_completed;
+            $item->semister_left = $value->semister_left;
+            $item->semister_name = $value->semister_name;
+            $item->batch_year = $value->batch_year;
+            $item->student_id = $value->id;
             $student_details2[] = $item;
+        }
+
+          //  $student_details2[] = $item;
+            // $all_student[] = $student_details2;
+            
         }
 
         //return $student_details2;
         
+
+        if ($request->ajax()) {
+            return Datatables::of($student_details2)->addIndexColumn()->make(true);
+        }else{
+            return view('exam.student_list',compact('student_details2','all_batch_year'));
+        }
+        
         //$student_details2 = StudentDetails::all();
 
-        return view('exam.student_list',compact('student_details2'));
+        //return view('exam.student_list',compact('student_details2','all_batch_year'));
     }
+
+    
 
     public function regular_exam_store(Request $request,$id,$sem_no)
     {
