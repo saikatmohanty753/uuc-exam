@@ -223,12 +223,10 @@
                             </table>
                         </div>
 
-                        <form action="{{route('regular_exam_final',[$id])}}">
+                        <form action="{{route('regular_exam_final',[$id])}}" method="POST">
+                            @csrf
                         <div class="row">
-                            
-                            
                             <div class="col-md-12 text-center mt-4">
-                                
                                 <button type="submit" class="btn btn-success me-1 waves-effect waves-float waves-light">Submit</button>
                                 {{-- <a href="{{route('regular_exam_preview',[$id])}}"   class="btn btn-success me-1 waves-effect waves-float waves-light">Preview</a> --}}
                                 <button type="button" class="btn btn-primary waves-effect waves-light print_btn" onclick="window.print()">Print this page</button>

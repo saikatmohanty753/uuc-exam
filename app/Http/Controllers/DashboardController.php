@@ -26,6 +26,9 @@ class DashboardController extends Controller
             return $this->collegeExamSection();
         } elseif (Str::lower(Auth::user()->role->name) == 'college-exam-section') {
             return $this->collegeExamSection();
+        }elseif (Str::lower(Auth::user()->role->name) == 'exam-notice') {
+            //return 11;
+            return $this->ExamSectionNotice();
         } else {
             Auth::logout();
             return redirect('/login')->with('error', 'The username and password you entered did not match our records');
@@ -34,7 +37,7 @@ class DashboardController extends Controller
 
     public function checkUser($id)
     {
-        $role = [12, 13, 17];
+        $role = [12, 13, 17,19,20];
         return in_array($id, $role) == true ? 1 : 0;
     }
 
@@ -47,5 +50,9 @@ class DashboardController extends Controller
     public function collegeExamSection()
     {
         return view('dashboard.college-examination.index');
+    }
+    public function ExamSectionNotice()
+    {
+        return view('dashboard.exam-notice.index');
     }
 }

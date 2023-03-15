@@ -124,7 +124,10 @@ class NoticesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $course = Course::all();
+        $dept = CourseFor::all();
+        $notice=Notice::find($id);
+        return view('notices.edit', compact('course', 'dept','notice'));
     }
 
     /**
@@ -145,9 +148,27 @@ class NoticesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function notice_destroy($id)
     {
-        //
+        $count = Notice::where([['id', $id], ['status', 0]])->count();
+        if ($count == 1) {
+            Notice::find($id)->delete();
+            return redirect()->route('notices.index')
+            ->with('success', 'Notice deleted successfully');
+        }else{
+            return redirect()->route('notices.index')
+            ->with('error', 'Notice can not be deleted..');
+        }
+
+    }
+
+    public function notices_verify(Request $request, $id)
+    {
+        //return $request;
+        Notice::where('id',$id)->update([
+            'is_verified' => $request->verify,
+        ]);
+        return redirect()->back();
     }
 
     public function redirectToNotice(Request $request, $id)

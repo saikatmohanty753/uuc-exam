@@ -24,7 +24,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         // role exam-Section: 12, College-Exam-Section: 13, UUC-Exam-Section: 17
-        $data = User::orderBy('id', 'ASC')->whereIn('role_id', [12, 13, 17])->get();
+        $data = User::orderBy('id', 'ASC')->whereIn('role_id', [12, 13, 17,19,20])->get();
         return view('users.index', compact('data'));
         // ->with('i', ($request->input('page', 1) - 1) * 5);
     }

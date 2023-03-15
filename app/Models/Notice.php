@@ -44,4 +44,13 @@ class Notice extends Model
             return  "badge-warning";
         }
     }
+
+    public function noticeStatus(){
+        $chk = $this->status;
+        if ($chk == 1) {
+            return '<span class="badge badge-success">Published</span>';
+        } else {
+            return '<span class="badge badge-danger">Not Publish</span>';
+        }
+    }
 }
