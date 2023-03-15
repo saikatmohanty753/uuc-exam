@@ -126,7 +126,7 @@ class ExamController extends Controller
             return DataTables::of($student_details2)
                 ->addIndexColumn()
                 ->filter(function ($instance) use ($request) {
-                    
+                    //dd($instance);
                     if($request->get('batch_year') != ''){
                         $instance->where('batch_year', $request->get('batch_year'));
                     }
