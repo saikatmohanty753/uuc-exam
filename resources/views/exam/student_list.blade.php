@@ -46,11 +46,11 @@
                                 <tr>
                                     <th>Sl.No</th>
                                     <th>Name</th>
-                                    {{-- <th>College Name</th>
+                                    {{-- <th>College Name</th> --}}
                                     <th>Department</th>
                                     <th>Course</th>
-                                    <th>Semester</th>
-                                    <th>Action</th> --}}
+                                    {{-- <th>Semester</th> --}}
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -95,8 +95,9 @@
                         data: 'name',
                         name: 'name'
                     },
-                    // {data: 'email', name: 'email'},
-                    // {data: 'status', name: 'status'},
+                    {data: 'department_id', name: 'department_id'},
+                    {data: 'course_id', name: 'course_id'},
+                    {data: 'action', name: 'action'},
                 ]
             });
 
