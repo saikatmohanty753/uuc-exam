@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use DataTables;
+use Illuminate\Support\Str;
 
 use function Ramsey\Uuid\v1;
 
@@ -50,9 +51,17 @@ class ExamController extends Controller
     public function student_list(Request $request)
     {
 
+       
+
         $student = StudentDetails::where('department_id', '1')->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
+        //dd($student);
         $collection = collect($student);
+        //dd($collection);
         $all_batch_year = $collection->unique('batch_year');
+
+
+
+       
 
         // datatable code ========
 
@@ -101,14 +110,15 @@ class ExamController extends Controller
             $student_details2 = [];
             foreach ($student_list as $key => $value) {
 
-                 $student_id = $value->id;
+                $student_id = $value->id;
                 // if ($request->status == '') {
                 //     $student_details = StudentDetails::where('id', $student_id)->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
                 // } else {
                 //     $student_details = StudentDetails::where('id', $student_id)->where('batch_year', $request->status)->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
                 // }
 
-                $student_details = StudentDetails::where('id', $student_id)->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
+                $student_details = StudentDetails::where('id', $student_id)
+                    ->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
 
 
                 foreach ($student_details as $key2 => $item) {
@@ -121,51 +131,52 @@ class ExamController extends Controller
                 }
             }
 
-            // /return $student_details2;
+            
 
             return DataTables::of($student_details2)
                 ->addIndexColumn()
                 ->filter(function ($instance) use ($request) {
-                    //dd($instance);
-                    if($request->get('batch_year') != ''){
-                        $instance->where('batch_year', $request->get('batch_year'));
+                    if (!empty($request->get('batch_year'))) {
+                        $instance->collection = $instance->collection->where('batch_year', $request->get('batch_year'));
                     }
-                    //return $instance;
-                    // $instance->where('session_year', $request->get('session'));
-                    // if ($request->get('dep') != '') {
-                    //     $instance->where('dep_id', $request->get('dep'));
-                    // }
-                    //$instance->where('course_id', 11)->get();
-                    // if ($request->get('dep') != '') {
-                    //     $instance->where('dep_id', $request->get('dep'));
-                    // }
-                }) 
-                // ->addColumn('action', function ($row) {
-                //     $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
-                //     return $actionBtn;
-                // })
+                    if (!empty($request->get('sem_id'))) {
+                        $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                            return Str::contains($row['semister_name'][0], $request->get('sem_id')) ? true : false;
+                        });
+                    }
+                    if (!empty($request->get('stu_name'))) {
+                        $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                            //return Str::contains($row['name'], $request->get('stu_name')) ? true : false;
+                            return  Str::contains(Str::lower($row['name']), Str::lower($request->get('stu_name'))) ? true : false;
+                        });
+                    }
+
+                })
+
                 ->addColumn('semester', function ($row) {
                     $semester = $row['semister_name'][0];
                     $semester = $semester . ' ' . 'Semester';
                     return $semester;
                 })
                 ->addColumn('department', function ($row) {
-                   
+
                     $department = StudentDetails::join('course_fors', 'course_fors.id', '=', 'student_details.department_id')
                         ->where('student_details.department_id', $row['department_id'])
                         ->get(['course_fors.course_for']);
                     $department = $department[0]->course_for;
                     return $department;
+                   
                 })
-                ->addColumn('course', function($row){
+                ->addColumn('course', function ($row) {
                     $course = StudentDetails::join('courses','courses.id','=','student_details.course_id')
                     ->where('student_details.course_id', $row['course_id'])
                     ->get(['courses.name']);
                     $course = $course[0]->name ;
                     return $course;
+                    
                 })
                 ->rawColumns(['action', 'semester', 'department'])
-                ->make();
+                ->make(true);
         }
         // end datable code ===================
         return view('exam.student_list', compact('all_batch_year'));

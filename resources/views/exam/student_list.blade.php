@@ -34,9 +34,12 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    {{-- <input type="button" class="btn btn-sm btn-success waves-effect waves-themed" value="search"> --}}
-                                    <input type="submit" class="btn btn-sm btn-success waves-effect waves-themed mt-4">
+                                    <label class="form-label">Serch By Student Name</label>
+                                    <input type="text" id="stu_name" class="form-control">
                                 </div>
+                                {{-- <div class="col-md-4">
+                                    <input type="submit" class="btn btn-sm btn-success waves-effect waves-themed mt-4">
+                                </div> --}}
                             </div>
 
                         </div>
@@ -78,13 +81,15 @@
                 processing: true,
                 serverSide: true,
                 orderable: false,
+                searching: false,
                 ajax: {
                     //url: "{{ route('student_list_ajax') }}",
                     url: "{{ route('student_list') }}",
                     type: 'GET',
                     data: function(d) {
                         d.batch_year = $('#batch_year').val(),
-                        d.sem_id = $('#sem_id').val()
+                            d.sem_id = $('#sem_id').val()
+                        d.stu_name = $('#stu_name').val()
                         // d.search = $('input[type="search"]').val()
                     },
                 },
@@ -97,29 +102,49 @@
                         data: 'name',
                         name: 'name'
                     },
-                    {data: 'batch_year', name: 'batch_year'},
-                    {data: 'department', name: 'department'},
-                    {data: 'course', name: 'course'},
-                    {data: 'semester', name: 'semester'},
+                    {
+                        data: 'batch_year',
+                        name: 'batch_year'
+                    },
+                    {
+                        data: 'department',
+                        name: 'department'
+                    },
+                    {
+                        data: 'course',
+                        name: 'course'
+                    },
+                    {
+                        data: 'semester',
+                        name: 'semester'
+                    },
                     {
                         data: 'action',
-                         name: 'action',
-                         render: function(data, type, row) {
-                             let stud_id = row['student_id'];
-                             let sem_name = row['semister_name'][0];
-                             let url = "apply_regular_exam/" + stud_id + "/" + sem_name;
-                            return "<a class='btn btn-sm btn-success waves-effect waves-themed' href='"+url+"'>Apply </a>";
-                         }
+                        name: 'action',
+                        render: function(data, type, row) {
+                            let stud_id = row['student_id'];
+                            let sem_name = row['semister_name'][0];
+                            let url = "apply_regular_exam/" + stud_id + "/" + sem_name;
+                            return "<a class='btn btn-sm btn-success waves-effect waves-themed' href='" +
+                                url + "'>Apply </a>";
+                            //return 'action';
+                        }
                     },
                 ]
             });
 
             $('#batch_year').change(function() {
-               // alert('hi');
+                // alert('hi');
                 table.draw();
             });
             $('#sem_id').change(function() {
-               // alert('hi');
+                // alert('hi');
+                table.draw();
+            });
+            // $("#stu_name").focusout(function() {
+            //     table.draw();
+            // });
+            $("#stu_name").keyup(function() {
                 table.draw();
             });
 
