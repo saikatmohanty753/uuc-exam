@@ -84,11 +84,11 @@
                 searching: false,
                 ajax: {
                     //url: "{{ route('student_list_ajax') }}",
-                    url: "{{ route('student_list') }}",
+                    url: "{{ route('student_list',[$dep]) }}",
                     type: 'GET',
                     data: function(d) {
                         d.batch_year = $('#batch_year').val(),
-                            d.sem_id = $('#sem_id').val()
+                        d.sem_id = $('#sem_id').val(),
                         d.stu_name = $('#stu_name').val()
                         // d.search = $('input[type="search"]').val()
                     },

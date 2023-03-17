@@ -46,7 +46,8 @@
                                         <td>{{$itemUG->semester}}</td>
                                         <td>{{$itemUG->start_date->format('d-M-Y')}}</td>
                                         <td>{{$itemUG->exp_date->format('d-M-Y')}}</td>
-                                        <td><a href="{{route('student_list')}}">Apply Student</a></td>
+                                        {{-- <td><a href="{{route('student_list',[ App\Models\CourseFor::CourseFor($itemUG->department_id) ])}}">Apply Student</a></td> --}}
+                                        <td><a href="{{route('student_list',[$itemUG->department_id])}}">Apply Student</a></td>
                                         {{-- <td><a href="{{route('apply_regular_exam')}}">Apply</a></td> --}}
                                     </tr>
                                     @endif

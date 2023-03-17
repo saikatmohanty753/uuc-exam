@@ -27,7 +27,7 @@ class ExamController extends Controller
     {
         // return Auth::user()->clg_user_id;
         // return session()->all();
-
+        
         $courseFor = CourseFor::get(['course_for', 'id']);
         $ug_regular_notice = Notice::where('notice_type', 2)->whereIn('notice_sub_type', [2])->get();
 
@@ -48,12 +48,12 @@ class ExamController extends Controller
         return view('exam.regular_exam', compact('student_details', 'student_address', 'edu_hsc', 'edu_intermediate', 'id', 'fee', 'sem_no'));
     }
 
-    public function student_list(Request $request)
+    public function student_list(Request $request, $dep)
     {
 
        
 
-        $student = StudentDetails::where('department_id', '1')->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
+        $student = StudentDetails::where('department_id', $dep)->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
         //dd($student);
         $collection = collect($student);
         //dd($collection);
@@ -61,6 +61,81 @@ class ExamController extends Controller
 
 
 
+        // $year = now()->year;
+        //     $month = now()->month;
+
+        //     $ug_totsem = CourseFor::find($dep);
+
+        //     //$ug_totsem = 8;
+        //     $ug_totsem = CourseFor::find($dep);
+        //     $ug_totsem = $ug_totsem->semester;
+            
+            
+        //     $student = StudentDetails::where('department_id', $dep)->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
+        //     $collection = collect($student);
+
+
+        //     $batch_totl2 = [];
+
+        //     foreach ($student as $key => $value) {
+        //         //print($value);
+        //         $explode = explode('-', $value->batch_year);
+        //         $batch[] = $explode[0];
+
+        //         $batch_totl = $year - $batch[$key];
+        //         if ($month > 6) {
+        //             $semister_left = ($ug_totsem - ($batch_totl * 2)) - 1;
+        //             $sem_strt_frm = ($ug_totsem - $semister_left) + 1;
+        //         } else {
+        //             $semister_left = $ug_totsem - ($batch_totl * 2);
+        //             $sem_strt_frm = ($ug_totsem - $semister_left) + 1;
+        //         }
+
+        //         $semi_name = [];
+        //         if ($semister_left != 0) {
+        //             for ($i = $sem_strt_frm; $i <= $ug_totsem; $i++) {
+        //                 if ($i % 2 != 0) {
+        //                     //print $i ;
+        //                     $semi_name[] = $i;
+        //                 }
+        //             }
+        //         }
+        //         $value['stu_completed'] = $batch_totl;
+        //         $value['semister_left'] = $semister_left;
+        //         $value['semister_name'] = $semi_name;
+        //         $batch_totl2[] = $value;
+        //     }
+
+        //     $eligible_student = collect($batch_totl2);
+
+        //     $student_list = $eligible_student->filter(function ($value, $key) {
+        //         return  $value['stu_completed'] < 4;
+        //     });
+        //     $student_details2 = [];
+        //     foreach ($student_list as $key => $value) {
+
+        //         $student_id = $value->id;
+        //         // if ($request->status == '') {
+        //         //     $student_details = StudentDetails::where('id', $student_id)->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
+        //         // } else {
+        //         //     $student_details = StudentDetails::where('id', $student_id)->where('batch_year', $request->status)->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
+        //         // }
+
+        //         $student_details = StudentDetails::where('id', $student_id)
+        //             ->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
+
+
+        //         foreach ($student_details as $key2 => $item) {
+        //             $item->stu_completed = $value->stu_completed;
+        //             $item->semister_left = $value->semister_left;
+        //             $item->semister_name = $value->semister_name;
+        //             $item->batch_year = $value->batch_year;
+        //             $item->student_id = $value->id;
+        //             $student_details2[] = $item;
+        //         }
+        //     }
+
+         
        
 
         // datatable code ========
@@ -69,10 +144,18 @@ class ExamController extends Controller
 
             $year = now()->year;
             $month = now()->month;
-            $ug_totsem = 8;
-            $student = StudentDetails::where('department_id', '1')->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
+
+            $ug_totsem = CourseFor::find($dep);
+
+            //$ug_totsem = 8;
+            $ug_totsem = CourseFor::find($dep);
+            $ug_totsem = $ug_totsem->semester;
+            
+            
+            $student = StudentDetails::where('department_id', $dep)->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
             $collection = collect($student);
 
+            $batch_totl2 = [];
             foreach ($student as $key => $value) {
                 //print($value);
                 $explode = explode('-', $value->batch_year);
@@ -111,11 +194,7 @@ class ExamController extends Controller
             foreach ($student_list as $key => $value) {
 
                 $student_id = $value->id;
-                // if ($request->status == '') {
-                //     $student_details = StudentDetails::where('id', $student_id)->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
-                // } else {
-                //     $student_details = StudentDetails::where('id', $student_id)->where('batch_year', $request->status)->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
-                // }
+               
 
                 $student_details = StudentDetails::where('id', $student_id)
                     ->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
@@ -179,7 +258,8 @@ class ExamController extends Controller
                 ->make(true);
         }
         // end datable code ===================
-        return view('exam.student_list', compact('all_batch_year'));
+        //return 1;
+        return view('exam.student_list', compact('all_batch_year','dep'));
     }
 
 
