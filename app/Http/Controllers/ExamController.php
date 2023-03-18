@@ -34,18 +34,37 @@ class ExamController extends Controller
         return view('exam.regular_exam_notice', compact('courseFor', 'ug_regular_notice'));
     }
 
-    public function apply_regular_exam($id, $sem_no)
+    public function apply_regular_exam($id, $dep, $sem_no)
     {
-        //return $sem_no;
+        //return 1;
         $student_details = StudentDetails::find($id);
         $student_address = StudentAddress::where('student_id', $id)->first();
         $student_education = StudentEducationDetails::where('student_id', $id)->first();
-        $edu_data = json_decode($student_education->qualification);
-        $edu_hsc = $edu_data->hsc;
-        $edu_intermediate = $edu_data->intermediate;
+
+        if($student_education == '')
+        {
+            $edu_data = '';
+        }else{
+            $edu_data = json_decode($student_education->qualification);
+        }
+        
+        
+        if($edu_data == ''){
+            $edu_hsc = '' ;
+            $edu_intermediate = '' ;
+        }else{
+            $edu_hsc = $edu_data->hsc;
+            $edu_intermediate = $edu_data->intermediate;
+        }
+        
         $fee = FeesMaster::all();
         //return $fee[0]->amount;
-        return view('exam.regular_exam', compact('student_details', 'student_address', 'edu_hsc', 'edu_intermediate', 'id', 'fee', 'sem_no'));
+        if($dep == 1){
+            return view('exam.regular_exam', compact('student_details', 'student_address', 'edu_hsc', 'edu_intermediate', 'id', 'fee', 'sem_no'));
+        }else{
+            return '<h2>Others Exam Form</h2>';
+        }
+        
     }
 
     public function student_list(Request $request, $dep)

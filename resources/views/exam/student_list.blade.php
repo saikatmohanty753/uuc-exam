@@ -124,7 +124,8 @@
                         render: function(data, type, row) {
                             let stud_id = row['student_id'];
                             let sem_name = row['semister_name'][0];
-                            let url = "apply_regular_exam/" + stud_id + "/" + sem_name;
+                            let dep_id = row['department_id'];
+                            let url = "/apply_regular_exam/" + stud_id + "/" + dep_id + "/" + sem_name;
                             return "<a class='btn btn-sm btn-success waves-effect waves-themed' href='" +
                                 url + "'>Apply </a>";
                             //return 'action';

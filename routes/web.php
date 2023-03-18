@@ -140,7 +140,7 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::get('student-list-ajax', [ExamController::class, 'student_list_ajax'])->name('student_list_ajax');
     Route::get('ex-regular-exam-notice', [ExamController::class, 'ex_regular_exam_notice'])->name('ex_regular_exam_notice');
 
-    Route::get('apply_regular_exam/{id}/{sem_no}',[ExamController::class, 'apply_regular_exam'])->name('apply_regular_exam');
+    Route::get('apply_regular_exam/{id}/{dep}/{sem_no}',[ExamController::class, 'apply_regular_exam'])->name('apply_regular_exam');
     Route::post('regular-exam-store/{id}/{sem_no}',[ExamController::class, 'regular_exam_store'])->name('regular_exam_store');
     Route::get('regular_exam_draft/{id}/{sem_no}',[ExamController::class, 'regular_exam_draft'])->name('regular_exam_draft');
     Route::post('regular_exam_draft_store/{id}/{sem_no}',[ExamController::class, 'regular_exam_draft_store'])->name('regular_exam_draft_store');
