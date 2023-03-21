@@ -46,7 +46,7 @@ Route::get('/', function () {
 Route::get('/student', function () {
     return view('studentportal.index');
 });
-Route::get('/form', function () {
+Route::get('/form1', function () {
     return view('form.index');
 });
 Route::get('/formpage', function () {
@@ -57,6 +57,9 @@ Route::get('/apply_app', function () {
 });
 Route::get('/apply_app2', function () {
     return view('form.apply_app');
+});
+Route::get('/pgform', function () {
+    return view('exam.pgformpreview');
 });
 // Route::get('/apply_regular_exam', function () {
 //     return view('form.regular_exam');
@@ -157,7 +160,17 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::resource('fees',FeesController::class);
     //Route::resource('course', CourseController::class);
 
-
+    Route::get('pg-exam-notice', [ExamController::class, 'pg_exam_notice'])->name('pg_exam_notice');
+    Route::get('student_pglist', [ExamController::class, 'student_pglist'])->name('student_pglist');
+    Route::get('apply_pg_exam/{id}/',[ExamController::class, 'apply_pg_exam'])->name('apply_pg_exam');
+    Route::get('pg-exam-store/{id}/{sem_no}',[ExamController::class, 'apply_pg_exam'])->name('apply_pg_exam');
+    Route::post('/pgexamstore', [ExamController::class, 'pgexamstore'])->name('pg_exam_store');
+    Route::get('/pgformpreview/{id}', [ExamController::class, 'pgformpreview'])->name('pgformpreview');
+    Route::get('/pgformdraft/{id}', [ExamController::class, 'pgformdraft'])->name('pgformdraft');
+    Route::post('/pgexamupdate/{id}', [ExamController::class, 'pgexamupdate'])->name('pgexamupdate');
+    Route::post('/delete', [ExamController::class, 'delete'])->name('delete');
+    
+    
 
 
 

@@ -169,7 +169,7 @@
         @endcan
 
         <li>
-        <a href="{{ url('/form') }}" title="Notices" data-filter-tags="Notice">
+        <a href="{{ route('pg_exam_notice') }}" title="Notices" data-filter-tags="Notice">
             <i class="fa-solid fa-book-open-reader"></i>
             <span class="nav-link-text" data-i18n="nav.application_notice">Pg Examination</span>
             {{-- <span
