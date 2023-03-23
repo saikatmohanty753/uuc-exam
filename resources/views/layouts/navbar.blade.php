@@ -182,14 +182,13 @@
             </li>
         @endcan
 
-        <li>
+        {{-- <li>
         <a href="{{ route('pg_exam_notice') }}" title="Notices" data-filter-tags="Notice">
             <i class="fa-solid fa-book-open-reader"></i>
             <span class="nav-link-text" data-i18n="nav.application_notice">Pg Examination</span>
-            {{-- <span
-                class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">{{ Auth::user()->unreadNotifications->count() > 0 ? Auth::user()->unreadNotifications->count() : '' }}</span> --}}
+           
         </a>
-    </li>
+    </li> --}}
     </ul>
     <div class="filter-message js-filter-message bg-success-600"></div>
 </nav>
