@@ -6,21 +6,21 @@ use App\Models\BseExam;
 use App\Models\BseExamine;
 use App\Models\Course;
 use App\Models\CourseFor;
-use App\Models\ExamNoticeType;
 use App\Models\FeesMaster;
 use App\Models\Notice;
+use App\Models\PgStudent;
+use App\Models\pg_student_subject;
 use App\Models\SemesterDetails;
 use App\Models\StudentAddress;
 use App\Models\StudentDetails;
 use App\Models\StudentEducationDetails;
 use App\Models\UgExaminationApplication;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use DB;
 use DataTables;
 use Illuminate\Support\Str;
-
-use function Ramsey\Uuid\v1;
+use Illuminate\Support\Facades\Auth;
+//use function Ramsey\Uuid\v1;
+use Illuminate\Http\Request;
 
 class ExamController extends Controller
 {
@@ -222,7 +222,6 @@ class ExamController extends Controller
             $fee_paid = 0;
         }
 
-
         if ($request->bde_year_hid) {
             //return 1;
             for ($i = 0; $i < count($request->bde_year_hid); $i++) {
@@ -247,7 +246,6 @@ class ExamController extends Controller
                 $BseExamine->save();
             }
         }
-
 
         if ($request->addmission_exam == 'on') {
             $addmission_exam = 'yes';
@@ -338,7 +336,6 @@ class ExamController extends Controller
                 $BseExamine->save();
             }
         }
-
 
         if ($request->addmission_exam == 'on') {
             $addmission_exam = 'yes';

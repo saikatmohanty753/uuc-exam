@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('content')
+
+{{-- @php
+dd($student_details2);
+@endphp --}}
     <div class="row">
 
         <div class="col-xl-12">

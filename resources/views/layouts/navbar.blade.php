@@ -31,7 +31,8 @@
             </a>
         </li>
         @can('user-module')
-            <li class="{{ request()->is('roles*') || request()->is('users*') || request()->is('colleges*') || request()->is('students*') ? 'active open' : '' }}">
+            <li
+                class="{{ request()->is('roles*') || request()->is('users*') || request()->is('colleges*') || request()->is('students*') ? 'active open' : '' }}">
                 <a href="#" title="Theme Settings" data-filter-tags="theme settings">
                     <i class="fal fa-cog"></i>
                     <span class="nav-link-text" data-i18n="nav.user_management">User Management</span>
@@ -39,8 +40,7 @@
                 <ul>
                     @can('role-module')
                         <li class="{{ request()->is('roles*') ? 'active' : '' }}">
-                            <a href="{{ route('roles.index') }}"
-                                data-filter-tags="theme settings how it works">
+                            <a href="{{ route('roles.index') }}" data-filter-tags="theme settings how it works">
                                 <span class="nav-link-text" data-i18n="nav.user_management_role">Role</span>
                             </a>
                         </li>
@@ -51,12 +51,14 @@
                         </a>
                     </li>
                     <li class="{{ request()->is('colleges*') ? 'active' : '' }}">
-                        <a href="{{ route('colleges.index') }}" title="Colleges" data-filter-tags="theme settings Colleges">
+                        <a href="{{ route('colleges.index') }}" title="Colleges"
+                            data-filter-tags="theme settings Colleges">
                             <span class="nav-link-text" data-i18n="nav.user_management_college">Colleges</span>
                         </a>
                     </li>
                     <li class="{{ request()->is('students*') ? 'active' : '' }}">
-                        <a href="{{ route('students.index') }}" title="students" data-filter-tags="theme settings students">
+                        <a href="{{ route('students.index') }}" title="students"
+                            data-filter-tags="theme settings students">
                             <span class="nav-link-text" data-i18n="nav.user_management_students">Students</span>
                         </a>
                     </li>
@@ -72,13 +74,13 @@
                 </a>
                 <ul>
                     <li>
-                        <a href="{{ url('/department') }}"
-                            data-filter-tags="theme settings how it works">
+                        <a href="{{ url('/department') }}" data-filter-tags="theme settings how it works">
                             <span class="nav-link-text">Department Master</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('course.index') }}" title="course" data-filter-tags="theme settings how it works">
+                        <a href="{{ route('course.index') }}" title="course"
+                            data-filter-tags="theme settings how it works">
 
                             <span class="nav-link-text">Course Master</span>
                         </a>
@@ -90,8 +92,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('semester.index') }}"
-                            data-filter-tags="theme settings how it works">
+                        <a href="{{ route('semester.index') }}" data-filter-tags="theme settings how it works">
                             <span class="nav-link-text">Semester</span>
                         </a>
                     </li>
@@ -181,6 +182,14 @@
             </li>
         @endcan
 
+        <li>
+        <a href="{{ route('pg_exam_notice') }}" title="Notices" data-filter-tags="Notice">
+            <i class="fa-solid fa-book-open-reader"></i>
+            <span class="nav-link-text" data-i18n="nav.application_notice">Pg Examination</span>
+            {{-- <span
+                class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">{{ Auth::user()->unreadNotifications->count() > 0 ? Auth::user()->unreadNotifications->count() : '' }}</span> --}}
+        </a>
+    </li>
     </ul>
     <div class="filter-message js-filter-message bg-success-600"></div>
 </nav>
