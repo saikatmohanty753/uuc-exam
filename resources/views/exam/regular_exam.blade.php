@@ -259,8 +259,7 @@
                                                 <option value="Jan">Jan</option>
                                                 <option value="Feb">Feb.</option>
                                             </select> --}}
-                                            <input name="dob" type="text" 
-                                                class="form-control  chk_blank chk_date">
+                                            <input name="dob" type="text" class="form-control  chk_blank chk_date">
                                         </div>
                                     </div>
                                 </div>

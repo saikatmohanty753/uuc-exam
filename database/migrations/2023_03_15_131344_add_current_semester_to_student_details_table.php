@@ -14,7 +14,7 @@ class AddCurrentSemesterToStudentDetailsTable extends Migration
     public function up()
     {
         Schema::table('student_details', function (Blueprint $table) {
-            $table->string('current_semester')->after('batch_year')->nullable();
+            $table->integer('current_semester')->after('batch_year')->default(1);
             $table->string('completed_semester')->after('current_semester')->nullable();
         });
     }

@@ -55,11 +55,15 @@ class ExamNotice extends Notification
      */
     public function toArray($notifiable)
     {
-        $notice = Notice::find($notifiable->notice_id);
+        
+        $notice = Notice::where('notices.id', $notifiable->notice_id)->join('exam_notice_types', 'notices.notice_sub_type', 'exam_notice_types.id')->first(['notices.*', 'exam_notice_types.notice_name']);
+        
         $data = [
             'notice_id' => $notifiable->notice_id,
+            'notice_type_id' => '2',
             'notice_type' => 'Exam Notice',
-            'notice_sub_type' => $notifiable->notice_sub_type,
+            'notice_sub_type_id' => $notice->notice_sub_type,
+            'notice_sub_type' => $notice->notice_name,
             'notice_name' => $notice->noticeType->notice_name,
             'details' => $notice->details,
             'department' => $notice->department->course_for,
@@ -68,7 +72,9 @@ class ExamNotice extends Notification
             // 'course' => $notice->course_id,
             'start_date' => $notice->start_date,
             'end_date' => $notice->exp_date,
+            'user_id' => $notifiable->user_id,
         ];
+        
         return $data;
 
     }

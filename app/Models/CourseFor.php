@@ -28,6 +28,12 @@ class CourseFor extends Model
         return $code;
     }
 
+    // public function department()
+    // {
+    //     return 1;
+    //     return $this->belongsTo(StudentDetails::class);
+    // }
+
     public function courseList()
     {
         return $this->hasMany(Course::class, 'course_for', 'id');

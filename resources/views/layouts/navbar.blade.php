@@ -147,7 +147,7 @@
                         class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">{{ Auth::user()->unreadNotifications->count() > 0 ? Auth::user()->unreadNotifications->count() : '' }}</span> --}}
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="#" title="Theme Settings" data-filter-tags="theme settings">
                     <i class="fal fa-cog"></i>
                     <span class="nav-link-text">Exam Section</span>
@@ -163,6 +163,20 @@
                             <span class="nav-link-text">Ex-Regular Exam Notice</span>
                         </a>
                     </li>
+                </ul>
+            </li> --}}
+            <li>
+                <a href="#" title="Theme Settings" data-filter-tags="theme settings">
+                    <i class="fal fa-cog"></i>
+                    <span class="nav-link-text">Exam Section</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="{{route('ug_student_list')}}" data-filter-tags="theme settings how it works">
+                            <span class="nav-link-text">All Applications</span>
+                        </a>
+                    </li>
+                    
                 </ul>
             </li>
         @endcan

@@ -151,6 +151,9 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::post('regular_exam_final/{id}',[ExamController::class, 'regular_exam_final'])->name('regular_exam_final');
 
 
+    Route::get('ug_student_list',[ExamController::class, 'ug_student_list'])->name('ug_student_list');
+    Route::get('ug_student_view/{id}',[ExamController::class, 'ug_student_view'])->name('ug_student_view');
+
     //Route::post('bse_exams_delete/{id}',[ExamController::class, 'regular_exam_draft_store'])->name('regular_exam_draft_store');
 
 
