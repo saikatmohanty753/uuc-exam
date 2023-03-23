@@ -114,7 +114,12 @@
                                 <div class="col-md-6 col-12">
                                     <div class="mb-2">
                                         @php
-                                            $permanent_address = trim($student_address->permanent_address . ' , ' . $student_address->permanentDistrict->district_name . ' , ' . $student_address->permanent_pin_code . ' , ' . $student_address->permanent_state);
+                                        if($student_address){
+                                            $permanent_address = trim($student_address->permanent_address .' , '.$student_address->permanentDistrict->district_name.' , '.$student_address->permanent_pin_code.' , '.$student_address->permanent_state);
+                                        }else {
+                                            $permanent_address = '';
+                                        }
+                                            
                                             //dd($permanent_address);
                                         @endphp
                                         <div class="form-group input-cont">
@@ -131,7 +136,10 @@
                                             <label class="form-label">Local Address <span
                                                     class="text-danger">*</span></label>
                                             <textarea name="" id="" class="form-control" rows="2">
-                                                {{ $student_address->present_address }},{{ $student_address->presentDistrict->district_name }},{{ $student_address->present_pin_code }},{{ $student_address->present_state }}
+                                                @if ($student_address)
+                                                {{$student_address->present_address}},{{$student_address->presentDistrict->district_name}},{{$student_address->present_pin_code}},{{$student_address->present_state}}
+                                                @endif
+                                                
                                             </textarea>
                                         </div>
                                     </div>
@@ -166,8 +174,7 @@
                                             <label class="form-label">Passing year <span
                                                     class="text-danger">*</span></label>
                                             <input name="dob" type="text" id="dob"
-                                                class="form-control  chk_blank chk_date"
-                                                value="{{ $edu_hsc->passing_year }}">
+                                                class="form-control  chk_blank chk_date" value="{{$edu_hsc != '' ? $edu_hsc->passing_year : ''}}">
                                         </div>
                                     </div>
                                 </div>
@@ -193,7 +200,7 @@
                                             <label class="form-label" for="student_name">Division <span
                                                     class="text-danger">*</span></label>
                                             <input name="name" type="text" class="form-control chk_blank"
-                                                id="student_name" value="{{ $edu_hsc->division }}">
+                                                id="student_name" value="{{$edu_hsc != '' ? $edu_hsc->division : ''}}">
                                         </div>
                                     </div>
                                 </div>
@@ -243,10 +250,9 @@
                                 <div class="col-md-3 col-12">
                                     <div class="mb-2">
                                         <div class="form-group input-cont">
-                                            <label class="form-label">Passing year <span
-                                                    class="text-danger">*</span></label>
-                                            <input name="dob" type="text" class="form-control chk_blank chk_date"
-                                                value="{{ $edu_intermediate->passing_year }}">
+                                            <label class="form-label">Passing year <span class="text-danger">*</span></label>
+                                            <input name="dob" type="text" 
+                                                class="form-control chk_blank chk_date" value="{{$edu_intermediate != ''  ? $edu_intermediate->passing_year : ''}}">
                                         </div>
                                     </div>
                                 </div>
@@ -272,7 +278,7 @@
                                             <label class="form-label" for="student_name">Division <span
                                                     class="text-danger">*</span></label>
                                             <input name="name" type="text" class="form-control chk_blank"
-                                                id="student_name" value="{{ $edu_intermediate->division }}">
+                                                id="student_name" value="{{$edu_intermediate != ''  ? $edu_intermediate->division : ''}}">
                                         </div>
                                     </div>
                                 </div>
