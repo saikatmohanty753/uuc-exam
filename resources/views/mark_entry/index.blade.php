@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Select Semester</label>
-                                    <select name="" class="form-control" id="">
+                                    <select name="semester" class="form-control" id="semester">
                                         <option value="">Select Semester</option>
                                         @for ($i = 1; $i <= 8; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
@@ -204,11 +204,14 @@
     <script>
         $(document).ready(function() {
             $('#submit').on('click', function() {
-               
+
+
                 var _token = $('input[name="_token"]').val();
                 var from_date = $('#from_date').val();
                 var to_date = $('#to_date').val();
-                
+                var semester = $('#semester').val();
+          
+
                 var table = $('.dataTable12').DataTable({
                     processing: true,
                     serverSide: true,
@@ -217,19 +220,14 @@
                         data: {
                             from_date: from_date,
                             to_date: to_date,
-                           
+                            semester: semester,
+
                             _token: _token
                         },
                         type: "POST",
                         dataType: "json"
                     },
-                    columns: [{
-                            data: 'name'
 
-                        },
-                        
-                        
-                    ]
 
                 });
 
