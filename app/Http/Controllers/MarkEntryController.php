@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\CourseFor;
-use App\Models\StudentDetails;
-use Illuminate\Http\Request;
 use DB;
 use DataTables;
 
