@@ -37,11 +37,10 @@
                                     </select>
                                     <input type="hidden" value="1" id="dep_id">
                                 </div>
-                                <div class="col-md-4">
-                                    {{-- <input type="button" class="btn btn-sm btn-success waves-effect waves-themed" value="search"> --}}
+                                {{-- <div class="col-md-4">
                                     <input type="submit" class="btn btn-sm btn-success waves-effect waves-themed mt-4"
                                         id="submit">
-                                </div>
+                                </div> --}}
                             </div>
 
                         </div>
