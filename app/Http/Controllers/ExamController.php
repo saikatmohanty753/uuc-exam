@@ -159,12 +159,18 @@ class ExamController extends Controller
 
         //return $student_details2;
         
+        
 
         if ($request->ajax()) {
             return Datatables::of($student_details2)->addIndexColumn()->make(true);
         }else{
             return view('exam.student_list',compact('student_details2','all_batch_year'));
         }
+        // if ($request->ajax()) {
+        //     return Datatables::of($student_details2)->addIndexColumn()->make(true);
+        // }else{
+        //     return view('exam.student_list',compact('student_details2','all_batch_year'));
+        // }
         
         //$student_details2 = StudentDetails::all();
 

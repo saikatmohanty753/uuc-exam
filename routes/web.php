@@ -18,6 +18,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ClgNoticeController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\FeesController;
+use App\Http\Controllers\MarkEntryController;
 use App\Http\Controllers\SemesterFillUpController;
 use App\Http\Livewire\Notification;
 use App\Providers\RouteServiceProvider;
@@ -160,7 +161,7 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
 
 
 
-
+    Route::get('mark-entry-list', [MarkEntryController::class,'index'])->name('mark_list');
 
 });
 
