@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\CourseFor;
+use App\Models\StudentDetails;
 use DB;
 use DataTables;
+use Illuminate\Http\Request;
 
 class MarkEntryController extends Controller
 {
