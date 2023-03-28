@@ -179,6 +179,7 @@ class ExamController extends Controller
 
                 })
 
+
                 ->addColumn('semester', function ($row) {
                     $semester = $row['semister_name'][0];
                     $semester = $semester . ' ' . 'Semester';
