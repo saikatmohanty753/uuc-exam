@@ -17,6 +17,7 @@
                                     <label class="form-label">Select year</label>
                                     <select name="" class="form-control" id="batch_year">
                                         <option value="">Select Batch Year</option>
+                                        <option value="all">All</option>
                                         @foreach ($all_batch_year as $item)
                                             <option value="{{ $item->batch_year }}">{{ $item->batch_year }}</option>
                                         @endforeach
@@ -46,15 +47,15 @@
                                 <tr>
                                     <th>Sl.No</th>
                                     <th>Name</th>
-                                    {{-- <th>College Name</th>
+                                    <th>College Name</th>
                                     <th>Department</th>
                                     <th>Course</th>
                                     <th>Semester</th>
-                                    <th>Action</th> --}}
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-
+                               
                             </tbody>
                         </table>
 
@@ -86,7 +87,8 @@
                         // d.search = $('input[type="search"]').val()
                     },
                 },
-                columns: [{
+                columns: [
+                    {
                         data: 'DT_RowIndex',
                         orderable: false,
                         searchable: false

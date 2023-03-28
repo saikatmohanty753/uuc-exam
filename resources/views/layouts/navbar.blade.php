@@ -121,6 +121,12 @@
                     <span class="nav-link-text" data-i18n="nav.application_notice">Notice</span>
                 </a>
             </li>
+            <li>
+                <a href="{{route('mark_list')}}" title="Notices" data-filter-tags="Notice">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span class="nav-link-text" data-i18n="nav.application_notice">Pre Exam Mark Entry</span>
+                </a>
+            </li>
         @endcan
         @can('college-notice-module')
             <li>
