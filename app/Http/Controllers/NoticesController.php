@@ -70,7 +70,7 @@ class NoticesController extends Controller
             }
             
         }
-        // return $semester2;
+        //return $semester2;
         // return $request->semester;
 
     //    return $semester2 != '' ? implode(',', $semester2) : '';
@@ -198,4 +198,6 @@ class NoticesController extends Controller
 
          }
     }
+
+    
 }

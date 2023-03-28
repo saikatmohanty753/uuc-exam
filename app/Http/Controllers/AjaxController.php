@@ -30,13 +30,14 @@ class AjaxController extends Controller
         if ($check == 1) {
             Notice::where('status', 0)
                 ->where('id', $request->id)
-                ->update(['status' => 1, 'published_date' => Carbon::now()]);
+                ->update(['status' => 0, 'published_date' => Carbon::now()]);
             $notice = Notice::find($request->id);
             $status = "Published";
             if ($notice->notice_type == 2) {
-                $users = User::whereIn('role_id', [13, 17, 3])->get();
+                $users = User::whereIn('role_id', [17, 3])->get();
                 foreach ($users as $key => $user) {
                     $user->notice_id = $request->id;
+                    $user->user_id = $user->id;
                     $user->notify(new ExamNotice());
                 }
             }

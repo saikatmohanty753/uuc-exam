@@ -47,7 +47,7 @@ Route::get('/', function () {
 Route::get('/student', function () {
     return view('studentportal.index');
 });
-Route::get('/form', function () {
+Route::get('/form1', function () {
     return view('form.index');
 });
 Route::get('/formpage', function () {
@@ -58,6 +58,9 @@ Route::get('/apply_app', function () {
 });
 Route::get('/apply_app2', function () {
     return view('form.apply_app');
+});
+Route::get('/pgform', function () {
+    return view('exam.pgformpreview');
 });
 // Route::get('/apply_regular_exam', function () {
 //     return view('form.regular_exam');
@@ -137,11 +140,11 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::get('uuc-exam-section/{id}', [NoticesController::class, 'redirectToNotice']);
 
     Route::get('regular-exam-notice', [ExamController::class, 'regular_exam_notice'])->name('regular_exam_notice');
-    Route::get('student-list', [ExamController::class, 'student_list'])->name('student_list');
+    Route::get('student-list/{dep}', [ExamController::class, 'student_list'])->name('student_list');
     Route::get('student-list-ajax', [ExamController::class, 'student_list_ajax'])->name('student_list_ajax');
     Route::get('ex-regular-exam-notice', [ExamController::class, 'ex_regular_exam_notice'])->name('ex_regular_exam_notice');
 
-    Route::get('apply_regular_exam/{id}/{sem_no}',[ExamController::class, 'apply_regular_exam'])->name('apply_regular_exam');
+    Route::get('apply_regular_exam/{id}/{dep}/{sem_no}',[ExamController::class, 'apply_regular_exam'])->name('apply_regular_exam');
     Route::post('regular-exam-store/{id}/{sem_no}',[ExamController::class, 'regular_exam_store'])->name('regular_exam_store');
     Route::get('regular_exam_draft/{id}/{sem_no}',[ExamController::class, 'regular_exam_draft'])->name('regular_exam_draft');
     Route::post('regular_exam_draft_store/{id}/{sem_no}',[ExamController::class, 'regular_exam_draft_store'])->name('regular_exam_draft_store');
@@ -152,6 +155,9 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::post('regular_exam_final/{id}',[ExamController::class, 'regular_exam_final'])->name('regular_exam_final');
 
 
+    Route::get('ug_student_list',[ExamController::class, 'ug_student_list'])->name('ug_student_list');
+    Route::get('ug_student_view/{id}',[ExamController::class, 'ug_student_view'])->name('ug_student_view');
+
     //Route::post('bse_exams_delete/{id}',[ExamController::class, 'regular_exam_draft_store'])->name('regular_exam_draft_store');
 
 
@@ -159,7 +165,17 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::resource('fees',FeesController::class);
     //Route::resource('course', CourseController::class);
 
-
+    Route::get('pg-exam-notice', [ExamController::class, 'pg_exam_notice'])->name('pg_exam_notice');
+    Route::get('student_pglist', [ExamController::class, 'student_pglist'])->name('student_pglist');
+    Route::get('apply_pg_exam/{id}/',[ExamController::class, 'apply_pg_exam'])->name('apply_pg_exam');
+    Route::get('pg-exam-store/{id}/{sem_no}',[ExamController::class, 'apply_pg_exam'])->name('apply_pg_exam');
+    Route::post('/pgexamstore', [ExamController::class, 'pgexamstore'])->name('pg_exam_store');
+    Route::get('/pgformpreview/{id}', [ExamController::class, 'pgformpreview'])->name('pgformpreview');
+    Route::get('/pgformdraft/{id}', [ExamController::class, 'pgformdraft'])->name('pgformdraft');
+    Route::post('/pgexamupdate/{id}', [ExamController::class, 'pgexamupdate'])->name('pgexamupdate');
+    Route::post('/delete', [ExamController::class, 'delete'])->name('delete');
+    
+    
 
     Route::get('mark-entry-list', [MarkEntryController::class,'index'])->name('mark_list');
 
