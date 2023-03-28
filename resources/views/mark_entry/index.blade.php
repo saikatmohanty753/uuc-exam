@@ -39,7 +39,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     {{-- <input type="button" class="btn btn-sm btn-success waves-effect waves-themed" value="search"> --}}
-                                    <input type="submit" class="btn btn-sm btn-success waves-effect waves-themed mt-4">
+                                    <input type="submit" class="btn btn-sm btn-success waves-effect waves-themed mt-4"
+                                        id="submit">
                                 </div>
                             </div>
 
