@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
-        
+
 
         <div class="col-xl-12">
             <div id="panel-1" class="panel">
@@ -38,17 +38,15 @@
                                     </select>
                                     <input type="hidden" value="1" id="dep_id">
                                 </div>
-                                
+
                                 <div class="col-md-4">
                                     <label class="form-label">Select Course</label>
                                     <select name="" class="form-control select2" id="course_id">
                                         <option value="">Select Course</option>
-                                        
+
                                         @foreach ($course as $item)
-                                      
-                                        
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
                                     </select>
                                     <input type="hidden" value="1" id="dep_id">
                                 </div>
@@ -62,27 +60,28 @@
 
                         <ul class="nav nav-tabs nav-tabs-clean" role="tablist">
                             @foreach ($department as $key => $item)
-                                <li class="nav-item click{{ $item->id }}"><a class="nav-link das  {{ $key == 0 ? 'active' : '' }}" data-toggle="tab"
-                                        href="#tab-{{ $item->id }}" role="tab" dep-id="{{ $item->id }}" >{{ $item->course_for }}</a></li>
-                                      
+                                <li class="nav-item click{{ $item->id }}"><a
+                                        class="nav-link das  {{ $key == 0 ? 'active' : '' }}" data-toggle="tab"
+                                        href="#tab-{{ $item->id }}" role="tab"
+                                        dep-id="{{ $item->id }}">{{ $item->course_for }}</a></li>
                             @endforeach
 
                             {{-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-profile" role="tab">pg</a></li> --}}
                         </ul>
-                        
+
                         <div class="tab-content p-3">
                             @foreach ($department as $key => $value)
-                                <div class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}" id="tab-{{ $value->id }}"
-                                    role="tabpanel" aria-labelledby="tab-{{ $value->id }}">
-                                    
-                                    <table
-                                        class="table table-bordered table-hover table-striped w-100 dataTable1">
+                                <div class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}"
+                                    id="tab-{{ $value->id }}" role="tabpanel"
+                                    aria-labelledby="tab-{{ $value->id }}">
+
+                                    <table class="table table-bordered table-hover table-striped w-100 dataTable1">
                                         <thead>
                                             <tr>
                                                 <th>Sl.No</th>
                                                 <th>Name</th>
                                                 <th>College Name</th>
-                                                
+
                                                 <th>Course</th>
                                                 <th>Semester</th>
                                                 <th>Action</th>
@@ -109,15 +108,11 @@
 
 @section('js')
     <script>
-        // $(document).ready(function() {
-        //     $('.dataTable12').DataTable();
-        // });
-        
-
+        localStorage.clear();
         $(function() {
             //alert($dep_id);
 
-            $('.click1 a').trigger("click");
+            // $('.click1 a').trigger("click");
 
             var table = $('.dataTable1').DataTable({
                 processing: true,
@@ -130,12 +125,12 @@
                     type: 'GET',
                     data: function(d) {
                         d.batch_year = $('#batch_year').val(),
-                        d.sem_id = $('#sem_id').val(),
-                        d.dep_val = $('#dep_id').val(),
-                        d.course_val = $('#course_id').val()
+                            d.sem_id = $('#sem_id').val(),
+                            d.dep_val = $('#dep_id').val(),
+                            d.course_val = $('#course_id').val()
                         // d.stu_name = $('#stu_name').val()
                         // d.search = $('input[type="search"]').val()
-                        
+
                     },
                 },
                 columns: [{
@@ -165,8 +160,8 @@
                         name: 'action',
                         render: function(data, type, row) {
 
-                            return '<a href="{{ url('addmark/') }}/' + row.student_id +
-                                    '" class="btn btn-primary"><i class="far fa-plus"></i> Add Mark</a>';
+                            return '<a href="{{ url('addmark/') }}/' + row.student_id +'/'+row.course_id + '/'+ row.current_semester + '/' + row.department_id +
+                                '" class="btn btn-primary"><i class="far fa-plus"></i> Add Mark</a>';
 
                         }
                     },
@@ -186,8 +181,8 @@
                 table.draw();
             });
             $(".das").on("click", function() {
-                 $('#dep_id').val($(this).attr('dep-id'));
-                 table.draw();
+                $('#dep_id').val($(this).attr('dep-id'));
+                table.draw();
             });
             // $("#stu_name").focusout(function() {
             //     table.draw();

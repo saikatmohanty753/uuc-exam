@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CourseFor;
 use App\Models\Course;
 use App\Models\StudentDetails;
+use App\Models\AcademicCourseStructure;
 use DB;
 use DataTables;
 use Illuminate\Http\Request;
@@ -43,6 +44,7 @@ class MarkEntryController extends Controller
         $collection = collect($student);
         
         
+        
         $all_batch_year = $collection->unique('batch_year');
         
 
@@ -67,6 +69,7 @@ class MarkEntryController extends Controller
             return DataTables::of($student2)
             ->addIndexColumn()
             ->filter(function ($instance) use ($request) {
+                // dd($instance);
                 //dd( $request->get('batch_year'));
                 if (!empty($request->get('batch_year'))) {
                     $instance->collection = $instance->collection->where('batch_year', $request->get('batch_year'));
@@ -106,7 +109,24 @@ class MarkEntryController extends Controller
         return view('mark_entry.index',compact('student','department','all_batch_year','course'));
     }
 
-    public function addmark($id){
-        return view('mark_entry.addmark');
+    public function addmark($id,$course,$sem,$dep_id)
+    {
+
+
+     
+        $academic = AcademicCourseStructure::where('course_id',$course)->where('semester',$sem)->where('dep_id',$dep_id)->get();
+        
+       
+        return view('mark_entry.addmark',compact('academic'));
+    }
+
+
+    public function addmarkstore(Request $request)
+    {
+        return $request;
+//    $mark= new Ugstudentmark();
+//    $mark->stu_id=
+
+    
     }
 }
