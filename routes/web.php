@@ -175,9 +175,10 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::post('/pgexamupdate/{id}', [ExamController::class, 'pgexamupdate'])->name('pgexamupdate');
     Route::post('/delete', [ExamController::class, 'delete'])->name('delete');
     
+    
     Route::get('mark-entry-list', [MarkEntryController::class,'index'])->name('mark_list');
-    Route::POST('ugfilter', [MarkEntryController::class,'ugfilter'])->name('ugfilter');
-
+    Route::get('/addmark/{id}', [MarkEntryController::class, 'addmark'])->name('addmark');
+   
 
     
 });

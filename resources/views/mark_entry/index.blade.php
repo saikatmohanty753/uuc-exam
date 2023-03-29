@@ -64,14 +64,17 @@
                             @foreach ($department as $key => $item)
                                 <li class="nav-item"><a class="nav-link das {{ $key == 0 ? 'active' : '' }}" data-toggle="tab"
                                         href="#tab-{{ $item->id }}" role="tab" dep-id="{{ $item->id }}" >{{ $item->course_for }}</a></li>
+                                      
                             @endforeach
 
                             {{-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-profile" role="tab">pg</a></li> --}}
                         </ul>
+                        
                         <div class="tab-content p-3">
                             @foreach ($department as $key => $value)
                                 <div class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}" id="tab-{{ $value->id }}"
                                     role="tabpanel" aria-labelledby="tab-{{ $value->id }}">
+                                    
                                     <table
                                         class="table table-bordered table-hover table-striped w-100 dataTable1">
                                         <thead>
@@ -126,7 +129,7 @@
                     data: function(d) {
                         d.batch_year = $('#batch_year').val(),
                         d.sem_id = $('#sem_id').val(),
-                        d.dep_val = $('#dep_id').val()
+                        d.dep_val = $('#dep_id').val(),
                         d.course_val = $('#course_id').val()
                         // d.stu_name = $('#stu_name').val()
                         // d.search = $('input[type="search"]').val()
@@ -156,11 +159,13 @@
                     },
 
                     {
-                        data: 'action',
+                        data: 'null',
                         name: 'action',
                         render: function(data, type, row) {
 
-                            return 'action';
+                            return '<a href="{{ url('addmark/') }}/' + row.student_id +
+                                    '" class="btn btn-primary"><i class="far fa-plus"></i> Add Mark</a>';
+
                         }
                     },
                 ]

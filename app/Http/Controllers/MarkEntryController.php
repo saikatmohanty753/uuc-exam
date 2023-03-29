@@ -90,7 +90,8 @@ class MarkEntryController extends Controller
                 return $name;
             })
             ->addColumn('college_name', function ($row) {
-                //dd($row['name']); student_id
+                // dd($row['name']); student_id
+                
                 $college_name =  StudentDetails::find($row->student_id);
                 $college_name =  $college_name->collegeName();
 
@@ -103,5 +104,9 @@ class MarkEntryController extends Controller
         
         
         return view('mark_entry.index',compact('student','department','all_batch_year','course'));
+    }
+
+    public function addmark($id){
+        return view('mark_entry.addmark');
     }
 }
