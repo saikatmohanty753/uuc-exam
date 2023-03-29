@@ -14,16 +14,18 @@
                         <div class="filter_data mb-4">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label class="form-label">Start Date</label>
-                                    <input type="text" class="form-control yearPicker" id="from_date" name="from_date">
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">End Date</label>
-                                    <input type="text" class="form-control yearPicker" id="to_date" name="to_date">
+                                    <label class="form-label">Select year</label>
+                                    <select name="" class="form-control" id="batch_year">
+                                        <option value="">Select Batch Year</option>
+                                        <option value="">All</option>
+                                        @foreach ($all_batch_year as $item)
+                                            <option value="{{ $item->batch_year }}">{{ $item->batch_year }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Select Semester</label>
-                                    <select name="semester" class="form-control" id="semester">
+                                    <select name="" class="form-control" id="sem_id">
                                         <option value="">Select Semester</option>
                                         @for ($i = 1; $i <= 8; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
@@ -33,20 +35,20 @@
                                             @endif --}}
                                         @endfor
                                     </select>
+                                    <input type="hidden" value="1" id="dep_id">
                                 </div>
-                                <div class="col-md-4">
-                                    {{-- <input type="button" class="btn btn-sm btn-success waves-effect waves-themed" value="search"> --}}
+                                {{-- <div class="col-md-4">
                                     <input type="submit" class="btn btn-sm btn-success waves-effect waves-themed mt-4"
                                         id="submit">
-                                </div>
+                                </div> --}}
                             </div>
 
                         </div>
 
                         <ul class="nav nav-tabs nav-tabs-clean" role="tablist">
                             @foreach ($department as $key => $item)
-                                <li class="nav-item"><a class="nav-link {{ $key == 0 ? 'active' : '' }}" data-toggle="tab"
-                                        href="#tab-{{ $item->id }}" role="tab">{{ $item->course_for }}</a></li>
+                                <li class="nav-item"><a class="nav-link das {{ $key == 0 ? 'active' : '' }}" data-toggle="tab"
+                                        href="#tab-{{ $item->id }}" role="tab" dep-id="{{ $item->id }}" >{{ $item->course_for }}</a></li>
                             @endforeach
 
                             {{-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-profile" role="tab">pg</a></li> --}}
@@ -55,38 +57,26 @@
                             @foreach ($department as $key => $value)
                                 <div class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}" id="tab-{{ $value->id }}"
                                     role="tabpanel" aria-labelledby="tab-{{ $value->id }}">
-                                    <table class="table table-bordered table-hover table-striped w-100 dataTable12">
+                                    <table
+                                        class="table table-bordered table-hover table-striped w-100 dataTable1">
                                         <thead>
                                             <tr>
-
+                                                <th>Sl.No</th>
                                                 <th>Name</th>
                                                 <th>College Name</th>
-                                                {{-- <th>Department</th> --}}
+                                                
                                                 <th>Course</th>
                                                 <th>Semester</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($student as $item)
-                                                @if ($item->department_id == $value->id)
-                                                    <tr>
-                                                        <td>{{ $item->name }}</td>
-                                                        <td>{{ $item->clg_id }}</td>
-                                                        {{-- <td>{{ $item->department->course_for }}</td> --}}
-                                                        <td>{{ $item->course_name }}</td>
-                                                        <td>{{ $item->current_semester }}</td>
-                                                        <td>Action</td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-
 
                                         </tbody>
                                     </table>
                                 </div>
                             @endforeach
-                            <div class="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="tab-profile"></div>
+                            {{-- <div class="tab-pane fade" id="tab-profile" role="tabpanel" aria-labelledby="tab-profile"></div> --}}
 
                         </div>
 
@@ -101,137 +91,82 @@
 
 @section('js')
     <script>
-        $(document).ready(function() {
+        // $(document).ready(function() {
+        //     $('.dataTable12').DataTable();
+        // });
+        
 
-            // add Examined Section
-            var countOtherDocRow = 1;
-            var counterOtherDocRow = 0;
+        $(function() {
+            //alert($dep_id);
 
-            $('#button_examine').click(function(e) {
-                alert('hi');
-                e.preventDefault();
-                var bde_course = $('#bde_course').val();
-                var bde_theo_prac = $('#bde_theo_prac').val();
-                var bde_description = $('#bde_description').val();
-
-
-                var newRow = '<tr>' +
-                    '<td>' + bde_course +
-                    '<input type="hidden" name="bde_course_hid[]" value="' +
-                    bde_course + '"></td>' +
-
-                    '<td>' + bde_theo_prac +
-                    '<input type="hidden" name="bde_theo_prac_hid[]" value="' +
-                    bde_theo_prac + '"></td>' +
-
-                    '<td>' + bde_description +
-                    '<input type="hidden" name="bde_description_hid[]" value="' +
-                    bde_description + '"></td>' +
-
-
-                    '<td><button type="button" class="btn btn-outline-warning waves-effect waves-themed btn-sm remove_field" id="' +
-                    counterOtherDocRow + '">Remove</button></td></tr>';
-                $('#addExamined').append(newRow);
-                countOtherDocRow++;
-                counterOtherDocRow++;
-
-            });
-
-            $("#addExamined").on("click", ".remove_field", function(e) {
-                // alert('1');
-                $(this).parent('td').parent('tr').remove();
-                counterOtherDocRow--;
-                countOtherDocRow--;
-            });
-
-
-            // End Examined Section
-
-
-            var countBDE = 1;
-            var counterBDERow = 0;
-
-            $('#button_BDE').click(function(e) {
-                alert('hi');
-                e.preventDefault();
-                var bde_year = $('#bde_year').val();
-                var bde_exam = $('#bde_exam').val();
-                var bde_roll_no = $('#bde_roll_no').val();
-                var bde_regd_no = $('#bde_regd_no').val();
-
-
-                var newRow = '<tr>' +
-                    '<td>' + bde_year +
-                    '<input type="hidden" name="bde_year_hid[]" value="' +
-                    bde_year + '"></td>' +
-
-                    '<td>' + bde_exam +
-                    '<input type="hidden" name="bde_exam_hid[]" value="' +
-                    bde_exam + '"></td>' +
-
-                    '<td>' + bde_roll_no +
-                    '<input type="hidden" name="bde_roll_no_hid[]" value="' +
-                    bde_roll_no + '"></td>' +
-
-                    '<td>' + bde_regd_no +
-                    '<input type="hidden" name="bde_regd_no_hid[]" value="' +
-                    bde_regd_no + '"></td>' +
-
-
-                    '<td><button type="button" class="btn btn-outline-warning waves-effect waves-themed btn-sm remove_field" id="' +
-                    counterBDERow + '">Remove</button></td></tr>';
-                $('#addBDE').append(newRow);
-                countBDE++;
-                counterBDERow++;
-
-            });
-
-            $("#addBDE").on("click", ".remove_field", function(e) {
-                // alert('1');
-                $(this).parent('td').parent('tr').remove();
-                countBDE--;
-                counterBDERow--;
-            });
-
-
-
-
-
-        });
-    </script>
-
-
-    <script>
-        $(document).ready(function() {
-            $('#submit').on('click', function() {
-
-
-                var _token = $('input[name="_token"]').val();
-                var from_date = $('#from_date').val();
-                var to_date = $('#to_date').val();
-                var semester = $('#semester').val();
-          
-
-                var table = $('.dataTable12').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: "{{ route('ugfilter') }}",
-                        data: {
-                            from_date: from_date,
-                            to_date: to_date,
-                            semester: semester,
-
-                            _token: _token
-                        },
-                        type: "POST",
-                        dataType: "json"
+            var table = $('.dataTable1').DataTable({
+                processing: true,
+                serverSide: true,
+                orderable: false,
+                searching: false,
+                ajax: {
+                    //url: "{{ route('student_list_ajax') }}",
+                    url: "{{ route('mark_list') }}",
+                    type: 'GET',
+                    data: function(d) {
+                        d.batch_year = $('#batch_year').val(),
+                        d.sem_id = $('#sem_id').val(),
+                        d.dep_val = $('#dep_id').val()
+                        // d.stu_name = $('#stu_name').val()
+                        // d.search = $('input[type="search"]').val()
+                    },
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'college_name',
+                        name: 'college_name'
+                    },
+                    {
+                        data: 'course_name',
+                        name: 'course_name'
+                    },
+                    {
+                        data: 'current_semester',
+                        name: 'current_semester'
                     },
 
+                    {
+                        data: 'action',
+                        name: 'action',
+                        render: function(data, type, row) {
 
-                });
-
+                            return 'action';
+                        }
+                    },
+                ]
             });
+
+            $('#batch_year').change(function() {
+                // alert('hi');
+                table.draw();
+            });
+            $('#sem_id').change(function() {
+                // alert('hi');
+                table.draw();
+            });
+            $(".das").on("click", function() {
+                 $('#dep_id').val($(this).attr('dep-id'));
+                 table.draw();
+            });
+            // $("#stu_name").focusout(function() {
+            //     table.draw();
+            // });
+            // $("#stu_name").keyup(function() {
+            //     table.draw();
+            // });
 
         });
     </script>
