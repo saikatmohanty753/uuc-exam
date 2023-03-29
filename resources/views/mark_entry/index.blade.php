@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
+        
 
         <div class="col-xl-12">
             <div id="panel-1" class="panel">
@@ -34,6 +35,20 @@
                                                 <option value="{{ $i }}">{{ $i }}</option>
                                             @endif --}}
                                         @endfor
+                                    </select>
+                                    <input type="hidden" value="1" id="dep_id">
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <label class="form-label">Select Course</label>
+                                    <select name="" class="form-control select2" id="course_id">
+                                        <option value="">Select Course</option>
+                                        
+                                        @foreach ($course as $item)
+                                      
+                                        
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
                                     </select>
                                     <input type="hidden" value="1" id="dep_id">
                                 </div>
@@ -114,8 +129,10 @@
                         d.batch_year = $('#batch_year').val(),
                         d.sem_id = $('#sem_id').val(),
                         d.dep_val = $('#dep_id').val()
+                        d.course_val = $('#course_id').val()
                         // d.stu_name = $('#stu_name').val()
                         // d.search = $('input[type="search"]').val()
+                        
                     },
                 },
                 columns: [{
@@ -156,6 +173,10 @@
                 table.draw();
             });
             $('#sem_id').change(function() {
+                // alert('hi');
+                table.draw();
+            });
+            $('#course_id').change(function() {
                 // alert('hi');
                 table.draw();
             });

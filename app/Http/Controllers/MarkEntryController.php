@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CourseFor;
+use App\Models\Course;
 use App\Models\StudentDetails;
 use DB;
 use DataTables;
@@ -35,15 +36,20 @@ class MarkEntryController extends Controller
         ->get('batch_year');
 
         $department  = CourseFor::get();
+        $course  = Course::get();
         
         
         //dd($collection);
         $collection = collect($student);
+        
+        
         $all_batch_year = $collection->unique('batch_year');
+        
 
         if($request->ajax())
         {
-         $student2 = DB::table('student_details as sd')->select('ug_app.id as ug_id','ug_app.stu_id as ug_stu_id','ug_app.payment_status as ug_payment_status','ug_app.form_status as ug_form_status','sd.*','pg_app.*','pg_app.id as pg_id','pg_app.stu_id as pg_stu_id','pg_app.payment_status as pg_payment_status','pg_app.form_status as pg_form_status','sd.id as student_id','c.name as course_name','c.id as course_id')
+           
+        $student2 = DB::table('student_details as sd')->select('ug_app.id as ug_id','ug_app.stu_id as ug_stu_id','ug_app.payment_status as ug_payment_status','ug_app.form_status as ug_form_status','sd.*','pg_app.*','pg_app.id as pg_id','pg_app.stu_id as pg_stu_id','pg_app.payment_status as pg_payment_status','pg_app.form_status as pg_form_status','sd.id as student_id','c.name as course_name','c.id as course_id')
         ->leftJoin('ug_examination_applications as ug_app','sd.id','ug_app.stu_id')
         ->leftJoin('pg_examination_applications as pg_app','sd.id','pg_app.stu_id')
         ->leftJoin('courses as c','c.id','sd.course_id')
@@ -54,9 +60,9 @@ class MarkEntryController extends Controller
         // ->where('up_app.form_status',2)
         ->get();
         
-        //return $request;
+        // return $request;
 
-          dd($student2);
+         // dd($student2);
 
             return DataTables::of($student2)
             ->addIndexColumn()
@@ -67,6 +73,9 @@ class MarkEntryController extends Controller
                 }
                 if (!empty($request->get('sem_id'))) {
                     $instance->collection = $instance->collection->where('current_semester', $request->get('sem_id'));
+                }
+                if (!empty($request->get('course_val'))) {
+                    $instance->collection = $instance->collection->where('course_id', $request->get('course_val'));
                 }
                 if (!empty($request->get('dep_val'))) {
                     $instance->collection = $instance->collection->where('department_id', $request->get('dep_val'));
@@ -93,6 +102,6 @@ class MarkEntryController extends Controller
       
         
         
-        return view('mark_entry.index',compact('student','department','all_batch_year'));
+        return view('mark_entry.index',compact('student','department','all_batch_year','course'));
     }
 }
