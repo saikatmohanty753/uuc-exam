@@ -56,7 +56,7 @@ class MarkEntryController extends Controller
         
         //return $request;
 
-         // dd($student2);
+          dd($student2);
 
             return DataTables::of($student2)
             ->addIndexColumn()

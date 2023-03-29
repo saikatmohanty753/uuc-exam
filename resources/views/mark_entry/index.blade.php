@@ -47,7 +47,7 @@
 
                         <ul class="nav nav-tabs nav-tabs-clean" role="tablist">
                             @foreach ($department as $key => $item)
-                                <li class="nav-item"><a class="nav-link das {{ $key == 0 ? 'active' : '' }}" data-toggle="tab"
+                                <li class="nav-item click{{ $item->id }}"><a class="nav-link das  {{ $key == 0 ? 'active' : '' }}" data-toggle="tab"
                                         href="#tab-{{ $item->id }}" role="tab" dep-id="{{ $item->id }}" >{{ $item->course_for }}</a></li>
                             @endforeach
 
@@ -98,6 +98,8 @@
 
         $(function() {
             //alert($dep_id);
+
+            $('.click1 a').trigger("click");
 
             var table = $('.dataTable1').DataTable({
                 processing: true,
