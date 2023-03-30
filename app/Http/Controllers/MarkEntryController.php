@@ -26,7 +26,7 @@ class MarkEntryController extends Controller
         // ->orWhere('pg_app.form_status',2)
         // ->orWhere('pg_app.payment_status',1)
         // // ->where('up_app.form_status',2)
-        // ->get(['batch_year']);
+        // ->get(['batch_year']);C NJMMMJ
          $student = DB::table('student_details as sd')
         ->leftJoin('ug_examination_applications as ug_app','sd.id','ug_app.stu_id')
         ->leftJoin('pg_examination_applications as pg_app','sd.id','pg_app.stu_id')
