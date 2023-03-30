@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('content')
+
+
     <div class="row">
 
 
@@ -104,6 +106,7 @@
 
         </div>
     </div>
+    
 @endsection
 
 @section('js')
@@ -190,6 +193,7 @@
             // $("#stu_name").keyup(function() {
             //     table.draw();
             // });
+           
 
         });
     </script>

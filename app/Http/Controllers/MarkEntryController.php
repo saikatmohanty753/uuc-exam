@@ -6,6 +6,8 @@ use App\Models\CourseFor;
 use App\Models\Course;
 use App\Models\StudentDetails;
 use App\Models\AcademicCourseStructure;
+use App\Models\UgExaminationApplication;
+use App\Models\Ugstudentmark;
 use DB;
 use DataTables;
 use Illuminate\Http\Request;
@@ -115,17 +117,33 @@ class MarkEntryController extends Controller
 
      
         $academic = AcademicCourseStructure::where('course_id',$course)->where('semester',$sem)->where('dep_id',$dep_id)->get();
+       
+        $appid=UgExaminationApplication::where('stu_id',$id)->select('id')->first();
+        $appid=$appid->id;
         
        
-        return view('mark_entry.addmark',compact('academic'));
+        return view('mark_entry.addmark',compact('academic','id','appid','course','sem','dep_id'));
     }
 
 
     public function addmarkstore(Request $request)
     {
-        return $request;
-//    $mark= new Ugstudentmark();
-//    $mark->stu_id=
+        // return $request;
+   $mark= new Ugstudentmark();
+   $mark->stu_id=$request->stu_id;
+   $mark->app_id=$request->appid;
+   $mark->department_id=$request->dep_id;
+   $mark->course_id	=$request->course_id;
+
+   $mark->semester=$request->semester;
+  
+
+
+$mark->subject_id=json_encode($request->subject_id);
+   $mark->secure_mark=json_encode($request->securemark);
+//    $mark->practical_mark=$request->stu_id;
+$mark->save();
+return redirect()->to('/mark-entry-list')->with(['message' => 'Mark Entered Successfully']);
 
     
     }
