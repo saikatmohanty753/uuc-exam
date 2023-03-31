@@ -178,7 +178,8 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     
     Route::get('mark-entry-list', [MarkEntryController::class,'index'])->name('mark_list');
     Route::get('/addmark/{stu_id}/{course_id}/{sem_id}/{dep_id}', [MarkEntryController::class, 'addmark'])->name('addmark');
-    Route:: post('addmarkstore', [MarkEntryController::class,'addmarkstore'])->name('addmarkstore');
+    Route:: post('ugaddmarkstore', [MarkEntryController::class,'addmarkstore'])->name('addmarkstore');
+    Route:: post('pgaddmarkstore', [MarkEntryController::class,'addmarkstore'])->name('pgaddmarkstore');
    
 
     

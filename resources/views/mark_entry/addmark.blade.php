@@ -26,7 +26,9 @@
                             <div class="tab-content p-3">
                                 <div class="tab-pane fade show active" id="tab-home" role="tabpanel"
                                     aria-labelledby="tab-home">
-                                    <form method="post" action="{{ route('addmarkstore') }}">
+
+                                    <form method="post" action="@if($dep_id == 1){{ route('addmarkstore') }}@elseif($dep_id == 2){{ route('pgaddmarkstore') }}@endif">  
+
                                         @csrf
                                         <div class="row mb-4">
                                             <div class="col-md-3">
@@ -108,6 +110,8 @@
                                     <form action="">
 
                                     </form>
+
+
                                 </div>
 
                             </div>
