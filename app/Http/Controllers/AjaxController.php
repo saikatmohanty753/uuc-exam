@@ -26,11 +26,14 @@ class AjaxController extends Controller
         //College-exam-Section = 17
         //student = 3
 
-        $check = Notice::where([['id', $request->id], ['status', 0]])->count();
+         $check = Notice::where([['id', $request->id], ['status', 0]])->count();
+
+        
+
         if ($check == 1) {
             Notice::where('status', 0)
                 ->where('id', $request->id)
-                ->update(['status' => 0, 'published_date' => Carbon::now()]);
+                ->update(['status' => 1, 'published_date' => Carbon::now()]);
             $notice = Notice::find($request->id);
             $status = "Published";
             if ($notice->notice_type == 2) {
