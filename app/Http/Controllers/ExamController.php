@@ -6,19 +6,21 @@ use App\Models\BseExam;
 use App\Models\BseExamine;
 use App\Models\Course;
 use App\Models\CourseFor;
-use App\Models\ExamNoticeType;
 use App\Models\FeesMaster;
 use App\Models\Notice;
+use App\Models\PgStudent;
+use App\Models\pg_student_subject;
 use App\Models\SemesterDetails;
 use App\Models\StudentAddress;
 use App\Models\StudentDetails;
 use App\Models\StudentEducationDetails;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\UgExaminationApplication;
 use DB;
 use DataTables;
-
-use function Ramsey\Uuid\v1;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+//use function Ramsey\Uuid\v1;
+use Illuminate\Http\Request;
 
 class ExamController extends Controller
 {
@@ -33,26 +35,55 @@ class ExamController extends Controller
         return view('exam.regular_exam_notice', compact('courseFor', 'ug_regular_notice'));
     }
 
-    public function apply_regular_exam($id, $sem_no)
+    public function apply_regular_exam($id, $dep, $sem_no)
     {
-        //return $sem_no;
+        //return 1;
         $student_details = StudentDetails::find($id);
         $student_address = StudentAddress::where('student_id', $id)->first();
         $student_education = StudentEducationDetails::where('student_id', $id)->first();
-        $edu_data = json_decode($student_education->qualification);
-        $edu_hsc = $edu_data->hsc;
-        $edu_intermediate = $edu_data->intermediate;
+
+        if($student_education == '')
+        {
+            $edu_data = '';
+        }else{
+            $edu_data = json_decode($student_education->qualification);
+        }
+
+
+        if($edu_data == ''){
+            $edu_hsc = '' ;
+            $edu_intermediate = '' ;
+        }else{
+            $edu_hsc = $edu_data->hsc;
+            $edu_intermediate = $edu_data->intermediate;
+        }
+
         $fee = FeesMaster::all();
         //return $fee[0]->amount;
-        return view('exam.regular_exam', compact('student_details', 'student_address', 'edu_hsc', 'edu_intermediate', 'id', 'fee', 'sem_no'));
+        if($dep == 1){
+            return view('exam.regular_exam', compact('student_details', 'student_address', 'edu_hsc', 'edu_intermediate', 'id', 'fee', 'sem_no'));
+        }else{
+            return '<h2>Others Exam Form</h2>';
+        }
+
     }
 
-    public function student_list(Request $request)
+    public function student_list(Request $request, $dep)
     {
 
-        $student = StudentDetails::where('department_id', '1')->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
+
+
+        $student = StudentDetails::where('department_id', $dep)->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
+        //dd($student);
         $collection = collect($student);
+        //dd($collection);
         $all_batch_year = $collection->unique('batch_year');
+
+
+
+
+
+
 
         // datatable code ========
 
@@ -60,10 +91,18 @@ class ExamController extends Controller
 
             $year = now()->year;
             $month = now()->month;
-            $ug_totsem = 8;
-            $student = StudentDetails::where('department_id', '1')->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
+
+            $ug_totsem = CourseFor::find($dep);
+
+            //$ug_totsem = 8;
+            $ug_totsem = CourseFor::find($dep);
+            $ug_totsem = $ug_totsem->semester;
+
+
+            $student = StudentDetails::where('department_id', $dep)->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
             $collection = collect($student);
 
+            $batch_totl2 = [];
             foreach ($student as $key => $value) {
                 //print($value);
                 $explode = explode('-', $value->batch_year);
@@ -101,14 +140,11 @@ class ExamController extends Controller
             $student_details2 = [];
             foreach ($student_list as $key => $value) {
 
-                 $student_id = $value->id;
-                // if ($request->status == '') {
-                //     $student_details = StudentDetails::where('id', $student_id)->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
-                // } else {
-                //     $student_details = StudentDetails::where('id', $student_id)->where('batch_year', $request->status)->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
-                // }
+                $student_id = $value->id;
 
-                $student_details = StudentDetails::where('id', $student_id)->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
+
+                $student_details = StudentDetails::where('id', $student_id)
+                    ->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
 
 
                 foreach ($student_details as $key2 => $item) {
@@ -121,29 +157,29 @@ class ExamController extends Controller
                 }
             }
 
-            // /return $student_details2;
+
 
             return DataTables::of($student_details2)
                 ->addIndexColumn()
                 ->filter(function ($instance) use ($request) {
-
-                    if($request->get('batch_year') != ''){
-                        $instance->where('batch_year', $request->get('batch_year'));
+                    if (!empty($request->get('batch_year'))) {
+                        $instance->collection = $instance->collection->where('batch_year', $request->get('batch_year'));
                     }
-                    //return $instance;
-                    // $instance->where('session_year', $request->get('session'));
-                    // if ($request->get('dep') != '') {
-                    //     $instance->where('dep_id', $request->get('dep'));
-                    // }
-                    //$instance->where('course_id', 11)->get();
-                    // if ($request->get('dep') != '') {
-                    //     $instance->where('dep_id', $request->get('dep'));
-                    // }
+                    if (!empty($request->get('sem_id'))) {
+                        $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                            return Str::contains($row['semister_name'][0], $request->get('sem_id')) ? true : false;
+                        });
+                    }
+                    if (!empty($request->get('stu_name'))) {
+                        $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                            //return Str::contains($row['name'], $request->get('stu_name')) ? true : false;
+                            return  Str::contains(Str::lower($row['name']), Str::lower($request->get('stu_name'))) ? true : false;
+                        });
+                    }
+
                 })
-                // ->addColumn('action', function ($row) {
-                //     $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
-                //     return $actionBtn;
-                // })
+
+
                 ->addColumn('semester', function ($row) {
                     $semester = $row['semister_name'][0];
                     $semester = $semester . ' ' . 'Semester';
@@ -156,19 +192,22 @@ class ExamController extends Controller
                         ->get(['course_fors.course_for']);
                     $department = $department[0]->course_for;
                     return $department;
+
                 })
-                ->addColumn('course', function($row){
+                ->addColumn('course', function ($row) {
                     $course = StudentDetails::join('courses','courses.id','=','student_details.course_id')
                     ->where('student_details.course_id', $row['course_id'])
                     ->get(['courses.name']);
                     $course = $course[0]->name ;
                     return $course;
+
                 })
                 ->rawColumns(['action', 'semester', 'department'])
-                ->make();
+                ->make(true);
         }
         // end datable code ===================
-        return view('exam.student_list', compact('all_batch_year'));
+        //return 1;
+        return view('exam.student_list', compact('all_batch_year','dep'));
     }
 
 
@@ -183,7 +222,6 @@ class ExamController extends Controller
         } else {
             $fee_paid = 0;
         }
-
 
         if ($request->bde_year_hid) {
             //return 1;
@@ -209,7 +247,6 @@ class ExamController extends Controller
                 $BseExamine->save();
             }
         }
-
 
         if ($request->addmission_exam == 'on') {
             $addmission_exam = 'yes';
@@ -301,7 +338,6 @@ class ExamController extends Controller
             }
         }
 
-
         if ($request->addmission_exam == 'on') {
             $addmission_exam = 'yes';
         } else {
@@ -339,7 +375,6 @@ class ExamController extends Controller
         $fee = FeesMaster::all();
         $bse_exams = BseExam::where('stu_id', $id)->get();
         $bse_examines  = BseExamine::where('stu_id', $id)->get();
-
         return view('exam.regular_exam_preview', compact('student_details', 'student_address', 'student_education', 'edu_hsc', 'edu_intermediate', 'fee', 'bse_exams', 'bse_examines', 'id'));
     }
 
@@ -350,5 +385,34 @@ class ExamController extends Controller
         //$student->addmission_exam = $addmission_exam;
         $student->save();
         return redirect()->route('student_list');
+    }
+
+    public function ug_student_list()
+    {
+        //return Auth::user();
+       //return auth()->user()->clg_user_id;
+       $ug_app = UgExaminationApplication::where('payment_status',1)->where('form_status',2)->get(['stu_id']);
+
+       foreach ($ug_app as $key => $value) {
+            $stu_id = $value->stu_id;
+            $student = StudentDetails::where('id',$stu_id)->where('clg_id', auth()->user()->clg_user_id)->get();
+       }
+       //return $student;
+       return view('student_applications.student_list',compact('student'));
+    }
+
+    public function ug_student_view($id)
+    {
+        $student_details = StudentDetails::find($id);
+        $student_address = StudentAddress::where('student_id', $id)->first();
+        $student_education = StudentEducationDetails::where('student_id', $id)->first();
+        $edu_data = json_decode($student_education->qualification);
+        $edu_hsc = $edu_data->hsc;
+        $edu_intermediate = $edu_data->intermediate;
+        $fee = FeesMaster::all();
+        $bse_exams = BseExam::where('stu_id', $id)->get();
+        $bse_examines  = BseExamine::where('stu_id', $id)->get();
+
+        return view('student_applications.regular_exam_preview', compact('student_details', 'student_address', 'student_education', 'edu_hsc', 'edu_intermediate', 'fee', 'bse_exams', 'bse_examines', 'id'));
     }
 }

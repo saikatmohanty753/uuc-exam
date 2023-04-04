@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('content')
+
+{{-- @php
+dd($student_details2);
+@endphp --}}
     <div class="row">
 
         <div class="col-xl-12">
@@ -17,6 +21,7 @@
                                     <label class="form-label">Select year</label>
                                     <select name="" class="form-control" id="batch_year">
                                         <option value="">Select Batch Year</option>
+                                        <option value="all">All</option>
                                         @foreach ($all_batch_year as $item)
                                             <option value="{{ $item->batch_year }}">{{ $item->batch_year }}</option>
                                         @endforeach
@@ -34,9 +39,12 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    {{-- <input type="button" class="btn btn-sm btn-success waves-effect waves-themed" value="search"> --}}
-                                    <input type="submit" class="btn btn-sm btn-success waves-effect waves-themed mt-4">
+                                    <label class="form-label">Serch By Student Name</label>
+                                    <input type="text" id="stu_name" class="form-control">
                                 </div>
+                                {{-- <div class="col-md-4">
+                                    <input type="submit" class="btn btn-sm btn-success waves-effect waves-themed mt-4">
+                                </div> --}}
                             </div>
 
                         </div>
@@ -46,7 +54,7 @@
                                 <tr>
                                     <th>Sl.No</th>
                                     <th>Name</th>
-                                    {{-- <th>College Name</th> --}}
+                                    <th>College Name</th>
                                     <th>Badge Year</th>
                                     <th>Department</th>
                                     <th>Course</th>
@@ -79,17 +87,20 @@
                 processing: true,
                 serverSide: true,
                 orderable: false,
+                searching: false,
                 ajax: {
                     //url: "{{ route('student_list_ajax') }}",
-                    url: "{{ route('student_list') }}",
+                    url: "{{ route('student_list',[$dep]) }}",
                     type: 'GET',
                     data: function(d) {
                         d.batch_year = $('#batch_year').val(),
-                        d.sem_id = $('#sem_id').val()
+                        d.sem_id = $('#sem_id').val(),
+                        d.stu_name = $('#stu_name').val()
                         // d.search = $('input[type="search"]').val()
                     },
                 },
-                columns: [{
+                columns: [
+                    {
                         data: 'DT_RowIndex',
                         orderable: false,
                         searchable: false
@@ -98,30 +109,50 @@
                         data: 'name',
                         name: 'name'
                     },
-                    {data: 'batch_year', name: 'batch_year'},
-                    {data: 'department', name: 'department'},
-                    {data: 'course', name: 'course'},
-                    {data: 'batch_year', name: 'batch_year'},
-                    {data: 'semester', name: 'semester'},
+                    {
+                        data: 'batch_year',
+                        name: 'batch_year'
+                    },
+                    {
+                        data: 'department',
+                        name: 'department'
+                    },
+                    {
+                        data: 'course',
+                        name: 'course'
+                    },
+                    {
+                        data: 'semester',
+                        name: 'semester'
+                    },
                     {
                         data: 'action',
-                         name: 'action',
-                         render: function(data, type, row) {
-                             let stud_id = row['student_id'];
-                             let sem_name = row['semister_name'][0];
-                             let url = "apply_regular_exam/" + stud_id + "/" + sem_name;
-                            return "<a class='btn btn-sm btn-success waves-effect waves-themed' href='"+url+"'>Apply </a>";
-                         }
+                        name: 'action',
+                        render: function(data, type, row) {
+                            let stud_id = row['student_id'];
+                            let sem_name = row['semister_name'][0];
+                            let dep_id = row['department_id'];
+                            let url = "/apply_regular_exam/" + stud_id + "/" + dep_id + "/" + sem_name;
+                            return "<a class='btn btn-sm btn-success waves-effect waves-themed' href='" +
+                                url + "'>Apply </a>";
+                            //return 'action';
+                        }
                     },
                 ]
             });
 
             $('#batch_year').change(function() {
-               // alert('hi');
+                // alert('hi');
                 table.draw();
             });
             $('#sem_id').change(function() {
-               // alert('hi');
+                // alert('hi');
+                table.draw();
+            });
+            // $("#stu_name").focusout(function() {
+            //     table.draw();
+            // });
+            $("#stu_name").keyup(function() {
                 table.draw();
             });
 
