@@ -130,7 +130,7 @@ class MarkEntryController extends Controller
 
     public function addmarkstore(Request $request)
     {
-        // return $request;
+       
         if ($request->dep_id == 1) {
             $mark = new Ugstudentmark();
             $mark->stu_id = $request->stu_id;
