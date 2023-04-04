@@ -28,7 +28,7 @@ class ExamController extends Controller
     {
         // return Auth::user()->clg_user_id;
         // return session()->all();
-        
+
         $courseFor = CourseFor::get(['course_for', 'id']);
         $ug_regular_notice = Notice::where('notice_type', 2)->whereIn('notice_sub_type', [2])->get();
 
@@ -48,8 +48,8 @@ class ExamController extends Controller
         }else{
             $edu_data = json_decode($student_education->qualification);
         }
-        
-        
+
+
         if($edu_data == ''){
             $edu_hsc = '' ;
             $edu_intermediate = '' ;
@@ -57,7 +57,7 @@ class ExamController extends Controller
             $edu_hsc = $edu_data->hsc;
             $edu_intermediate = $edu_data->intermediate;
         }
-        
+
         $fee = FeesMaster::all();
         //return $fee[0]->amount;
         if($dep == 1){
@@ -65,13 +65,13 @@ class ExamController extends Controller
         }else{
             return '<h2>Others Exam Form</h2>';
         }
-        
+
     }
 
     public function student_list(Request $request, $dep)
     {
 
-       
+
 
         $student = StudentDetails::where('department_id', $dep)->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
         //dd($student);
@@ -81,9 +81,9 @@ class ExamController extends Controller
 
 
 
-       
-         
-       
+
+
+
 
         // datatable code ========
 
@@ -97,8 +97,8 @@ class ExamController extends Controller
             //$ug_totsem = 8;
             $ug_totsem = CourseFor::find($dep);
             $ug_totsem = $ug_totsem->semester;
-            
-            
+
+
             $student = StudentDetails::where('department_id', $dep)->where('batch_year', '!=', 'null')->where('clg_id', auth()->user()->clg_user_id)->get(['batch_year', 'id']);
             $collection = collect($student);
 
@@ -141,7 +141,7 @@ class ExamController extends Controller
             foreach ($student_list as $key => $value) {
 
                 $student_id = $value->id;
-               
+
 
                 $student_details = StudentDetails::where('id', $student_id)
                     ->get(['clg_id', 'department_id', 'course_id', 'name', 'batch_year']);
@@ -157,7 +157,7 @@ class ExamController extends Controller
                 }
             }
 
-            
+
 
             return DataTables::of($student_details2)
                 ->addIndexColumn()
@@ -192,7 +192,7 @@ class ExamController extends Controller
                         ->get(['course_fors.course_for']);
                     $department = $department[0]->course_for;
                     return $department;
-                   
+
                 })
                 ->addColumn('course', function ($row) {
                     $course = StudentDetails::join('courses','courses.id','=','student_details.course_id')
@@ -200,7 +200,7 @@ class ExamController extends Controller
                     ->get(['courses.name']);
                     $course = $course[0]->name ;
                     return $course;
-                    
+
                 })
                 ->rawColumns(['action', 'semester', 'department'])
                 ->make(true);
@@ -392,7 +392,7 @@ class ExamController extends Controller
         //return Auth::user();
        //return auth()->user()->clg_user_id;
        $ug_app = UgExaminationApplication::where('payment_status',1)->where('form_status',2)->get(['stu_id']);
-       
+
        foreach ($ug_app as $key => $value) {
             $stu_id = $value->stu_id;
             $student = StudentDetails::where('id',$stu_id)->where('clg_id', auth()->user()->clg_user_id)->get();

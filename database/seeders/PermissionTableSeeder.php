@@ -134,6 +134,12 @@ class PermissionTableSeeder extends Seeder
             'exam-notice-edit',
             'exam-notice-delete',
 
+            'mark-entry-module',
+            'mark-entry-list',
+            'mark-entry-create',
+            'mark-entry-edit',
+            'mark-entry-delete',
+
 
 
         ];

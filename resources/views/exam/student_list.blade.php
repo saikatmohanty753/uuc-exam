@@ -58,12 +58,13 @@ dd($student_details2);
                                     <th>Badge Year</th>
                                     <th>Department</th>
                                     <th>Course</th>
+                                    <th>Batch</th>
                                     <th>Semester</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                               
+
                             </tbody>
                         </table>
 
