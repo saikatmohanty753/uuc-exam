@@ -122,6 +122,8 @@
                     <span class="nav-link-text" data-i18n="nav.application_notice">Notice</span>
                 </a>
             </li>
+        @endcan
+        @can('mark-entry-module')
             <li>
                 <a href="{{route('mark_list')}}" title="Notices" data-filter-tags="Notice">
                     <i class="fa-solid fa-triangle-exclamation"></i>
@@ -183,7 +185,7 @@
                             <span class="nav-link-text">All Applications</span>
                         </a>
                     </li>
-                    
+
                 </ul>
             </li>
         @endcan
@@ -192,7 +194,7 @@
         <a href="{{ route('pg_exam_notice') }}" title="Notices" data-filter-tags="Notice">
             <i class="fa-solid fa-book-open-reader"></i>
             <span class="nav-link-text" data-i18n="nav.application_notice">Pg Examination</span>
-           
+
         </a>
     </li> --}}
     </ul>
