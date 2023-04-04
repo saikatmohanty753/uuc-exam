@@ -28,30 +28,51 @@
                         <div class="panel-tag border-left-0">
                             <div class="row">
 
-                                <div class="col-sm-12 d-flex">
+                                <div class="col-sm-12">
 
-                                    <div class="table-responsive">
-                                        <table class="table table-clean table-sm align-self-end">
-                                            <tbody>
+                                    <div class="table-responsive22">
+                                        <table class="table table-bordered m-0 w-100">
+                                            
                                                 <tr>
+                                                    <th> Notice Type</th>
+                                                    <td>{{ $data->notice_sub_type != '' ? $data->noticeType->notice_name : '' }}</td>
+                                                    <th>Department</th>
+                                                    <td >{{ $data->course }}</td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <th>Start date</th>
+                                                    <td>{{ Carbon\Carbon::parse($data->start_date)->format('d-m-Y') }}</td>
+                                                    <th>End date</th>
+                                                    <td>{{ Carbon\Carbon::parse($data->exp_date)->format('d-m-Y') }}</td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <th>Details</th>
+                                                    <td>{{ $data->details }}</td>
+                                                    <th>For semesters </th>
+                                                    @if ($data->notice_type == 2)
+                                                    <td>{{ $data->semester }}</td>
+                                                    @endif
+                                                </tr>
+                                                
+                                                {{-- <tr>
                                                     <td style="width:30%;">
                                                         Notice Type <strong>:
-                                                            {{ $data->notice_sub_type != '' ? $data->noticeType->notice_name : '' }}
+                                                            
                                                         </strong>
                                                     </td>
                                                     <td style="width:40%;">
                                                         Department <strong>: {{ $data->course }}</strong>
                                                     </td>
-                                                    {{-- <td>
-                                                        Course<strong> : {{$data->couse_name}} </strong>
-                                                    </td> --}}
+                                                    
                                                     <td style="width:30%;">
                                                         Start date<strong> :
                                                             {{ Carbon\Carbon::parse($data->start_date)->format('d-m-Y') }}</strong>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    {{-- <td>Semester <strong>: {{$data->semester}}</strong></td> --}}
+                                                    
                                                     <td style="width:30%;">
                                                         End date<strong> :
                                                             {{ Carbon\Carbon::parse($data->exp_date)->format('d-m-Y') }}</strong>
@@ -65,10 +86,10 @@
                                                         </td>
                                                     @endif
 
-                                                </tr>
+                                                </tr> --}}
                                                 
                                                 
-                                            </tbody>
+                                            
                                         </table>
                                         @if (Auth::user()->role_id == 12)
 
@@ -79,10 +100,10 @@
                                         <div class="row">
                                             <div class="@if ($data->is_verified == 0)col-md-6 @else col-md-4 @endif text-center">
                                                 <label class="form-label text-left w-100">Verify</label>
-                                                <select name="verify" id="" class="form-control">
+                                                <select name="verify" id="" class="form-control" {{$data->is_verified == 1 ? 'disabled' : ''}} >
                                                     <option value="">Select</option>
-                                                    <option value="1">verified</option>
-                                                    <option value="0">Not verified</option>
+                                                    <option value="1" {{$data->is_verified == 1 ? 'selected' : ''}}>verified</option>
+                                                    <option value="0" {{$data->is_verified == 0 ? 'selected' : ''}}>Not verified</option>
                                                 </select>
                                             </div>
                                             <div class="@if ($data->is_verified == 0)col-md-6 @else col-md-4 @endif mt-4 text-center">
@@ -91,7 +112,10 @@
                                                 <button type="submit" class="btn btn-primary btn-sm waves-effect waves-themed">Submit</button>
                                                 @endif
                                             </div>
-                                            <div class="col-md-4 text-right  @if ($data->is_verified == 0) d-none @endif">
+                                            <div class="col-md-4 text-right is_pub  @if ($data->is_verified == 0) d-none @endif">
+                                                @if ($data->status == 1)
+                                                {!! $data->noticeStatus() !!}
+                                                @else
                                                 <label class="form-label text-right w-100">Publish</label>
                                                 <div class="custom-control custom-switch">
                                                     <input type="checkbox"
@@ -102,7 +126,12 @@
                                                     <label class="custom-control-label publish"
                                                         for="customSwitch"></label>
                                                 </div>
-                                                {!! $data->noticeStatus() !!}
+                                                @endif
+                                                
+                                                
+                                                {{-- @php
+                                                    dd($data->noticeStatus());    
+                                                @endphp --}}
                                                 
                                                 {{-- @if ($data->is_verified == 1)
                                                                 @if ($data->status == 0)
@@ -162,6 +191,8 @@
                         publish.prop("checked");
                         publish.prop("disabled");
                         $('.publish').html('Published');
+                        $('.is_pub').empty().html('<span class="badge badge-success">Published</span>');
+                       
                     }
                 });
             }
