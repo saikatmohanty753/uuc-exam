@@ -126,7 +126,7 @@ class ExamController extends Controller
             return DataTables::of($student_details2)
                 ->addIndexColumn()
                 ->filter(function ($instance) use ($request) {
-                    
+
                     if($request->get('batch_year') != ''){
                         $instance->where('batch_year', $request->get('batch_year'));
                     }
@@ -139,7 +139,7 @@ class ExamController extends Controller
                     // if ($request->get('dep') != '') {
                     //     $instance->where('dep_id', $request->get('dep'));
                     // }
-                }) 
+                })
                 // ->addColumn('action', function ($row) {
                 //     $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
                 //     return $actionBtn;
@@ -150,7 +150,7 @@ class ExamController extends Controller
                     return $semester;
                 })
                 ->addColumn('department', function ($row) {
-                   
+
                     $department = StudentDetails::join('course_fors', 'course_fors.id', '=', 'student_details.department_id')
                         ->where('student_details.department_id', $row['department_id'])
                         ->get(['course_fors.course_for']);

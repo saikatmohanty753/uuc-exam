@@ -50,6 +50,7 @@
                                     <th>Badge Year</th>
                                     <th>Department</th>
                                     <th>Course</th>
+                                    <th>Batch</th>
                                     <th>Semester</th>
                                     <th>Action</th>
                                 </tr>
@@ -100,6 +101,7 @@
                     {data: 'batch_year', name: 'batch_year'},
                     {data: 'department', name: 'department'},
                     {data: 'course', name: 'course'},
+                    {data: 'batch_year', name: 'batch_year'},
                     {data: 'semester', name: 'semester'},
                     {
                         data: 'action',
