@@ -28,7 +28,7 @@ class AjaxController extends Controller
 
          $check = Notice::where([['id', $request->id], ['status', 0]])->count();
 
-        
+
 
         if ($check == 1) {
             Notice::where('status', 0)
