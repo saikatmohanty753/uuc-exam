@@ -6,6 +6,7 @@ use App\Models\AcademicCourseStructure;
 use App\Models\Course;
 use App\Models\CourseFor;
 use App\Models\PgExaminationApplication;
+use App\Models\User;
 use App\Models\Pgstudentmark;
 use App\Models\StudentDetails;
 use App\Models\UgExaminationApplication;
@@ -162,6 +163,61 @@ class MarkEntryController extends Controller
 
         }
         return redirect()->to('/mark-entry-list')->with(['message' => 'Mark Entered Successfully']);
+
+    }
+
+    public function appliedstudentlist(){
+       
+
+        // $ugapplied = UgExaminationApplication::where('app_status', '1')->get();
+        $ugapplied = UgExaminationApplication::select('student_details.*')
+            ->where('uea.app_status', 1)
+            ->from('ug_examination_applications as uea')
+            ->leftJoin('student_details', 'uea.stu_id', '=', 'student_details.id')
+            
+           
+            ->get();
+                     
+
+        
+        // $ugstudent=StudentDetails::where('id',);
+       
+        return view('applied_student.applied_student',compact('ugapplied'));
+
+    }
+
+    public function appliedstudentview($id){
+      
+
+         $appliedstu = StudentDetails::where('id',$id)->first();
+        $departmentid= $appliedstu->department_id;
+
+
+      
+
+        
+        return view('applied_student.view_applied_student',compact('appliedstu','id','departmentid'));
+
+    }
+
+    public function verifyStudentApplied(Request $request)
+  
+    {
+      if($request->department_id==1){
+        $student = UgExaminationApplication::where('stu_id', $request->id)->first();
+        $student->remarks = $request->remarks;
+        $student->app_status = $request->status;
+        $student->save();
+        return redirect()->back();
+
+      }else{
+        $student = PgExaminationApplication::where('stu_id', $request->id)->first();
+        $student->remarks = $request->remarks;
+        $student->app_status = $request->status;
+        $student->save();
+        return redirect()->back();
+      }
+       
 
     }
 }
