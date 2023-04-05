@@ -180,6 +180,11 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::get('/addmark/{stu_id}/{course_id}/{sem_id}/{dep_id}', [MarkEntryController::class, 'addmark'])->name('addmark');
     Route:: post('ugaddmarkstore', [MarkEntryController::class,'addmarkstore'])->name('addmarkstore');
     Route:: post('pgaddmarkstore', [MarkEntryController::class,'addmarkstore'])->name('pgaddmarkstore');
+
+    Route:: get('applied_student_list', [MarkEntryController::class,'appliedstudentlist'])->name('applied_student_list');
+    Route:: get('/applied_student_view/{id}', [MarkEntryController::class,'appliedstudentview'])->name('applied_student_view');
+    Route:: post('/uucverifyappliedstustore', [MarkEntryController::class,'verifyStudentApplied'])->name('uuc-verify-appliedstu');
+    
    
 
     

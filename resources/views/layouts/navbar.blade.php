@@ -196,6 +196,15 @@
 
         </a>
     </li> --}}
+        <li>
+        <a href="{{route('applied_student_list')}}" title="Notices" data-filter-tags="Notice">
+            <i class="fa-solid fa-book-open-reader"></i>
+            <span class="nav-link-text" data-i18n="nav.application_notice">Applied Student
+
+            </span>
+
+        </a>
+    </li>
     </ul>
     <div class="filter-message js-filter-message bg-success-600"></div>
 </nav>
