@@ -41,9 +41,9 @@
                                                 </tr>
                                                 
                                                 <tr>
-                                                    <th>Start date</th>
+                                                    <th>Start Date</th>
                                                     <td>{{ Carbon\Carbon::parse($data->start_date)->format('d-m-Y') }}</td>
-                                                    <th>End date</th>
+                                                    <th>End Date</th>
                                                     <td>{{ Carbon\Carbon::parse($data->exp_date)->format('d-m-Y') }}</td>
                                                 </tr>
                                                 

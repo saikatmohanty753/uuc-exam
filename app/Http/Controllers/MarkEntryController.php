@@ -204,14 +204,29 @@ class MarkEntryController extends Controller
         $appliedstu = StudentDetails::where('id',$id)->first();
          $departmentid= $appliedstu->department_id;
          $appliedstu = StudentDetails::where('id',$id)->first();
+         $studentdetails = StudentDetails::select('sd.*', 'colleges.name as clg_name', 'course_fors.course_for as departmentname', 'courses.name as coursename', 'student_addresses.*', 'student_education_details.*', 'student_education_details.qualification as qualification', 'student_documents.*', 'prsdis.district_name as present_dis', 'perdis.district_name as per_district')
+            ->where('sd.id', $id)
+            ->from('student_details as sd')
+            ->leftJoin('colleges', 'sd.clg_id', '=', 'colleges.id')
+            ->leftJoin('course_fors', 'sd.department_id', '=', 'course_fors.id')
+            ->leftJoin('courses', 'sd.course_id', '=', 'courses.id')
+            ->leftJoin('student_addresses', 'sd.id', '=', 'student_addresses.student_id')
+            ->leftJoin('student_education_details', 'sd.id', '=', 'student_education_details.student_id')
+            ->leftJoin('student_documents', 'sd.id', '=', 'student_documents.student_id')
+            ->leftJoin('district as prsdis', 'student_addresses.present_district_id', '=', 'prsdis.id')
+            ->leftJoin('district as perdis', 'student_addresses.permanent_district_id', '=', 'perdis.id')
+            ->first();
+
+            $qualification_details = json_decode($studentdetails->qualification);
+         
          if($departmentid==1){
             
             $appstatus=UgExaminationApplication::where('stu_id',$id)->first(['app_status']);
-            return view('applied_student.ug_view_applied_student',compact('appliedstu','id','departmentid','appstatus'));
+            return view('applied_student.ug_view_applied_student',compact('appliedstu','id','departmentid','appstatus','studentdetails','qualification_details'));
          }else{
            
             $appstatus=PgExaminationApplication::where('stu_id',$id)->first(['app_status']);
-            return view('applied_student.pg_view_applied_student',compact('appliedstu','id','departmentid','appstatus'));
+            return view('applied_student.pg_view_applied_student',compact('appliedstu','id','departmentid','appstatus','studentdetails','qualification_details'));
          }
         
 
