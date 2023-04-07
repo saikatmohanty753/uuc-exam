@@ -31,21 +31,32 @@
                                     <th>Department</th>
                                     <th>College</th>
                                     <th>Action</th>
+                                    <th>isverified</th>
                                   
                                 </tr>
                             </thead>
                             <tbody>
+                            
                               
-                                @foreach ($ugapplied as $key => $item)
+                                @foreach ($ugapplied->concat($pgapplied) as $key => $item)
                                 <tr>
-                                    <td>{{++$key}}</td>
+                                 <td>{{++$key}}</td>
                                  <td>{{$item->name}}</td>
                                  <td>{{$item->email}}</td>
-                                 <td>{{$item->department_id}}</td>
-                                 <td>{{$item->clg_id}}</td>
+                                 <td>{{$item->dept}}</td>
+                                 <td>{{$item->clgname}}</td>
                                  <td><a href="{{ url('applied_student_view/' . $item->id) }}"
                                     class="btn  waves-effect waves-themed btn-outline-primary">
                                     <i class="fa-solid fa-eye"></i></a></td>
+                                    <td>
+                                        @if($item->status==2)
+                                    <p>Approved</p>
+                                    @elseif($item->status==3)
+                                    <p>Rejected</p>
+                                    @endif
+                                    </td>
+                                    
+
                                 </tr>
                              @endforeach 
                                

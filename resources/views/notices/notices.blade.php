@@ -28,11 +28,11 @@
                                     <th>Department</th>
                                     {{-- <th>Course</th> --}}
                                     {{-- <th>Semester</th> --}}
-                                    <th>Start date</th>
-                                    <th>End date</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
                                     <th>Details</th>
-                                    <td>is Verified</td>
-                                    <td>is Published</td>
+                                    <td>Is Verified</td>
+                                    <td>Is Published</td>
                                     {{-- <th>Status</th> --}}
                                     <th>Details</th>
                                 </tr>

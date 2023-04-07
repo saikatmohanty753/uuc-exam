@@ -17,6 +17,10 @@ class StudentDetails extends Model
     {
         return $this->belongsTo(CourseFor::class, 'department_id', 'id');
     }
+    public function college()
+    {
+        return $this->belongsTo(College::class, 'clg_id', 'id');
+    }
     
 
     public function applicationStatus()
