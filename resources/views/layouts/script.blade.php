@@ -64,3 +64,18 @@
  <script src="{{ asset('js/form-validation-by-sc.js') }}"></script>
  <script src="{{ asset('backend/js/notifications/toastr/toastr.js')}}"></script>
 
+ <script>
+ $(document).ready(function() {
+        var weblink = location.pathname.split("/")[2];
+        if (weblink == "" || (typeof weblink === "undefined")) {
+            var link = location.pathname.split("/")[1];
+        } else {
+            var link = weblink;
+        }
+        //alert(link);
+        $("." + link).parent("li").addClass("active");
+        $("." + link).parent().parent("ul").parent().addClass("active open");
+        $('.select2').select2();
+    });
+    </script>
+
