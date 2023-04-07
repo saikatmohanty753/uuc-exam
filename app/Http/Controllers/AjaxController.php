@@ -37,8 +37,12 @@ class AjaxController extends Controller
             $notice = Notice::find($request->id);
             $status = "Published";
             if ($notice->notice_type == 2) {
-                $users = User::whereIn('role_id', [17, 3])->get();
-                foreach ($users as $key => $user) {
+                $dep = $notice->department_id;
+                $students = StudentDetails::where('department_id', $dep)->pluck('id');
+                $users = User::whereIn('role_id', [13, 17])->get();
+                $students = User::whereIn('student_id', $students)->get();
+                $all_user = $users->merge($students);
+                foreach ($all_user as $key => $user) {
                     $user->notice_id = $request->id;
                     $user->user_id = $user->id;
                     $user->notify(new ExamNotice());

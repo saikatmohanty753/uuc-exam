@@ -27,7 +27,7 @@ class DashboardController extends Controller
         } elseif (Str::lower(Auth::user()->role->name) == 'college-exam-section') {
             return $this->collegeExamSection();
         }elseif (Str::lower(Auth::user()->role->name) == 'exam-notice') {
-            //return 11;
+            // return 11;
             return $this->ExamSectionNotice();
         }elseif (Str::lower(Auth::user()->role->name) == 'exam-mark-entry') {
             //return 11;
