@@ -149,18 +149,20 @@ class NoticesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function notice_destroy($id)
-    {
-        $count = Notice::where([['id', $id], ['status', 0]])->count();
-        if ($count == 1) {
-            Notice::find($id)->delete();
-            return redirect()->route('notices.index')
-            ->with('success', 'Notice deleted successfully');
-        }else{
-            return redirect()->route('notices.index')
+{
+  
+    $count = Notice::where([['id', $id], ['status', 0]])->count();
+    if ($count == 1) {
+        Notice::find($id)->delete();
+        return redirect()->back()
+        ->with('error', 'Notice deleted successfully.');
+            
+    } else {
+        return redirect()->back()
             ->with('error', 'Notice can not be deleted..');
-        }
-
     }
+}
+
 
     public function notices_verify(Request $request, $id)
     {
