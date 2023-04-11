@@ -20,7 +20,7 @@
                     <div class="panel-content">
 
                         <div
-                            class="panel-content d-flex py-2 mt-2 border-faded border-left-0 border-right-0 text-muted bg-success-500">
+                            class="panel-content d-flex py-2 mt-2 border-faded border-left-0 border-right-0 text-muted bg-primary-500">
                             <h6 class="text-light">
                                 Notice Details
                             </h6>
