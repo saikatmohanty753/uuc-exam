@@ -50,9 +50,11 @@
                                     <i class="fa-solid fa-eye"></i></a></td>
                                     <td>
                                         @if($item->status==2)
-                                    <p>Approved</p>
+                                    <p class="badge badge-success">Approved</p>
                                     @elseif($item->status==3)
-                                    <p>Rejected</p>
+                                    <p class="badge badge-danger">Rejected</p>
+                                    @else
+                                    <p class="badge badge-warning">Pending</p>
                                     @endif
                                     </td>
                                     
