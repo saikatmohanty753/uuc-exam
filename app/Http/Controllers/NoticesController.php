@@ -105,6 +105,7 @@ class NoticesController extends Controller
      */
     public function show($id)
     {
+        
         $data = Notice::select('notices.*', 'course_fors.course_for as course', 'courses.name as couse_name')
             ->leftJoin('course_fors', 'notices.department_id', "=", 'course_fors.id')
             ->leftJoin('courses', 'notices.course_id', "=", 'courses.id')

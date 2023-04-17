@@ -199,7 +199,7 @@ class MarkEntryController extends Controller
     }
 
     public function appliedstudentview($id){
-      
+     
 
         $appliedstu = StudentDetails::where('id',$id)->first();
          $departmentid= $appliedstu->department_id;
@@ -221,7 +221,8 @@ class MarkEntryController extends Controller
          
          if($departmentid==1){
             
-            $appstatus=UgExaminationApplication::where('stu_id',$id)->first(['app_status']);
+           $appstatus=UgExaminationApplication::where('stu_id',$id)->first(['app_status']);
+        //    $appstatus=Notice::where('stu_id',$id)->first(['app_status']);
             return view('applied_student.ug_view_applied_student',compact('appliedstu','id','departmentid','appstatus','studentdetails','qualification_details'));
          }else{
            

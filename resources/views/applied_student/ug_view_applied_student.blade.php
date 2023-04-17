@@ -479,6 +479,7 @@
 
 @section('js')
 <script>
+   
     function upload_image_view(url)
     {
     
