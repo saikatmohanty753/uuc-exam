@@ -38,16 +38,28 @@
                             <tbody>
 
 
-                                @foreach ($ugapplied->concat($pgapplied) as $key => $item)
+                               @foreach ($ugapplied->concat($pgapplied) as $key => $item)
+                            
+                              
                                     <tr>
                                         <td>{{ ++$key }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->email }}</td>
                                         <td>{{ $item->dept }}</td>
                                         <td>{{ $item->clgname }}</td>
-                                        <td><a href="{{ url('applied_student_view/' . $item->id) }}"
+                                        <td>@if ($item->department_id==1)
+                                            <a href="{{ url('applied_student_view/' . $item->id . '/' . $item->ugappid) }}"
                                                 class="btn  waves-effect waves-themed btn-outline-primary">
-                                                <i class="fa-solid fa-eye"></i></a></td>
+                                               <i class="fa-solid fa-eye"></i>
+                                             </a>
+                                        @else
+                                        <a href="{{ url('applied_student_view/' . $item->id . '/' . $item->pgappid) }}"
+                                            class="btn  waves-effect waves-themed btn-outline-primary">
+                                           <i class="fa-solid fa-eye"></i>
+                                         </a>
+                                           
+                                        @endif
+                                        </td>
                                         <td>
                                             @if ($item->status == 2)
                                                 <p class="badge badge-success">Approved</p>
