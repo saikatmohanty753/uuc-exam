@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
-        {{-- {{dd($departmentid)}} --}}
         <div class="col-xl-12">
             <div id="panel-1" class="panel">
                 <div class="panel-hdr">
@@ -393,6 +392,8 @@
                             @csrf
                             <input type="hidden" name="id" value="{{ $id }}">
                             <input type="hidden" name="department_id" value="{{ $departmentid }}">
+                          
+                            <input type="hidden" name="appid" value="{{ $appid }}">
                             <div class="row">
                                 <div class="col-sm-12 d-flex">
                                     <div class="col-md-6">
@@ -479,6 +480,7 @@
 
 @section('js')
 <script>
+   
     function upload_image_view(url)
     {
     

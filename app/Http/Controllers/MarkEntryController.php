@@ -170,7 +170,7 @@ class MarkEntryController extends Controller
        
 
         // $ugapplied = UgExaminationApplication::where('app_status', '1')->get();
-        $ugapplied = UgExaminationApplication::select('student_details.*','course_fors.course_for as dept','colleges.name as clgname','uea.app_status as status')
+        $ugapplied = UgExaminationApplication::select('student_details.*','course_fors.course_for as dept','colleges.name as clgname','uea.app_status as status','uea.id as ugappid')
             ->wherein('uea.app_status', [1 ,2, 3,4])
             ->from('ug_examination_applications as uea')
             ->leftJoin('student_details', 'uea.stu_id', '=', 'student_details.id')
@@ -180,7 +180,7 @@ class MarkEntryController extends Controller
            
             ->get();
 
-            $pgapplied = PgExaminationApplication::select('student_details.*','course_fors.course_for as dept','colleges.name as clgname','uea.app_status as status')
+            $pgapplied = PgExaminationApplication::select('student_details.*','course_fors.course_for as dept','colleges.name as clgname','uea.app_status as status','uea.id as pgappid')
             ->wherein('uea.app_status', [1 ,2, 3,4])
             ->from('pg_examination_applications as uea')
             ->leftJoin('student_details', 'uea.stu_id', '=', 'student_details.id')
@@ -198,9 +198,9 @@ class MarkEntryController extends Controller
 
     }
 
-    public function appliedstudentview($id){
-      
-
+    public function appliedstudentview($id,$appid){
+       
+  
         $appliedstu = StudentDetails::where('id',$id)->first();
          $departmentid= $appliedstu->department_id;
          $appliedstu = StudentDetails::where('id',$id)->first();
@@ -221,12 +221,14 @@ class MarkEntryController extends Controller
          
          if($departmentid==1){
             
-            $appstatus=UgExaminationApplication::where('stu_id',$id)->first(['app_status']);
-            return view('applied_student.ug_view_applied_student',compact('appliedstu','id','departmentid','appstatus','studentdetails','qualification_details'));
+        //    $appstatus=UgExaminationApplication::where('stu_id',$id)->first(['app_status']);
+             $appstatus=UgExaminationApplication::where('id',$appid)->first(['app_status']);
+       
+            return view('applied_student.ug_view_applied_student',compact('appliedstu','id','departmentid','appstatus','studentdetails','qualification_details','appid'));
          }else{
            
-            $appstatus=PgExaminationApplication::where('stu_id',$id)->first(['app_status']);
-            return view('applied_student.pg_view_applied_student',compact('appliedstu','id','departmentid','appstatus','studentdetails','qualification_details'));
+           $appstatus=PgExaminationApplication::where('id',$appid)->first(['app_status']);
+            return view('applied_student.pg_view_applied_student',compact('appliedstu','id','departmentid','appstatus','studentdetails','qualification_details','appid'));
          }
         
 
@@ -241,20 +243,21 @@ class MarkEntryController extends Controller
     public function verifyStudentApplied(Request $request)
   
     {
-        // return $request;
+      
       if($request->department_id==1){
-        $student = UgExaminationApplication::where('stu_id', $request->id)->first();
+        $student = UgExaminationApplication::where('id', $request->appid)->first();
         // $student->remarks = $request->remarks;
         $student->app_status = $request->status;
         $student->update();
-        return redirect()->back();
+        // return redirect()->back();
+        return redirect()->to('/applied_student_list');
 
       }else{
-        $student = PgExaminationApplication::where('stu_id', $request->id)->first();
+        $student = PgExaminationApplication::where('id', $request->appid)->first();
         // $student->remarks = $request->remarks;
         $student->app_status = $request->status;
         $student->update();
-        return redirect()->back();
+        return redirect()->to('/applied_student_list');
       }
        
 

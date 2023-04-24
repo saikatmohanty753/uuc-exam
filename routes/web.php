@@ -182,8 +182,8 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route:: post('pgaddmarkstore', [MarkEntryController::class,'addmarkstore'])->name('pgaddmarkstore');
 
     Route:: get('applied_student_list', [MarkEntryController::class,'appliedstudentlist'])->name('applied_student_list');
-    Route:: get('/applied_student_view/{id}/', [MarkEntryController::class,'appliedstudentview'])->name('applied_student_view');
-    Route:: get('/pg_applied_student_view/{id}/', [MarkEntryController::class,'appliedstudentview'])->name('applied_student_view');
+    Route:: get('/applied_student_view/{id}/{appid}', [MarkEntryController::class,'appliedstudentview'])->name('applied_student_view');
+    // Route:: get('/pg_applied_student_view/{id}/', [MarkEntryController::class,'appliedstudentview'])->name('applied_student_view');
     Route:: post('/uucverifyappliedstustore', [MarkEntryController::class,'verifyStudentApplied'])->name('uuc-verify-appliedstu');
     
    
