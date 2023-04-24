@@ -199,6 +199,7 @@ class MarkEntryController extends Controller
     }
 
     public function appliedstudentview($id,$appid){
+       
   
         $appliedstu = StudentDetails::where('id',$id)->first();
          $departmentid= $appliedstu->department_id;
@@ -242,20 +243,21 @@ class MarkEntryController extends Controller
     public function verifyStudentApplied(Request $request)
   
     {
-       
+      
       if($request->department_id==1){
         $student = UgExaminationApplication::where('id', $request->appid)->first();
         // $student->remarks = $request->remarks;
         $student->app_status = $request->status;
         $student->update();
-        return redirect()->back();
+        // return redirect()->back();
+        return redirect()->to('/applied_student_list');
 
       }else{
         $student = PgExaminationApplication::where('id', $request->appid)->first();
         // $student->remarks = $request->remarks;
         $student->app_status = $request->status;
         $student->update();
-        return redirect()->back();
+        return redirect()->to('/applied_student_list');
       }
        
 
