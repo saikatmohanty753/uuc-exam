@@ -13,10 +13,20 @@ use App\Models\UgExaminationApplication;
 use App\Models\Ugstudentmark;
 use DataTables;
 use DB;
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use App\Repositories\ModelRepository;
+use App\Repositories\ApiRepository;
 
 class MarkEntryController extends Controller
 {
+    private $modelExists;
+    private $api;
+    public function __construct(ApiRepository $api){
+        $this->api = $api;
+    } 
     public function index(Request $request)
     {
 
@@ -131,7 +141,7 @@ class MarkEntryController extends Controller
 
     public function addmarkstore(Request $request)
     {
-       
+
         if ($request->dep_id == 1) {
             $mark = new Ugstudentmark();
             $mark->stu_id = $request->stu_id;
@@ -146,7 +156,7 @@ class MarkEntryController extends Controller
 //    $mark->practical_mark=$request->stu_id;
             $mark->save();
         } elseif ($request->dep_id == 2) {
-            
+
             $mark = new Pgstudentmark();
             $mark->stu_id = $request->stu_id;
             $mark->app_id = $request->appid;
@@ -167,40 +177,54 @@ class MarkEntryController extends Controller
     }
 
     public function appliedstudentlist(){
-       
-
-        // $ugapplied = UgExaminationApplication::where('app_status', '1')->get();
-        $ugapplied = UgExaminationApplication::select('student_details.*','course_fors.course_for as dept','colleges.name as clgname','uea.app_status as status','uea.id as ugappid')
+        $clg_id = '';
+        
+        if(!empty(Auth::user()->clg_user_id)){
+            $clg_id = Auth::user()->clg_user_id;
+            $student_detail_table = 'student'.$clg_id.'_details';
+            if (Schema::hasTable('student_detail_lists')) {
+                if (!Schema::hasTable($student_detail_table)) {
+                    $this->modelExists = new ModelRepository($clg_id);
+                    $this->modelExists->checkModelExists();
+                    if(count($this->modelExists->errorTable()) > 0){
+                        return redirect()->back();
+                    }
+                    /*
+                    ********************************
+                    * $this->modelExists->getAllTable(); // show all models information created, exists *    and errors
+                    * $this->modelExists->tableExists(); // show all models information which is exists
+                    * $this->modelExists->createTableExists(); // show all models information created
+                    * $this->modelExists->errorTable(); // show all models information which has errors *       while creating model
+                    ********************************
+                    */
+                }
+            }
+        }else{
+            return redirect()->back();
+        }
+        $ugapplied = UgExaminationApplication::select($student_detail_table.'.*','course_fors.course_for as dept','colleges.name as clgname','uea.app_status as status','uea.id as ugappid')
             ->wherein('uea.app_status', [1 ,2, 3,4])
             ->from('ug_examination_applications as uea')
-            ->leftJoin('student_details', 'uea.stu_id', '=', 'student_details.id')
-            ->leftJoin('course_fors', 'student_details.department_id', '=', 'course_fors.id')
-            ->leftJoin('colleges', 'student_details.clg_id', '=', 'colleges.id')
-            
-           
+            ->rightJoin($student_detail_table, 'uea.stu_id', '=', $student_detail_table.'.id')
+            ->rightJoin('course_fors', $student_detail_table.'.department_id', '=', 'course_fors.id')
+            ->rightJoin('colleges', $student_detail_table.'.clg_id', '=', 'colleges.id')
             ->get();
 
-            $pgapplied = PgExaminationApplication::select('student_details.*','course_fors.course_for as dept','colleges.name as clgname','uea.app_status as status','uea.id as pgappid')
+        $pgapplied = PgExaminationApplication::select($student_detail_table.'.*','course_fors.course_for as dept','colleges.name as clgname','uea.app_status as status','uea.id as pgappid')
             ->wherein('uea.app_status', [1 ,2, 3,4])
             ->from('pg_examination_applications as uea')
-            ->leftJoin('student_details', 'uea.stu_id', '=', 'student_details.id')
-            ->leftJoin('course_fors', 'student_details.department_id', '=', 'course_fors.id')
-            ->leftJoin('colleges', 'student_details.clg_id', '=', 'colleges.id')
-            
-           
+            ->rightJoin($student_detail_table, 'uea.stu_id', '=', $student_detail_table.'.id')
+            ->rightJoin('course_fors', $student_detail_table.'.department_id', '=', 'course_fors.id')
+            ->rightJoin('colleges', $student_detail_table.'.clg_id', '=', 'colleges.id')
             ->get();
-                     
 
-        
-        // $ugstudent=StudentDetails::where('id',);
-       
         return view('applied_student.applied_student',compact('ugapplied','pgapplied'));
 
     }
 
     public function appliedstudentview($id,$appid){
-       
-  
+
+
         $appliedstu = StudentDetails::where('id',$id)->first();
          $departmentid= $appliedstu->department_id;
          $appliedstu = StudentDetails::where('id',$id)->first();
@@ -218,32 +242,23 @@ class MarkEntryController extends Controller
             ->first();
 
             $qualification_details = json_decode($studentdetails->qualification);
-         
+
          if($departmentid==1){
-            
+
         //    $appstatus=UgExaminationApplication::where('stu_id',$id)->first(['app_status']);
              $appstatus=UgExaminationApplication::where('id',$appid)->first(['app_status']);
-       
+
             return view('applied_student.ug_view_applied_student',compact('appliedstu','id','departmentid','appstatus','studentdetails','qualification_details','appid'));
          }else{
-           
+
            $appstatus=PgExaminationApplication::where('id',$appid)->first(['app_status']);
             return view('applied_student.pg_view_applied_student',compact('appliedstu','id','departmentid','appstatus','studentdetails','qualification_details','appid'));
          }
-        
-
-
-      
-
-        
-        
-
     }
 
     public function verifyStudentApplied(Request $request)
-  
     {
-      
+
       if($request->department_id==1){
         $student = UgExaminationApplication::where('id', $request->appid)->first();
         // $student->remarks = $request->remarks;
@@ -259,7 +274,5 @@ class MarkEntryController extends Controller
         $student->update();
         return redirect()->to('/applied_student_list');
       }
-       
-
     }
 }

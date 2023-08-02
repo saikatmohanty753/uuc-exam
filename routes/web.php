@@ -20,6 +20,8 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\FeesController;
 use App\Http\Controllers\MarkEntryController;
 use App\Http\Controllers\SemesterFillUpController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SemExamController;
 use App\Http\Livewire\Notification;
 use App\Providers\RouteServiceProvider;
 
@@ -77,7 +79,7 @@ Route::get('/getpass',function(){
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::get('dashboard', [DashboardController::class, 'dashboard']);
@@ -143,7 +145,7 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::POST('get-semester-by-section', [CollegeController::class, 'midSemExamsemester']);
 
     Route::get('semester-form-fill-up/{id}/{dep}/{depId}', [SemesterFillUpController::class, 'index']);
-    
+
 
     Route::get('uuc-exam-section/{id}', [NoticesController::class, 'redirectToNotice']);
 
@@ -182,8 +184,8 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::get('/pgformdraft/{id}', [ExamController::class, 'pgformdraft'])->name('pgformdraft');
     Route::post('/pgexamupdate/{id}', [ExamController::class, 'pgexamupdate'])->name('pgexamupdate');
     Route::post('/delete', [ExamController::class, 'delete'])->name('delete');
-    
-    
+
+
     Route::get('mark-entry-list', [MarkEntryController::class,'index'])->name('mark_list');
     Route::get('/addmark/{stu_id}/{course_id}/{sem_id}/{dep_id}', [MarkEntryController::class, 'addmark'])->name('addmark');
     Route:: post('ugaddmarkstore', [MarkEntryController::class,'addmarkstore'])->name('addmarkstore');
@@ -193,5 +195,13 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route:: get('/applied_student_view/{id}/{appid}', [MarkEntryController::class,'appliedstudentview'])->name('applied_student_view');
     // Route:: get('/pg_applied_student_view/{id}/', [MarkEntryController::class,'appliedstudentview'])->name('applied_student_view');
     Route:: post('/uucverifyappliedstustore', [MarkEntryController::class,'verifyStudentApplied'])->name('uuc-verify-appliedstu');
-    
+
 });
+
+
+
+/* ** Semester Exam mark entry ** */
+Route::get('mark-sem-entry', [SemExamController::class,'index'])->name('mark-sem-entry');
+Route::post('getSems-exam-mark', [SemExamController::class,'getSemsList'])->name('getSems-exam-mark');
+Route::post('get-course-list',[SemExamController::class, 'getCourseList'])->name('get-course-list');
+Route::post('getMarkSemListAjax',[SemExamController::class, 'sem_mark_ajax'])->name('getMarkSemListAjax');

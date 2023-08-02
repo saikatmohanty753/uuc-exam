@@ -50,14 +50,9 @@ class LoginController extends Controller
                 'password' => ['required'],
             ]);
         $credentials['is_active'] = 1;
-        $user = DB::table('users')->where('email',$request->email)->where('is_active',1);
-        // if($user->exists())
-        // {
-        //     dump(Hash::check($request->password, $user->first()->password));
-        // }
-        // dd('ok');
 
         if (Auth::attempt($credentials)) {
+            //dd(Auth::user());
             $request->session()->regenerate();
             return redirect()->intended('dashboard');
         }
