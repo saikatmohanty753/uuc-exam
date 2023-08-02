@@ -63,8 +63,12 @@
                                         <th rowspan="5" class="text-center">Result</th>
                                     </tr>
                                     <tr>
+                                        @if($theory_count > 0)
                                         <th colspan="{{ $theory_count }}" class="text-center">Theory</th>
+                                        @endif
+                                        @if($practical_count > 0)
                                         <th colspan="{{ $practical_count }}" class="text-center">Practical</th>
+                                        @endif
                                         <th class="text-center" rowspan="4">Total Grade points</th>
                                         <th class="text-center" rowspan="4">Total Credit Points</th>
                                         <th class="text-center" rowspan="4">SGPA</th>
