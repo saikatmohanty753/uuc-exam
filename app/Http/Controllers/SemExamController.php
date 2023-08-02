@@ -60,7 +60,7 @@ class SemExamController extends Controller
             }
         }
         if($m == 0){
-            $html = '<h1 style="color:red">Curriculum not added for this semester</h1>';
+            $html = '<h1 style="color:red">Curriculum not added for '.ordinal($sem_id).' semester</h1>';
             return response()->json([$html]);
         }
         return response()->json([view('sem_exam.sem_mark_ajax',compact('course_id','sem_id','batch_id','course','total_count','theory','practical','theory_count','practical_count'))->render()]);
