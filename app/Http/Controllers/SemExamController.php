@@ -34,7 +34,7 @@ class SemExamController extends Controller
         if($curriculum->exists())
         {
             $curriculum = $curriculum->first();
-            $curriculum_papers = DB::table('curriculum_paper_sem_details')->where('is_verified',1)->where('sem_no',$sem_id)->where('curriculum_id',$curriculum->id)->orderBy('sem_no', 'asc')->get();
+            $curriculum_papers = DB::table('curriculum_paper_sem_details')->where('is_verified',1)->where('sem_no',$sem_id)->where('curriculum_id',$curriculum->id)->groupBy('paper_code')->orderBy('sem_no', 'asc')->get();
             if($curriculum_papers->count() > 0){
                 foreach($curriculum_papers as $key=>$paper){
                     $update_curriculum = DB::table('curriculum_detail_logs')->where('unique_key',$paper->unique_key)->where('curriculum_id',$paper->curriculum_id)->where('batch',$batch_id)->where('is_verified',1)->orderBy('id','desc')->first();
