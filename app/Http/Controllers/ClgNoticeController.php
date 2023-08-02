@@ -89,7 +89,6 @@ class ClgNoticeController extends Controller
             Semester Form Fill up
             Other
          */
-
         $dep = $data->department_id;
         if ($data->notice_type == 2 && $data->notice_sub_type == 1) {
             // $url = url('mid-sem-exam');
@@ -109,12 +108,11 @@ class ClgNoticeController extends Controller
         } elseif ($data->notice_type == 2 && $data->notice_sub_type == 5) {
             // $url = "5";
             $url = url('#');
-
-
         } else {
             $url = url("javascript:void(0);");
 
         }
+        
         return view('publish-notices.view', compact('data', 'url'));
     }
 

@@ -41,10 +41,10 @@ class ExamNotice extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        /* return (new MailMessage)
                     ->line('The introduction to the notification.')
                     ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line('Thank you for using our application!'); */
     }
 
     /**
@@ -55,7 +55,6 @@ class ExamNotice extends Notification
      */
     public function toArray($notifiable)
     {
-        
         $notice = Notice::where('notices.id', $notifiable->notice_id)->join('exam_notice_types', 'notices.notice_sub_type', 'exam_notice_types.id')->first(['notices.*', 'exam_notice_types.notice_name']);
         
         $data = [

@@ -71,14 +71,15 @@
                                             @can('notice-edit')
                                                 @if ($item->is_verified == 1)
                                                     @if ($item->status == 0)
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input publish"
+                                                        {{-- <div class="custom-control custom-switch">
+                                                             <input type="checkbox" class="custom-control-input publish"
                                                                 id="customSwitch{{ $key }}"
                                                                 {{ $item->status == 1 ? 'checked disabled' : '' }}
                                                                 data-id="{{ $item->id }}">
                                                             <label class="custom-control-label publish"
                                                                 for="customSwitch{{ $key }}"></label>
-                                                        </div>
+                                                        </div> --}}
+                                                        {!! $item->noticeStatus() !!}
                                                     @else
                                                         {!! $item->noticeStatus() !!}
                                                     @endif
@@ -102,10 +103,6 @@
                                                     for="customSwitch{{ $key }}">{{ $item->status == 1 ? 'Published' : 'Not Publish' }}</label>
                                             </div>
                                         </td> --}}
-
-
-
-
 
                                         {{-- <td><a href="{{ url('notice/view/' . $item->id) }}"
                                                 class="btn  waves-effect waves-themed btn-outline-success">
@@ -137,9 +134,6 @@
                                                 @endcan
                                             @endif
 
-
-
-
                                             @if (Auth::user()->role_id != 12)
                                                 @if ($item->status == 0)
                                                     @if ($item->is_verified == 0)
@@ -159,9 +153,7 @@
                                                     @endif
                                                 @endif
                                             @endif
-
                                         </td>
-
                                     </tr>
                                 @endforeach
 
@@ -181,7 +173,7 @@
                 var publish = $(this);
                 var postData = new FormData();
                 postData.append('id', $(this).data('id'));
-                var url = "/publish-notice";
+                var url = "{{ url('publish-notice') }}";
 
                 $.ajaxSetup({
                     headers: {

@@ -11,10 +11,10 @@
                     Notifications</small>
             </h4>
         </div>
-        <div class="custom-scroll h-100">
+        <div class="custom-scroll" style="height: 350px">
             <ul class="notification">
 
-                {{-- @foreach (Auth::user()->unreadNotifications as $notification)
+                @foreach (Auth::user()->unreadNotifications as $notification)
                     <li class="unread">
                         <div class="d-flex align-items-center show-child-on-hover">
                             @php
@@ -34,8 +34,8 @@
 
                         </div>
                     </li>
-                @endforeach --}}
-                {{-- @foreach (Auth::user()->readNotifications as $notification)
+                @endforeach
+                @foreach (Auth::user()->readNotifications as $notification)
                     <li>
                         <div class="d-flex align-items-center show-child-on-hover">
                             @php
@@ -49,20 +49,14 @@
                                     <span class="msg-a fs-sm">
                                         {{ Str::limit($notification['data']['details'], 100) }}
                                     </span>
-                                    <span class="fs-nano text-muted mt-1">{{ App\Helpers\Helpers::noticeTime($notification['data']['notice_id']) }} ago</span>
+                                    <span class="fs-nano text-muted mt-1">{{ noticeTime($notification['data']['notice_id']) }} ago</span>
                                 </span>
                             </a>
-
                         </div>
                     </li>
-                @endforeach --}}
-
-
+                @endforeach
             </ul>
         </div>
-        {{-- <div
-                    class="py-2 px-3 bg-faded d-block rounded-bottom text-right border-faded border-bottom-0 border-right-0 border-left-0">
-                    <a href="#" class="fs-xs fw-500 ml-auto">view all notifications</a>
-                </div> --}}
+        
     </div>
 </div>

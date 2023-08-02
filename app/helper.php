@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Helpers;
-
 use App\Models\Affiliation_feemaster;
 use App\Models\AffiliationType;
 use App\Models\ExamNoticeType;
@@ -9,22 +7,27 @@ use App\Models\Notice;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class Helpers
+
+if(!function_exists('examNoticeType'))
 {
-    public static function number($number)
-    {
-        $array = ["First", "Second", "Third", "Four", "Fifth", 'Six', 'Seven', 'Eight'];
-        return $array[$number - 1];
-    }
-
-
-    public static function examNoticeType($id)
+    function examNoticeType($id)
     {
         $data = ExamNoticeType::find($id);
         return $data->notice_name;
     }
+}
 
-    public static function noticeTime($id)
+if(!function_exists('number'))
+{
+    function number($number)
+    {
+        $array = ["First", "Second", "Third", "Four", "Fifth", 'Six', 'Seven', 'Eight'];
+        return $array[$number - 1];
+    }
+}
+
+if(!function_exists('noticeTime')){
+    function noticeTime($id)
     {
         $notice = Notice::whereId($id)->first(['published_date']);
         $publish_date = Carbon::parse($notice->published_date);
@@ -52,5 +55,3 @@ class Helpers
         }
     }
 }
-
-

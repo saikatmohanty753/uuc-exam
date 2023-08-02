@@ -293,8 +293,6 @@ class UserController extends Controller
 
     public function deleteClgUser($id)
     {
-
-
         $user = User::find($id);
         $clgId = $user->clg_user_id;
         $user->delete();

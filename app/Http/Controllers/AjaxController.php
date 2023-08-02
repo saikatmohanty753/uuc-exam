@@ -26,10 +26,7 @@ class AjaxController extends Controller
         //College-exam-Section = 17
         //student = 3
 
-         $check = Notice::where([['id', $request->id], ['status', 0]])->count();
-
-
-
+        $check = Notice::where([['id', $request->id], ['status', 0]])->count();
         if ($check == 1) {
             Notice::where('status', 0)
                 ->where('id', $request->id)
@@ -48,10 +45,7 @@ class AjaxController extends Controller
                     $user->notify(new ExamNotice());
                 }
             }
-
-            // $user->notify(new Notice());
         }
-
         return response()->json('success');
     }
 

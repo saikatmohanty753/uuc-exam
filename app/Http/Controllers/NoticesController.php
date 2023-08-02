@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 class NoticesController extends Controller
 {
     function __construct()
-
     {
 
         $this->middleware('permission:notice-list|notice-create|notice-edit|notice-delete', ['only' => ['index', 'store']]);
@@ -28,7 +27,7 @@ class NoticesController extends Controller
     public function index()
     {
         
-        $notice = Notice::where('notice_type', '2')->get();
+        $notice = Notice::where('notice_type', '2')->orderBy('id','desc')->get();
         return view('notices.notices', compact('notice'));
     }
 

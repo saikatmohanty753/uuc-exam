@@ -44,6 +44,8 @@ Route::get('/', function () {
 // Route::get('/student, function () {
 //     return view('colleges.create_user');
 // });
+
+
 Route::get('/student', function () {
     return view('studentportal.index');
 });
@@ -62,6 +64,11 @@ Route::get('/apply_app2', function () {
 Route::get('/pgform', function () {
     return view('exam.pgformpreview');
 });
+
+Route::get('/getpass',function(){
+    return Hash::make('12345678');
+});
+
 // Route::get('/apply_regular_exam', function () {
 //     return view('form.regular_exam');
 // });
@@ -71,6 +78,7 @@ Route::get('/pgform', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     Route::get('dashboard', [DashboardController::class, 'dashboard']);
     Route::resource('users', UserController::class);
@@ -186,10 +194,4 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
     // Route:: get('/pg_applied_student_view/{id}/', [MarkEntryController::class,'appliedstudentview'])->name('applied_student_view');
     Route:: post('/uucverifyappliedstustore', [MarkEntryController::class,'verifyStudentApplied'])->name('uuc-verify-appliedstu');
     
-   
-
-    
 });
-
-
-

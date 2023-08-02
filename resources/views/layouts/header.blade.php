@@ -64,7 +64,7 @@
         </div>
         @can('notification-module')
 
-        @include('layouts.notice')
+            @include('layouts.notice')
         @endcan
 
         <!-- app user menu -->
