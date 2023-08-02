@@ -6,11 +6,14 @@ use Illuminate\Http\Request;
 use DB;
 use App\Models\Course;
 use App\Models\CourseFor;
+use App\Models\EntryExcelFile;
+use Excel;
+use App\Exports\ExportExeclSem;
 
 class SemExamController extends Controller
 {
     public function index(){
-        $course_type = DB::table('course_fors')->where('status', 1)->orderBy('course_for','asc')->get();
+        $course_type = DB::table('course_fors')->whereIn('id',[1,2])->where('status', 1)->orderBy('course_for','asc')->get();
         return view('sem_exam.index',compact('course_type'));
     }
 
@@ -31,10 +34,10 @@ class SemExamController extends Controller
         if($curriculum->exists())
         {
             $curriculum = $curriculum->first();
-            $curriculum_papers = DB::table('curriculum_paper_sem_details')->where('is_verified',1)->where('sem_no',$sem_id)->where('curriculum_id',$curriculum->id)->orderBy('id', 'desc')->get();
+            $curriculum_papers = DB::table('curriculum_paper_sem_details')->where('is_verified',1)->where('sem_no',$sem_id)->where('curriculum_id',$curriculum->id)->orderBy('sem_no', 'asc')->get();
             if($curriculum_papers->count() > 0){
                 foreach($curriculum_papers as $key=>$paper){
-                    $update_curriculum = DB::table('curriculum_detail_logs')->where('unique_key',$paper->unique_key)->where('curriculum_id',$paper->curriculum_id)->where('batch',$batch_id)->where('is_verified',1)->first();
+                    $update_curriculum = DB::table('curriculum_detail_logs')->where('unique_key',$paper->unique_key)->where('curriculum_id',$paper->curriculum_id)->where('batch',$batch_id)->where('is_verified',1)->orderBy('id','desc')->first();
                     if(!empty($update_curriculum->paper_type_id) && $update_curriculum->paper_type_id == 1){
                         $theory[$key] = $update_curriculum;
                     }else if($paper->paper_type_id == 1){
@@ -110,4 +113,34 @@ class SemExamController extends Controller
         }
         return response()->json(['html'=>$options]);
     }
+
+    public function downloadExcel($id='')
+    {
+        $data = (object) json_decode(decrypt($id));
+        return Excel::download(new ExportExeclSem($data),time().'semester('.$data->batch_id.').xlsx');
+        #return view('sem_exam.excel_import',compact('course_id','sem_id','batch_id','course','total_count','theory','practical_count','theory_count','practical'));
+    }
+
+    public function saveExcelSems(Request $request)
+    {
+        $request->validate([
+            'token_entyp'=>'required',
+            'excel_file'=>'required|mimes:xlsx,xls',
+        ],[
+            'token_entyp.required'=>'Inavlid access',
+            'excel_file.required'=>'Please upload a file',
+            'excel_file.mimes'=>'Please upload excel file, downloaded from the list below',
+        ]);
+        if($request->hasFile('excel_file'))
+        {
+            $file = $request->file('excel_file');
+            $file->getClientOriginalExtension();
+        }else{
+            return back()->with('error','Please upload a file');
+        }
+        $token_entyp = json_decode(decrypt($request->token_entyp));
+        dump($token_entyp);
+        dd($request->all());
+    }
+
 }

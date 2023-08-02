@@ -24,9 +24,10 @@
         <div class="panel" id="panel-1">
             <div class="panel-hdr">
                 <h2>
-                    Curriclum <span class="fw-300"><i>Batch Wise List</i></span>
+                    Semester <span class="fw-300"><i>Mark Entry</i></span>
                 </h2>
                 <div class="card-actions float-end">
+
                 </div>
             </div>
             <div class="panel-container show">

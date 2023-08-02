@@ -202,6 +202,8 @@ Route::group(['middleware' => ['auth', 'prevent-back']], function () {
 
 /* ** Semester Exam mark entry ** */
 Route::get('mark-sem-entry', [SemExamController::class,'index'])->name('mark-sem-entry');
+Route::get('mark-sem-excel/{id?}', [SemExamController::class,'downloadExcel'])->name('mark-sem-excel');
+Route::post('save-sem-entry-excel', [SemExamController::class,'saveExcelSems'])->name('save-sem-entry-excel');
 Route::post('getSems-exam-mark', [SemExamController::class,'getSemsList'])->name('getSems-exam-mark');
 Route::post('get-course-list',[SemExamController::class, 'getCourseList'])->name('get-course-list');
 Route::post('getMarkSemListAjax',[SemExamController::class, 'sem_mark_ajax'])->name('getMarkSemListAjax');
